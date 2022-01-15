@@ -85,7 +85,9 @@ public class Player : MonoBehaviour
     IEnumerator Slide()
     {
         spriteR.color = Color.blue;
+        playerAnimation.PlaySlide(true);
         yield return new WaitForSeconds(0.5f);
+        playerAnimation.PlaySlide(false);
         spriteR.color = Color.white;
         slideRoutine = null;
     }

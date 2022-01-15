@@ -21,9 +21,9 @@ public class PlayerAnimation : MonoBehaviour
         animator.SetTrigger("Jump");
     }
 
-    public void PlaySlide()
+    public void PlaySlide(bool isSliding)
     {
-        animator.SetTrigger("Slide");
+        animator.SetBool("Slide", isSliding);
     }
 
     public void SetYVelocity(float val)
