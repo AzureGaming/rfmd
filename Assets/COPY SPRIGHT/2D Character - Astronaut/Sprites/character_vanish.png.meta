@@ -194,6 +194,102 @@ TextureImporter:
   - first:
       213: 3946212249003284976
     second: vanish_31
+  - first:
+      213: 7096511058813216098
+    second: character_vanish_0
+  - first:
+      213: 3555556887481955383
+    second: character_vanish_1
+  - first:
+      213: 9195931269253234786
+    second: character_vanish_2
+  - first:
+      213: 1115631548768232807
+    second: character_vanish_3
+  - first:
+      213: 4388741618814095534
+    second: character_vanish_4
+  - first:
+      213: 2699664932133260563
+    second: character_vanish_5
+  - first:
+      213: 5648981698002524000
+    second: character_vanish_6
+  - first:
+      213: 3023743277710392917
+    second: character_vanish_7
+  - first:
+      213: 4817820966476738397
+    second: character_vanish_8
+  - first:
+      213: -4796806161135637626
+    second: character_vanish_9
+  - first:
+      213: -3267819975471134436
+    second: character_vanish_10
+  - first:
+      213: -7734933138086411627
+    second: character_vanish_11
+  - first:
+      213: 710335753301289311
+    second: character_vanish_12
+  - first:
+      213: 8705747804918922527
+    second: character_vanish_13
+  - first:
+      213: 288500609994287474
+    second: character_vanish_14
+  - first:
+      213: 6206297259702134609
+    second: character_vanish_15
+  - first:
+      213: 8136303749601717286
+    second: character_vanish_16
+  - first:
+      213: 964565496794879818
+    second: character_vanish_17
+  - first:
+      213: -6270595995846828463
+    second: character_vanish_18
+  - first:
+      213: 3851861614288917787
+    second: character_vanish_19
+  - first:
+      213: 4579533500458172958
+    second: character_vanish_20
+  - first:
+      213: 6130557426306480891
+    second: character_vanish_21
+  - first:
+      213: -3673291398038798796
+    second: character_vanish_22
+  - first:
+      213: -9112075543026150837
+    second: character_vanish_23
+  - first:
+      213: 4003513685209784346
+    second: character_vanish_24
+  - first:
+      213: 7396854116970659479
+    second: character_vanish_25
+  - first:
+      213: -7149931533872276503
+    second: character_vanish_26
+  - first:
+      213: -2556459942184070278
+    second: character_vanish_27
+  - first:
+      213: -7708615280076787595
+    second: character_vanish_28
+  - first:
+      213: 8352064692507045568
+    second: character_vanish_29
+  - first:
+      213: 2235972613251387270
+    second: character_vanish_30
+  - first:
+      213: -1290276723411421311
+    second: character_vanish_31
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -215,6 +311,7 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -246,9 +343,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
@@ -303,7 +403,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: vanish_0
+      name: character_vanish_0
       rect:
         serializedVersion: 2
         x: 0
@@ -311,20 +411,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f753009ed72b7cf90800000000000000
-      internalID: -6933376847463828097
+      spriteID: 2656135853fdb7260800000000000000
+      internalID: 7096511058813216098
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_1
+      name: character_vanish_1
       rect:
         serializedVersion: 2
         x: 360
@@ -332,20 +432,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 59108dfa52a5157b0800000000000000
-      internalID: -5237305773744717419
+      spriteID: 7343e09a620e75130800000000000000
+      internalID: 3555556887481955383
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_2
+      name: character_vanish_2
       rect:
         serializedVersion: 2
         x: 720
@@ -353,20 +453,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 246c2b454851b6580800000000000000
-      internalID: -8832942586056227262
+      spriteID: 2600fba64c28e9f70800000000000000
+      internalID: 9195931269253234786
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_3
+      name: character_vanish_3
       rect:
         serializedVersion: 2
         x: 1080
@@ -374,20 +474,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d58dc422c39c9380800000000000000
-      internalID: -8963126696323742251
+      spriteID: 765ac849bf48b7f00800000000000000
+      internalID: 1115631548768232807
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_4
+      name: character_vanish_4
       rect:
         serializedVersion: 2
         x: 1440
@@ -395,20 +495,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c683862df8997cfa0800000000000000
-      internalID: -5780482753717323668
+      spriteID: ea01360ff31f7ec30800000000000000
+      internalID: 4388741618814095534
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_5
+      name: character_vanish_5
       rect:
         serializedVersion: 2
         x: 1800
@@ -416,20 +516,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4321d1a5bbc2a8d20800000000000000
-      internalID: 3281484461675188788
+      spriteID: 31dc16cc3f2277520800000000000000
+      internalID: 2699664932133260563
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_6
+      name: character_vanish_6
       rect:
         serializedVersion: 2
         x: 2160
@@ -437,20 +537,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ea5c0a2bed942cee0800000000000000
-      internalID: -1242349326372387410
+      spriteID: 0679f1cbce6356e40800000000000000
+      internalID: 5648981698002524000
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_7
+      name: character_vanish_7
       rect:
         serializedVersion: 2
         x: 2520
@@ -458,20 +558,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b556b35da811e060800000000000000
-      internalID: 6980888030113846711
+      spriteID: 55e37e79d7e76f920800000000000000
+      internalID: 3023743277710392917
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_8
+      name: character_vanish_8
       rect:
         serializedVersion: 2
         x: 2880
@@ -479,20 +579,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ca8814d19c6a75d0800000000000000
-      internalID: -3064017222887765310
+      spriteID: d5f6642a4a65cd240800000000000000
+      internalID: 4817820966476738397
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_9
+      name: character_vanish_9
       rect:
         serializedVersion: 2
         x: 3240
@@ -500,20 +600,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2900f722ac8c3cd60800000000000000
-      internalID: 7909386141080420498
+      spriteID: 68bea1506325e6db0800000000000000
+      internalID: -4796806161135637626
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_10
+      name: character_vanish_10
       rect:
         serializedVersion: 2
         x: 3600
@@ -521,20 +621,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 985d4132ea3a5ae10800000000000000
-      internalID: 2208351160603301257
+      spriteID: c190e14cb0f56a2d0800000000000000
+      internalID: -3267819975471134436
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_11
+      name: character_vanish_11
       rect:
         serializedVersion: 2
         x: 0
@@ -542,20 +642,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1f5a58aa107451fc0800000000000000
-      internalID: -3524833060866120207
+      spriteID: 59246f6da4ff7a490800000000000000
+      internalID: -7734933138086411627
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_12
+      name: character_vanish_12
       rect:
         serializedVersion: 2
         x: 360
@@ -563,20 +663,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bb70aa4d25d0d6940800000000000000
-      internalID: 5290899786636593083
+      spriteID: f5968c6aa9e9bd900800000000000000
+      internalID: 710335753301289311
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_13
+      name: character_vanish_13
       rect:
         serializedVersion: 2
         x: 720
@@ -584,20 +684,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8eb1a97303ce3a430800000000000000
-      internalID: 3793135003011521512
+      spriteID: f1d3458e08701d870800000000000000
+      internalID: 8705747804918922527
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_14
+      name: character_vanish_14
       rect:
         serializedVersion: 2
         x: 1080
@@ -605,20 +705,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b9a7dde74e25ac070800000000000000
-      internalID: 8127399618877946523
+      spriteID: 2796138b6c5f00400800000000000000
+      internalID: 288500609994287474
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_15
+      name: character_vanish_15
       rect:
         serializedVersion: 2
         x: 1440
@@ -626,20 +726,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9937efd311e691440800000000000000
-      internalID: 4907074289330451353
+      spriteID: 157a60fa972312650800000000000000
+      internalID: 6206297259702134609
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_16
+      name: character_vanish_16
       rect:
         serializedVersion: 2
         x: 1800
@@ -647,20 +747,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 94a44322fbe6d9cf0800000000000000
-      internalID: -243917037616477623
+      spriteID: 62c60bbf625f9e070800000000000000
+      internalID: 8136303749601717286
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_17
+      name: character_vanish_17
       rect:
         serializedVersion: 2
         x: 2160
@@ -668,20 +768,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8c983c51005bfb220800000000000000
-      internalID: 2503918929811048904
+      spriteID: a479e077533d26d00800000000000000
+      internalID: 964565496794879818
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_18
+      name: character_vanish_18
       rect:
         serializedVersion: 2
         x: 2520
@@ -689,20 +789,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6511ebf5177ec8f00800000000000000
-      internalID: 1120524881432023382
+      spriteID: 15e10913a2e5af8a0800000000000000
+      internalID: -6270595995846828463
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_19
+      name: character_vanish_19
       rect:
         serializedVersion: 2
         x: 2880
@@ -710,20 +810,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dbcc06c15b9439080800000000000000
-      internalID: -9181914173064295235
+      spriteID: b1557abeabf847530800000000000000
+      internalID: 3851861614288917787
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_20
+      name: character_vanish_20
       rect:
         serializedVersion: 2
         x: 3240
@@ -731,20 +831,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c50021bca360c88c0800000000000000
-      internalID: -3995811919799648164
+      spriteID: e128fcb8475cd8f30800000000000000
+      internalID: 4579533500458172958
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_21
+      name: character_vanish_21
       rect:
         serializedVersion: 2
         x: 3600
@@ -752,20 +852,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: abb1fc3503d974bb0800000000000000
-      internalID: -4951816434380497990
+      spriteID: bfa71268f7d141550800000000000000
+      internalID: 6130557426306480891
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_22
+      name: character_vanish_22
       rect:
         serializedVersion: 2
         x: 0
@@ -773,20 +873,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2908c799831eb5270800000000000000
-      internalID: 8240427576413946002
+      spriteID: 43e36677fe8d50dc0800000000000000
+      internalID: -3673291398038798796
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_23
+      name: character_vanish_23
       rect:
         serializedVersion: 2
         x: 360
@@ -794,20 +894,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 75f580729be9ac0c0800000000000000
-      internalID: -4554653555070836905
+      spriteID: b42d66b42976b8180800000000000000
+      internalID: -9112075543026150837
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_24
+      name: character_vanish_24
       rect:
         serializedVersion: 2
         x: 720
@@ -815,20 +915,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e16255dc63a459a0800000000000000
-      internalID: -6245187095425293849
+      spriteID: a1028543c765f8730800000000000000
+      internalID: 4003513685209784346
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_25
+      name: character_vanish_25
       rect:
         serializedVersion: 2
         x: 1080
@@ -836,20 +936,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 943d84e8fb85c6dd0800000000000000
-      internalID: -2491518914093591735
+      spriteID: 79efb6111a7e6a660800000000000000
+      internalID: 7396854116970659479
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_26
+      name: character_vanish_26
       rect:
         serializedVersion: 2
         x: 1440
@@ -857,20 +957,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1e4a418aad67568a0800000000000000
-      internalID: -6312508621195008799
+      spriteID: 9ebdd23e62756cc90800000000000000
+      internalID: -7149931533872276503
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_27
+      name: character_vanish_27
       rect:
         serializedVersion: 2
         x: 1800
@@ -878,20 +978,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d7fcd28bf00154320800000000000000
-      internalID: 2541455224421076861
+      spriteID: a735a9f2a31a58cd0800000000000000
+      internalID: -2556459942184070278
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_28
+      name: character_vanish_28
       rect:
         serializedVersion: 2
         x: 2160
@@ -899,20 +999,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 25893f92db8b16c60800000000000000
-      internalID: 7809726351429310546
+      spriteID: 570ffd8ae3f750590800000000000000
+      internalID: -7708615280076787595
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_29
+      name: character_vanish_29
       rect:
         serializedVersion: 2
         x: 2520
@@ -920,20 +1020,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b3b10f4e585214030800000000000000
-      internalID: 3477101644308552507
+      spriteID: 0cee6f1369e78e370800000000000000
+      internalID: 8352064692507045568
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_30
+      name: character_vanish_30
       rect:
         serializedVersion: 2
         x: 2880
@@ -941,20 +1041,20 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d740992d9d21d2cf0800000000000000
-      internalID: -275543275449285507
+      spriteID: 68fc95cbe35c70f10800000000000000
+      internalID: 2235972613251387270
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vanish_31
+      name: character_vanish_31
       rect:
         serializedVersion: 2
         x: 3240
@@ -962,14 +1062,14 @@ TextureImporter:
         width: 360
         height: 300
       alignment: 9
-      pivot: {x: 0.5, y: 0.1}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0f9d22ee123c3c630800000000000000
-      internalID: 3946212249003284976
+      spriteID: 1877b1ff724081ee0800000000000000
+      internalID: -1290276723411421311
       vertices: []
       indices: 
       edges: []

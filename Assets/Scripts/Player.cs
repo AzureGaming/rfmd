@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     bool queueJump = false;
     bool queueSlide = false;
     bool grounded = false;
+    bool isDead = false;
     Coroutine jumpRoutine;
     Coroutine slideRoutine;
     Rigidbody2D rb;
@@ -42,6 +43,11 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.S))
             {
                 queueSlide = true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                Die();
             }
         }
 
@@ -86,6 +92,7 @@ public class Player : MonoBehaviour
     {
         spriteR.color = Color.blue;
         playerAnimation.PlaySlide(true);
+        FindObjectOfType<AudioManager>().Play("Player_Slide");
         yield return new WaitForSeconds(0.5f);
         playerAnimation.PlaySlide(false);
         spriteR.color = Color.white;
@@ -99,6 +106,7 @@ public class Player : MonoBehaviour
 
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         playerAnimation.PlayJump();
+        FindObjectOfType<AudioManager>().Play("Player_Jump");
         yield return new WaitForSeconds(0.05f); // still can get hit
 
         spriteR.color = Color.green;
@@ -111,9 +119,16 @@ public class Player : MonoBehaviour
         jumpRoutine = null;
     }
 
+    void Die()
+    {
+        isDead = true;
+        playerAnimation.PlayDeath();
+        FindObjectOfType<AudioManager>().Play("Player_Death");
+    }
+
     bool IsActionValid()
     {
-        return grounded && slideRoutine == null;
+        return !isDead && grounded && slideRoutine == null;
     }
 
     void IsGrounded()

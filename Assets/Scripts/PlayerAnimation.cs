@@ -35,4 +35,9 @@ public class PlayerAnimation : MonoBehaviour
     {
         animator.SetBool("Grounded", isGrounded);
     }
+
+    public void PlayDeath()
+    {
+        animator.SetTrigger("Death");
+    }
 }
