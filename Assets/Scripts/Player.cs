@@ -14,14 +14,21 @@ public class Player : MonoBehaviour
     bool queueSlide = false;
     bool grounded = false;
     bool isDead = false;
+    bool isInvincible = false;
     Coroutine jumpRoutine;
     Coroutine slideRoutine;
+    Coroutine invincibleRoutine;
     Rigidbody2D rb;
     SpriteRenderer spriteR;
 
     private void OnEnable()
     {
         OnAttacked += TakeDamage;
+    }
+
+    private void OnDisable()
+    {
+        OnAttacked -= TakeDamage;
     }
 
     private void Awake()
@@ -37,12 +44,14 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.W))
             {
                 queueJump = true;
-                StartCoroutine(Jump());
+                jumpRoutine = StartCoroutine(Jump());
             }
 
             if (Input.GetKeyDown(KeyCode.S))
             {
                 queueSlide = true;
+                slideRoutine = StartCoroutine(Slide());
+
             }
 
             if (Input.GetKeyDown(KeyCode.D))
@@ -57,35 +66,33 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         IsGrounded();
-        //if (queueJump)
-        //{
-        //    queueJump = false;
-        //    jumpRoutine = StartCoroutine(Jump());
-        //}
-        if (queueSlide)
-        {
-            queueSlide = false;
-            slideRoutine = StartCoroutine(Slide());
-        }
-
     }
 
     public void TakeDamage(string attackType)
     {
-        playerAnimation.PlayHurt();
-        FindObjectOfType<AudioManager>().Play("Player_Hurt");
-        if (attackType == "HIGH")
+        if (invincibleRoutine != null)
         {
-            if (!grounded)
-            {
-                Debug.Log("Took HIGH damage");
-            }
+            return;
         }
-        else if (attackType == "LOW")
+
+        if (attackType == "HIGH") // player must slide
         {
             if (slideRoutine == null)
             {
-                Debug.Log("Took LOW damage");
+                Debug.Log("You didn't slide. Took damage");
+                playerAnimation.PlayHurt();
+                FindObjectOfType<AudioManager>().Play("Player_Hurt");
+                invincibleRoutine = StartCoroutine(ActivateInvincible());
+            }
+        }
+        else if (attackType == "LOW") // player must jump
+        {
+            if (jumpRoutine == null)
+            {
+                Debug.Log("You didn't jump. Took damage");
+                playerAnimation.PlayHurt();
+                FindObjectOfType<AudioManager>().Play("Player_Hurt");
+                invincibleRoutine = StartCoroutine(ActivateInvincible());
             }
         }
     }
@@ -109,7 +116,6 @@ public class Player : MonoBehaviour
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         playerAnimation.PlayJump();
         FindObjectOfType<AudioManager>().Play("Player_Jump");
-        yield return new WaitForSeconds(0.05f); // still can get hit
 
         spriteR.color = Color.green;
         while (timeElapsed <= invincibleTime)
@@ -130,7 +136,7 @@ public class Player : MonoBehaviour
 
     bool IsActionValid()
     {
-        return !isDead && grounded && slideRoutine == null;
+        return !isDead && grounded && slideRoutine == null && invincibleRoutine == null;
     }
 
     void IsGrounded()
@@ -151,10 +157,11 @@ public class Player : MonoBehaviour
     {
         playerAnimation.SetYVelocity(Mathf.Round(rb.velocity.y));
         playerAnimation.SetGrounded(grounded);
-        //if (grounded)
-        //{
-        //    playerAnimation.PlayRun();
-        //}
-        //playerAnimation.PlayJump(jumpRoutine != null, grounded);
+    }
+
+    IEnumerator ActivateInvincible()
+    {
+        yield return new WaitForSeconds(0.5f);
+        invincibleRoutine = null;
     }
 }
