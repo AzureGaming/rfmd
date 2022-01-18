@@ -123,6 +123,7 @@ public class Player : MonoBehaviour
             timeElapsed += Time.deltaTime;
             yield return null;
         }
+        yield return new WaitUntil(() => grounded);
         spriteR.color = Color.white;
         jumpRoutine = null;
     }
