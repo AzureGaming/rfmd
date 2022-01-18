@@ -40,4 +40,9 @@ public class PlayerAnimation : MonoBehaviour
     {
         animator.SetTrigger("Death");
     }
+
+    public void PlayHurt()
+    {
+        animator.SetTrigger("Hurt");
+    }
 }

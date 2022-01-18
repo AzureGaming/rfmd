@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.D))
             {
-                Die();
+                TakeDamage("");
             }
         }
 
@@ -72,6 +72,8 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(string attackType)
     {
+        playerAnimation.PlayHurt();
+        FindObjectOfType<AudioManager>().Play("Player_Hurt");
         if (attackType == "HIGH")
         {
             if (!grounded)
