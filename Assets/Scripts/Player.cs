@@ -9,11 +9,11 @@ public class Player : MonoBehaviour
 
     public float jumpForce = 5f;
     public PlayerAnimation playerAnimation;
+    public bool isDead { get; private set; } = false;
 
     bool queueJump = false;
     bool queueSlide = false;
     bool grounded = false;
-    bool isDead = false;
     bool isInvincible = false;
     Coroutine jumpRoutine;
     Coroutine slideRoutine;
@@ -21,20 +21,27 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
     SpriteRenderer spriteR;
 
+    GameManager gameManager;
+    AudioManager audioManager;
+
     private void OnEnable()
     {
-        OnAttacked += TakeDamage;
+        OnAttacked += CheckDamage;
     }
 
     private void OnDisable()
     {
-        OnAttacked -= TakeDamage;
+        OnAttacked -= CheckDamage;
     }
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteR = GetComponent<SpriteRenderer>();
+        gameManager = FindObjectOfType<GameManager>();
+        audioManager = FindObjectOfType<AudioManager>();
+
+        gameManager.isPlayerAlive = true;
     }
 
     void Update()
@@ -56,7 +63,7 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.D))
             {
-                TakeDamage("");
+                CheckDamage("");
             }
         }
 
@@ -68,7 +75,7 @@ public class Player : MonoBehaviour
         IsGrounded();
     }
 
-    public void TakeDamage(string attackType)
+    public void CheckDamage(string attackType)
     {
         if (invincibleRoutine != null)
         {
@@ -80,9 +87,7 @@ public class Player : MonoBehaviour
             if (slideRoutine == null)
             {
                 Debug.Log("You didn't slide. Took damage");
-                playerAnimation.PlayHurt();
-                FindObjectOfType<AudioManager>().Play("Player_Hurt");
-                invincibleRoutine = StartCoroutine(ActivateInvincible());
+                TakeDamage();
             }
         }
         else if (attackType == "LOW") // player must jump
@@ -90,18 +95,29 @@ public class Player : MonoBehaviour
             if (jumpRoutine == null)
             {
                 Debug.Log("You didn't jump. Took damage");
-                playerAnimation.PlayHurt();
-                FindObjectOfType<AudioManager>().Play("Player_Hurt");
-                invincibleRoutine = StartCoroutine(ActivateInvincible());
+                TakeDamage();
             }
         }
+    }
+
+    void TakeDamage()
+    {
+        gameManager.lives--;
+        if (gameManager.lives < 1)
+        {
+            Die();
+            return;
+        }
+        playerAnimation.PlayHurt();
+        audioManager.Play("Player_Hurt");
+        invincibleRoutine = StartCoroutine(ActivateInvincible());
     }
 
     IEnumerator Slide()
     {
         spriteR.color = Color.blue;
         playerAnimation.PlaySlide(true);
-        FindObjectOfType<AudioManager>().Play("Player_Slide");
+        audioManager.Play("Player_Slide");
         yield return new WaitForSeconds(0.5f);
         playerAnimation.PlaySlide(false);
         spriteR.color = Color.white;
@@ -115,7 +131,7 @@ public class Player : MonoBehaviour
 
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         playerAnimation.PlayJump();
-        FindObjectOfType<AudioManager>().Play("Player_Jump");
+        audioManager.Play("Player_Jump");
 
         spriteR.color = Color.green;
         while (timeElapsed <= invincibleTime)
@@ -130,9 +146,13 @@ public class Player : MonoBehaviour
 
     void Die()
     {
-        isDead = true;
-        playerAnimation.PlayDeath();
-        FindObjectOfType<AudioManager>().Play("Player_Death");
+        if (!isDead) // prevent dying when dead
+        {
+            isDead = true;
+            playerAnimation.PlayDeath();
+            audioManager.Play("Player_Death");
+            FindObjectOfType<GameManager>().isPlayerAlive = false;
+        }
     }
 
     bool IsActionValid()
@@ -142,8 +162,8 @@ public class Player : MonoBehaviour
 
     void IsGrounded()
     {
-        Debug.DrawRay(transform.position, -Vector2.up * 2, Color.red);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, 2f, LayerMask.GetMask("Ground"));
+        Debug.DrawRay(transform.position, -Vector2.up * 3, Color.red);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, 3f, LayerMask.GetMask("Ground"));
         if (hit.collider != null)
         {
             grounded = true;

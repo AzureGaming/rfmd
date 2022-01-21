@@ -6,11 +6,17 @@ public class Enemy : MonoBehaviour
 {
     public EnemyAnimations anims;
 
-    bool isPlayerAlive = true;
+    GameManager gameManager;
+    Coroutine attackRoutine;
+
+    private void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
 
     private void Start()
     {
-        StartCoroutine(AttackRoutine());
+        attackRoutine = StartCoroutine(AttackRoutine());
     }
 
     public IEnumerator AttackHighTelegraphEvent()
@@ -37,7 +43,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator AttackRoutine()
     {
-         while(isPlayerAlive)
+        while (gameManager.isPlayerAlive)
         {
             float seconds = 2f;
             float randomAttack = Random.Range(0, 2);
@@ -47,7 +53,8 @@ public class Enemy : MonoBehaviour
             if (randomAttack == 0)
             {
                 TelegraphAttackHigh();
-            } else
+            }
+            else
             {
                 TelegraphAttackLow();
             }
