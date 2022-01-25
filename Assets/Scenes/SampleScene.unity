@@ -974,6 +974,13 @@ MonoBehaviour:
     startTime: 0.02
     endTime: 0
     source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: d596717553bff2140aa47fd89e149d58, type: 3}
+    name: Player_Dodge
+    volume: 1
+    pitch: 1
+    startTime: 0.03
+    endTime: 0
+    source: {fileID: 0}
 --- !u!1 &1581406358
 GameObject:
   m_ObjectHideFlags: 0
@@ -1299,3 +1306,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayerAlive: 0
   lives: 3
+  dodgePoints: 50

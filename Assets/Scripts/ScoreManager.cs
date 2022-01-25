@@ -7,6 +7,7 @@ public class ScoreManager : MonoBehaviour
     public int score { get; private set; }
 
     GameManager gameManager;
+    Coroutine addScoreRoutine;
 
     private void Awake()
     {
@@ -16,7 +17,17 @@ public class ScoreManager : MonoBehaviour
     void Start()
     {
         score = 0;
-        StartCoroutine(AddScore());
+        addScoreRoutine = StartCoroutine(AddScore());
+    }
+
+    public void Stop()
+    {
+        StopCoroutine(addScoreRoutine);
+    }
+
+    public void AddBonus(int val)
+    {
+        score += val;
     }
 
     IEnumerator AddScore()

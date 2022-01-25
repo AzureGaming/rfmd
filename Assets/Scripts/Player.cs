@@ -88,6 +88,9 @@ public class Player : MonoBehaviour
             {
                 Debug.Log("You didn't slide. Took damage");
                 TakeDamage();
+            } else
+            {
+                audioManager.Play("Player_Dodge");
             }
         }
         else if (attackType == "LOW") // player must jump
@@ -96,6 +99,10 @@ public class Player : MonoBehaviour
             {
                 Debug.Log("You didn't jump. Took damage");
                 TakeDamage();
+            } else
+            {
+                audioManager.Play("Player_Dodge");
+                gameManager.PlayerDodged();
             }
         }
     }
@@ -106,6 +113,7 @@ public class Player : MonoBehaviour
         if (gameManager.lives < 1)
         {
             Die();
+            gameManager.PlayerDied();
             return;
         }
         playerAnimation.PlayHurt();

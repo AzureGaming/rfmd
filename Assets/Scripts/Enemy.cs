@@ -41,9 +41,14 @@ public class Enemy : MonoBehaviour
         Player.OnAttacked?.Invoke("LOW");
     }
 
+    public void Stop()
+    {
+        StopCoroutine(attackRoutine);
+    }
+
     IEnumerator AttackRoutine()
     {
-        while (gameManager.isPlayerAlive)
+        for (; ; )
         {
             float seconds = 2f;
             float randomAttack = Random.Range(0, 2);
