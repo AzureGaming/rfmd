@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     bool queueSlide = false;
     bool grounded = false;
     bool isInvincible = false;
+    [SerializeField] bool isGodMode = false;
     Coroutine jumpRoutine;
     Coroutine slideRoutine;
     Coroutine invincibleRoutine;
@@ -109,6 +110,10 @@ public class Player : MonoBehaviour
 
     void TakeDamage()
     {
+        if (isGodMode)
+        {
+            return;
+        }
         gameManager.lives--;
         if (gameManager.lives < 1)
         {
@@ -170,8 +175,9 @@ public class Player : MonoBehaviour
 
     void IsGrounded()
     {
-        Debug.DrawRay(transform.position, -Vector2.up * 3, Color.red);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, 3f, LayerMask.GetMask("Ground"));
+        float rayLength = 0.5f;
+        Debug.DrawRay(transform.position, -Vector2.up * rayLength, Color.red);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, rayLength, LayerMask.GetMask("Ground"));
         if (hit.collider != null)
         {
             grounded = true;
