@@ -5,16 +5,24 @@ using UnityEngine;
 
 public class Lives : MonoBehaviour
 {
-    TMP_Text text;
-    GameManager gameManager;
+    HeartContainer heartContainer;
     private void Awake()
     {
-        gameManager = FindObjectOfType<GameManager>();
-        text = GetComponent<TMP_Text>();
+        heartContainer = GetComponentInChildren<HeartContainer>();
     }
 
-    void Update()
+    public void Init(int lives)
     {
-        text.text = "Lives: " + gameManager.lives;
+        heartContainer.Clear();
+        SetHearts(lives);
+    }
+
+    public void SetHearts(int lives)
+    {
+        heartContainer.Clear();
+        for (int i = 0; i < lives; i++)
+        {
+            heartContainer.Add();
+        }
     }
 }
