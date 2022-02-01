@@ -31,6 +31,6 @@ public class LoseScreen : MonoBehaviour
 
     void SetScore()
     {
-        scoreText.text = $"Score: {gameManager.GetScore()}";
+        scoreText.text = $"Score: {gameManager.score}";
     }
 }
