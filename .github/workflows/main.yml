@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build the project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library
+
+#     - name: Test
+#       uses: game-ci/unity-test-runner@v2
+#       env:
+#         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+#       with:
+#         githubToken: ${{ secrets.GITHUB_TOKEN }}
+#     
+      - name: Build WebGL
+        uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          targetPlatform: WebGL
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: build
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with: 
+          name: Build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with: 
+          branch: gh-deploy
+          folder: ./WebGL/WebGL
+
+      - name: Discord Notification
+        uses: Ilshidur/action-discord@0.3.2
+        env: 
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: '{{ EVENT_PAYLOAD.repository.full_name }} has been successfully deployed.'
