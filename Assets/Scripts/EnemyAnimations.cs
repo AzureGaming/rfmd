@@ -30,4 +30,9 @@ public class EnemyAnimations : MonoBehaviour
     {
         animator.SetTrigger("Attack Low");
     }
+
+    public void StopAttack()
+    {
+        animator.SetTrigger("Stop Attack");
+    }
 }

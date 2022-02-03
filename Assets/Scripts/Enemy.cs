@@ -6,23 +6,51 @@ public class Enemy : MonoBehaviour
 {
     public EnemyAnimations anims;
 
-    bool isPlayerAlive = true;
+    GameManager gameManager;
+
+    bool isFakeAttack;
+
+    private void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
 
     private void Start()
     {
-        StartCoroutine(AttackRoutine());
+        StartCoroutine(Attack());
     }
 
     public IEnumerator AttackHighTelegraphEvent()
     {
         yield return new WaitForSeconds(0.5f);
-        anims.PlayAttackHigh();
+        if (isFakeAttack)
+        {
+            anims.StopAttack();
+            yield return new WaitForSeconds(1f);
+        }
+        else
+        {
+            anims.PlayAttackHigh();
+            yield return new WaitForSeconds(1.5f);
+        }
+
+        StartCoroutine(Attack());
     }
 
     public IEnumerator AttackLowTelegraphEvent()
     {
         yield return new WaitForSeconds(0.5f);
-        anims.PlayAttackLow();
+        if (isFakeAttack)
+        {
+            anims.StopAttack();
+            yield return new WaitForSeconds(1f);
+        }
+        else
+        {
+            anims.PlayAttackLow();
+            yield return new WaitForSeconds(1.5f);
+        }
+        StartCoroutine(Attack());
     }
 
     public void AttackHighAnimationEvent()
@@ -35,32 +63,40 @@ public class Enemy : MonoBehaviour
         Player.OnAttacked?.Invoke("LOW");
     }
 
-    IEnumerator AttackRoutine()
+    public void Stop()
     {
-         while(isPlayerAlive)
+        StopCoroutine(Attack());
+    }
+
+    IEnumerator Attack()
+    {
+        float randomAttack = Random.Range(0, 2);
+        float seconds = 0f;
+
+        isFakeAttack = Random.value > 0.8f; // fake out attack
+
+        if (gameManager.level == 1)
         {
-            float seconds = 2f;
-            float randomAttack = Random.Range(0, 2);
-
-            yield return new WaitForSeconds(seconds);
-
-            if (randomAttack == 0)
-            {
-                TelegraphAttackHigh();
-            } else
-            {
-                TelegraphAttackLow();
-            }
+            seconds = 2.5f;
         }
-    }
+        else if (gameManager.level == 2)
+        {
+            seconds = 1.75f;
+        }
+        else if (gameManager.level == 3)
+        {
+            seconds = 1f;
+        }
 
-    void TelegraphAttackHigh()
-    {
-        anims.PlayTelegraphAttackHigh();
-    }
+        yield return new WaitForSeconds(seconds);
 
-    void TelegraphAttackLow()
-    {
-        anims.PlayTelegraphAttackLow();
+        if (randomAttack == 0)
+        {
+            anims.PlayTelegraphAttackHigh();
+        }
+        else
+        {
+            anims.PlayTelegraphAttackLow();
+        }
     }
 }
