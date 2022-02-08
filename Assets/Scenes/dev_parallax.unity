@@ -213,13 +213,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5825444714839623237, guid: 886344cfae060e3479c2cf8c1252e252, type: 3}
-      propertyPath: m_Name
-      value: Front Rocks
+    - target: {fileID: 2065611996, guid: 886344cfae060e3479c2cf8c1252e252, type: 3}
+      propertyPath: m_Size.x
+      value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 5825444714839623237, guid: 886344cfae060e3479c2cf8c1252e252, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 5825444714839623234, guid: 886344cfae060e3479c2cf8c1252e252, type: 3}
+      propertyPath: m_Size.x
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5825444714880454848, guid: 886344cfae060e3479c2cf8c1252e252, type: 3}
       propertyPath: m_Name
@@ -269,17 +269,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5825444715302292736, guid: 886344cfae060e3479c2cf8c1252e252, type: 3}
-      propertyPath: m_Name
-      value: Background
+    - target: {fileID: 5825444715302292737, guid: 886344cfae060e3479c2cf8c1252e252, type: 3}
+      propertyPath: m_Size.x
+      value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 5825444715540463069, guid: 886344cfae060e3479c2cf8c1252e252, type: 3}
-      propertyPath: m_Name
-      value: Back Rocks
+    - target: {fileID: 5825444715540463066, guid: 886344cfae060e3479c2cf8c1252e252, type: 3}
+      propertyPath: m_Size.x
+      value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 5825444715594825554, guid: 886344cfae060e3479c2cf8c1252e252, type: 3}
-      propertyPath: m_Name
-      value: Mountains
+    - target: {fileID: 5825444715594825555, guid: 886344cfae060e3479c2cf8c1252e252, type: 3}
+      propertyPath: m_Size.x
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 886344cfae060e3479c2cf8c1252e252, type: 3}
