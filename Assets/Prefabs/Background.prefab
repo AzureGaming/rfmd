@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 5825444714839623234}
   - component: {fileID: 5825444714839623232}
   m_Layer: 0
-  m_Name: parallax-forest-front-trees
+  m_Name: Front Rocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 5825444715302292737}
   - component: {fileID: 5825444715302292751}
   m_Layer: 0
-  m_Name: parallax-forest-back-trees
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -335,7 +335,7 @@ GameObject:
   - component: {fileID: 5825444715540463066}
   - component: {fileID: 5825444715540463064}
   m_Layer: 0
-  m_Name: parallax-forest-middle-trees
+  m_Name: Back Rocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -431,7 +431,7 @@ GameObject:
   - component: {fileID: 5825444715594825555}
   - component: {fileID: 5825444715594825553}
   m_Layer: 0
-  m_Name: parallax-forest-lights
+  m_Name: Mountains
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
