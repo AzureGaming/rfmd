@@ -16,19 +16,20 @@ public class GameManager : MonoBehaviour
     public int level = 1;
     public int score;
 
-    Coroutine gameRoutine;
+    Coroutine scoreRoutine;
 
     private void Start()
     {
         FindObjectOfType<Lives>().Init(lives);
-        gameRoutine = StartCoroutine(GameRoutine());
+        scoreRoutine = StartCoroutine(ScoreRoutine());
+        StartCoroutine(LevelUpRoutine());
     }
 
     public void PlayerDied()
     {
         FindObjectOfType<Enemy>().Stop();
         loseScreen.SetActive(true);
-        StopCoroutine(gameRoutine);
+        StopCoroutine(scoreRoutine);
     }
 
     public void PlayerHit()
@@ -47,17 +48,31 @@ public class GameManager : MonoBehaviour
         return lives;
     }
 
-    IEnumerator GameRoutine()
+    IEnumerator ScoreRoutine()
     {
         while (isPlayerAlive)
         {
-            score+= scoreIncrement;
-            if (score >= level2Threshold && level == 1 || score >= level3Threshold && level == 2)
+            score += scoreIncrement;
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    IEnumerator LevelUpRoutine()
+    {
+        float timeElapsed = 0f;
+        while (isPlayerAlive)
+        {
+            timeElapsed += Time.deltaTime;
+            if (level == 1 && timeElapsed >= 15f || level == 2 && timeElapsed >= 30f || level == 3 && timeElapsed >= 45f)
             {
                 level++;
+                Enemy.OnLevelUp(level);
                 Debug.Log($"Reached level {level}!");
             }
-            yield return new WaitForSeconds(0.5f);
+
+
+
+            yield return null;
         }
     }
 }

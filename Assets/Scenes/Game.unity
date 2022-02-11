@@ -1975,7 +1975,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerAlive: 0
-  lives: 1
+  lives: 5
   dodgePoints: 50
   scoreIncrement: 1
   level2Threshold: 100
@@ -2110,6 +2110,10 @@ PrefabInstance:
     - target: {fileID: 8251529122008309292, guid: 20eb28f380fff674b902c04a62008095, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8251529122008309293, guid: 20eb28f380fff674b902c04a62008095, type: 3}
+      propertyPath: isGodMode
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20eb28f380fff674b902c04a62008095, type: 3}
