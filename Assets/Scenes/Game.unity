@@ -1978,8 +1978,10 @@ MonoBehaviour:
   lives: 5
   dodgePoints: 50
   scoreIncrement: 1
-  level2Threshold: 100
-  level3Threshold: 1000
+  level2Threshold: 15
+  level3Threshold: 30
+  level4Threshold: 45
+  level5Threshold: 58.5
   loseScreen: {fileID: 1563341876}
   level: 1
   score: 0

@@ -15,14 +15,20 @@ public class Enemy : MonoBehaviour
     float[] level1DelayRange = new float[] { 3f, 5f };
     float[] level2DelayRange = new float[] { 2f, 4f };
     float[] level3DelayRange = new float[] { 1f, 3f };
+    float[] level4DelayRange = new float[] { 1f, 2f };
+    float[] level5DelayRange = new float[] { 1f, 2f };
 
     float[] level1TelegraphRange = new float[] { 0.1f, 0.1f };
     float[] level2TelegraphRange = new float[] { 0.1f, 0.1f };
     float[] level3TelegraphRange = new float[] { 0.1f, 0.2f };
+    float[] level4TelegraphRange = new float[] { 0.1f, 0.2f };
+    float[] level5TelegraphRange = new float[] { 0.1f, 0.2f };
 
     float level1AttackSpeed = 0.2f;
     float level2AttackSpeed = 0.2f;
     float level3AttackSpeed = 0.2f;
+    float level4AttackSpeed = 0.2f;
+    float level5AttackSpeed = 0.2f;
 
     float[] telegraphRange;
     float[] delayRange;
@@ -165,6 +171,16 @@ public class Enemy : MonoBehaviour
                 attackSpeed = level3AttackSpeed;
                 delayRange = level3DelayRange;
                 isFakeAttackEnabled = true;
+                break;
+            case 4:
+                telegraphRange = level4TelegraphRange;
+                attackSpeed = level4AttackSpeed;
+                delayRange = level4DelayRange;
+                break;
+            case 5:
+                telegraphRange = level5TelegraphRange;
+                attackSpeed = level5AttackSpeed;
+                delayRange = level5DelayRange;
                 break;
             default:
                 Debug.LogError($"Invalid level {level}.");
