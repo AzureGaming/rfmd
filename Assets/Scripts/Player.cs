@@ -135,12 +135,10 @@ public class Player : MonoBehaviour
 
     IEnumerator Slide()
     {
-        spriteR.color = Color.blue;
         playerAnimation.PlaySlide(true);
         audioManager.Play("Player_Slide");
         yield return new WaitForSeconds(0.5f);
         playerAnimation.PlaySlide(false);
-        spriteR.color = Color.white;
         slideRoutine = null;
     }
 
@@ -153,14 +151,12 @@ public class Player : MonoBehaviour
         playerAnimation.PlayJump();
         audioManager.Play("Player_Jump");
 
-        spriteR.color = Color.green;
         while (timeElapsed <= invincibleTime)
         {
             timeElapsed += Time.deltaTime;
             yield return null;
         }
         yield return new WaitUntil(() => grounded);
-        spriteR.color = Color.white;
         jumpRoutine = null;
     }
 
