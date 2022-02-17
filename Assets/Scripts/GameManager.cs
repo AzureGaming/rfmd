@@ -9,26 +9,30 @@ public class GameManager : MonoBehaviour
     [SerializeField] int lives;
     [SerializeField] int dodgePoints = 50;
     [SerializeField] int scoreIncrement;
-    [SerializeField] int level2Threshold = 500;
-    [SerializeField] int level3Threshold = 1000;
+    [SerializeField] float level2Threshold = 15f;
+    [SerializeField] float level3Threshold = 30f;
+    [SerializeField] float level4Threshold = 45f;
+    [SerializeField] float level5Threshold = 58.5f;
+    [SerializeField] float level6Threshold = 72f;
     [SerializeField] GameObject loseScreen;
 
     public int level = 1;
     public int score;
 
-    Coroutine gameRoutine;
+    Coroutine scoreRoutine;
 
     private void Start()
     {
         FindObjectOfType<Lives>().Init(lives);
-        gameRoutine = StartCoroutine(GameRoutine());
+        scoreRoutine = StartCoroutine(ScoreRoutine());
+        StartCoroutine(LevelUpRoutine());
     }
 
     public void PlayerDied()
     {
         FindObjectOfType<Enemy>().Stop();
         loseScreen.SetActive(true);
-        StopCoroutine(gameRoutine);
+        StopCoroutine(scoreRoutine);
     }
 
     public void PlayerHit()
@@ -47,17 +51,33 @@ public class GameManager : MonoBehaviour
         return lives;
     }
 
-    IEnumerator GameRoutine()
+    IEnumerator ScoreRoutine()
     {
         while (isPlayerAlive)
         {
-            score+= scoreIncrement;
-            if (score >= level2Threshold && level == 1 || score >= level3Threshold && level == 2)
+            score += scoreIncrement;
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    IEnumerator LevelUpRoutine()
+    {
+        float timeElapsed = 0f;
+        while (isPlayerAlive)
+        {
+            timeElapsed += Time.deltaTime;
+            if (level == 1 && timeElapsed >= level2Threshold
+                || level == 2 && timeElapsed >= level3Threshold
+                || level == 3 && timeElapsed >= level4Threshold
+                || level == 4 && timeElapsed >= level5Threshold
+                || level == 5 && timeElapsed >= level6Threshold)
             {
                 level++;
+                Enemy.OnLevelUp(level);
                 Debug.Log($"Reached level {level}!");
             }
-            yield return new WaitForSeconds(0.5f);
+
+            yield return null;
         }
     }
 }
