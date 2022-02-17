@@ -182,7 +182,7 @@ public class Player : MonoBehaviour
 
     void IsGrounded()
     {
-        float rayLength = 0.5f;
+        float rayLength = 0.25f;
         Debug.DrawRay(transform.position, -Vector2.up * rayLength, Color.red);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, rayLength, LayerMask.GetMask("Ground"));
         if (hit.collider != null)
