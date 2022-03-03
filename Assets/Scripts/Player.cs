@@ -7,15 +7,18 @@ public class Player : MonoBehaviour
     public delegate void Attacked(string attackType);
     public static Attacked OnAttacked;
 
+    public PlayerAnimation animation;
+    public PlayerAudio audio;
+
     public float jumpForce = 5f;
-    public PlayerAnimation playerAnimation;
+
     public bool isDead { get; private set; } = false;
 
+    [SerializeField] bool isGodMode = false;
     bool queueJump = false;
     bool queueSlide = false;
     bool grounded = false;
     bool isInvincible = false;
-    [SerializeField] bool isGodMode = false;
     Coroutine jumpRoutine;
     Coroutine slideRoutine;
     Coroutine invincibleRoutine;
@@ -23,7 +26,6 @@ public class Player : MonoBehaviour
     SpriteRenderer spriteR;
 
     GameManager gameManager;
-    AudioManager audioManager;
 
     private void OnEnable()
     {
@@ -40,9 +42,13 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteR = GetComponent<SpriteRenderer>();
         gameManager = FindObjectOfType<GameManager>();
-        audioManager = FindObjectOfType<AudioManager>();
 
         gameManager.isPlayerAlive = true;
+    }
+
+    private void Start()
+    {
+       audio.PlayRun();
     }
 
     void Update()
@@ -88,6 +94,7 @@ public class Player : MonoBehaviour
             if (slideRoutine == null)
             {
                 Debug.Log("You didn't slide. Took damage");
+                Enemy.OnHighAttackHit?.Invoke();
                 TakeDamage();
             }
             else
@@ -100,6 +107,7 @@ public class Player : MonoBehaviour
             if (jumpRoutine == null)
             {
                 Debug.Log("You didn't jump. Took damage");
+                Enemy.OnLowAttackHit?.Invoke();
                 TakeDamage();
             }
             else
@@ -111,7 +119,7 @@ public class Player : MonoBehaviour
 
     void Dodge()
     {
-        audioManager.Play("Player_Dodge");
+        audio.PlayDodge();
         gameManager.PlayerDodged();
     }
 
@@ -128,29 +136,33 @@ public class Player : MonoBehaviour
             gameManager.PlayerDied();
             return;
         }
-        playerAnimation.PlayHurt();
-        audioManager.Play("Player_Hurt");
+        animation.PlayHurt();
+        //audioManager.Play("Player_Hurt");
         invincibleRoutine = StartCoroutine(ActivateInvincible());
     }
 
     IEnumerator Slide()
     {
-        playerAnimation.PlaySlide(true);
-        audioManager.Play("Player_Slide");
+        animation.PlaySlide(true);
+        audio.StopRun();
+        audio.PlaySlide();
+
         yield return new WaitForSeconds(0.5f);
-        playerAnimation.PlaySlide(false);
+
+        animation.PlaySlide(false);
         slideRoutine = null;
+        audio.PlayRun();
     }
 
     IEnumerator Jump()
     {
         float invincibleTime = 0.3f;
         float timeElapsed = 0f;
+        audio.StopRun();
 
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        playerAnimation.PlayJump();
-        audioManager.Play("Player_Jump");
-
+        animation.PlayJump();
+        audio.PlayJump();
         while (timeElapsed <= invincibleTime)
         {
             timeElapsed += Time.deltaTime;
@@ -158,6 +170,7 @@ public class Player : MonoBehaviour
         }
         yield return new WaitUntil(() => grounded);
         jumpRoutine = null;
+        audio.PlayRun();
     }
 
     void Die()
@@ -165,8 +178,8 @@ public class Player : MonoBehaviour
         if (!isDead) // prevent dying when dead
         {
             isDead = true;
-            playerAnimation.PlayDeath();
-            audioManager.Play("Player_Death");
+            animation.PlayDeath();
+            audio.PlayDeath();
             FindObjectOfType<GameManager>().isPlayerAlive = false;
         }
     }
@@ -193,8 +206,8 @@ public class Player : MonoBehaviour
 
     void PlayAnimations()
     {
-        playerAnimation.SetYVelocity(Mathf.Round(rb.velocity.y));
-        playerAnimation.SetGrounded(grounded);
+        animation.SetYVelocity(Mathf.Round(rb.velocity.y));
+        animation.SetGrounded(grounded);
     }
 
     IEnumerator ActivateInvincible()

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8251529122008309288}
   - component: {fileID: 8251529122008309289}
   - component: {fileID: 8251529122008309286}
+  - component: {fileID: 6038008013993200050}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -99,9 +100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de163654a841b1e49bbc28bbe2fb7b1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animation: {fileID: 8251529122008309287}
+  audio: {fileID: 6038008013993200050}
   jumpForce: 7.5
-  playerAnimation: {fileID: 8251529122008309287}
-  isGodMode: 1
+  isGodMode: 0
 --- !u!114 &8251529122008309287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,7 +154,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.48, y: 0.48}
+    oldSize: {x: 0.58, y: 0.48}
     newSize: {x: 2.7692308, y: 2.3076923}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -180,3 +182,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6038008013993200050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8251529122008309292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1bb1df99d4ff0b4e852ef3f27df7564, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

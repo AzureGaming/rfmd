@@ -7,6 +7,13 @@ public class Enemy : MonoBehaviour
     public delegate void LevelUp(int level);
     public static LevelUp OnLevelUp;
 
+    public delegate void HighAttackHit();
+    public static HighAttackHit OnHighAttackHit;
+    public delegate void LowAttackHit();
+    public static LowAttackHit OnLowAttackHit;
+
+    public EnemyAudio audio;
+
     [SerializeField] EnemyAnimations anims;
 
     float fakeoutSpeed = 0.07f;
@@ -44,11 +51,15 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         OnLevelUp += SetAnimationSpeeds;
+        OnHighAttackHit += audio.PlayHighAttackHit;
+        OnLowAttackHit += audio.PlayLowAttackHit;
     }
 
     private void OnDisable()
     {
         OnLevelUp -= SetAnimationSpeeds;
+        OnHighAttackHit -= audio.PlayHighAttackHit;
+        OnLowAttackHit -= audio.PlayLowAttackHit;
     }
 
     private void Awake()
@@ -75,6 +86,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            audio.PlayAttackHigh();
             anims.PlayAttackHigh(attackSpeed);
         }
 
@@ -130,14 +142,14 @@ public class Enemy : MonoBehaviour
         Debug.Log($"Delay attack for {delay} seconds.");
         yield return new WaitForSeconds(delay);
 
-        if (attackType == 0)
-        {
-            anims.PlayTelegraphAttackHigh(telegraphSpeed);
-        }
-        else
-        {
-            anims.PlayTelegraphAttackLow(telegraphSpeed);
-        }
+        //if (attackType == 0)
+        //{
+        //anims.PlayTelegraphAttackHigh(telegraphSpeed);
+        //}
+        //else
+        //{
+        anims.PlayTelegraphAttackLow(telegraphSpeed);
+        //}
     }
 
     void SetFakeout()
