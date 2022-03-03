@@ -20,12 +20,19 @@ public class GameManager : MonoBehaviour
     public int score;
 
     Coroutine scoreRoutine;
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = FindObjectOfType<AudioManager>();
+    }
 
     private void Start()
     {
         FindObjectOfType<Lives>().Init(lives);
         scoreRoutine = StartCoroutine(ScoreRoutine());
         StartCoroutine(LevelUpRoutine());
+        audioManager.Play("Background_Music");
     }
 
     public void PlayerDied()
