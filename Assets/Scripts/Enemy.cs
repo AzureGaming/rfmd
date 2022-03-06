@@ -142,14 +142,14 @@ public class Enemy : MonoBehaviour
         Debug.Log($"Delay attack for {delay} seconds.");
         yield return new WaitForSeconds(delay);
 
-        //if (attackType == 0)
-        //{
-        //anims.PlayTelegraphAttackHigh(telegraphSpeed);
-        //}
-        //else
-        //{
-        anims.PlayTelegraphAttackLow(telegraphSpeed);
-        //}
+        if (attackType == 0)
+        {
+            anims.PlayTelegraphAttackHigh(telegraphSpeed);
+        }
+        else
+        {
+            anims.PlayTelegraphAttackLow(telegraphSpeed);
+        }
     }
 
     void SetFakeout()
