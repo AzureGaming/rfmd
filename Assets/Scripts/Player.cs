@@ -137,7 +137,6 @@ public class Player : MonoBehaviour
             return;
         }
         animation.PlayHurt();
-        //audioManager.Play("Player_Hurt");
         invincibleRoutine = StartCoroutine(ActivateInvincible());
     }
 

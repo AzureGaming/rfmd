@@ -42,6 +42,7 @@ public class Enemy : MonoBehaviour
 
     float attackSpeed;
     GameManager gameManager;
+    Coroutine attackRoutine;
     bool isFakeAttackEnabled = false;
     bool isFakeAttack = false;
 
@@ -72,10 +73,10 @@ public class Enemy : MonoBehaviour
         SetAnimationSpeeds(gameManager.level);
 
         float attackDelay = Random.Range(delayRange[0], delayRange[1]);
-        StartCoroutine(Attack(attackDelay));
+        attackRoutine = StartCoroutine(Attack(attackDelay));
     }
 
-    public IEnumerator AttackHighTelegraphEvent()
+    public void AttackHighTelegraphEvent()
     {
         float attackDelay = Random.Range(delayRange[0], delayRange[1]);
 
@@ -90,12 +91,10 @@ public class Enemy : MonoBehaviour
             anims.PlayAttackHigh(attackSpeed);
         }
 
-        StartCoroutine(Attack(attackDelay));
-
-        yield break;
+        attackRoutine = StartCoroutine(Attack(attackDelay));
     }
 
-    public IEnumerator AttackLowTelegraphEvent()
+    public void AttackLowTelegraphEvent()
     {
         float attackDelay = Random.Range(delayRange[0], delayRange[1]);
         if (isFakeAttack)
@@ -108,9 +107,7 @@ public class Enemy : MonoBehaviour
             anims.PlayAttackLow(attackSpeed);
         }
 
-        StartCoroutine(Attack(attackDelay));
-
-        yield break;
+        attackRoutine = StartCoroutine(Attack(attackDelay));
     }
 
     public void AttackHighAnimationEvent()
@@ -125,7 +122,7 @@ public class Enemy : MonoBehaviour
 
     public void Stop()
     {
-        StopCoroutine("Attack");
+        StopCoroutine(attackRoutine);
     }
 
     IEnumerator Attack(float delay)

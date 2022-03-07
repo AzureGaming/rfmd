@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<Enemy>().Stop();
         loseScreen.SetActive(true);
         StopCoroutine(scoreRoutine);
+        StartCoroutine(Camera.main.GetComponent<Translate>().Stop());
     }
 
     public void PlayerHit()
