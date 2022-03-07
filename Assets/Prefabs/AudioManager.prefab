@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2289820576527770104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2289820576527770107}
+  - component: {fileID: 2289820576527770106}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2289820576527770107
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2289820576527770104}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.4979708, y: -0.5230454, z: 5.3470893}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2289820576527770106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2289820576527770104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eab3a667ad0884e4b8193a3412bbeee2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - clip: {fileID: 8300000, guid: b32a41af810e9bc4e8fed45451909199, type: 3}
+    name: Player_Jump
+    volume: 1
+    pitch: 1
+    startTime: 0
+    endTime: 0
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: afea69f5acc92c44faa0f7c67dd9018d, type: 3}
+    name: Player_Slide
+    volume: 1
+    pitch: 1
+    startTime: 0.1
+    endTime: 0.5
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 47bf7b4760e4a7b4faffac6c0edd7544, type: 3}
+    name: Player_Death
+    volume: 1
+    pitch: 1
+    startTime: 0
+    endTime: 0
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 4d31704c0ca817e4d94ab2e0e1e09d34, type: 3}
+    name: Player_Hurt
+    volume: 1
+    pitch: 1
+    startTime: 0
+    endTime: 2
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: d596717553bff2140aa47fd89e149d58, type: 3}
+    name: Player_Dodge
+    volume: 0.472
+    pitch: 0.604
+    startTime: 0.03
+    endTime: 0
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: e436d2dfb0646a04497477ac7362b6f4, type: 3}
+    name: Enemy_Telegraph_Low
+    volume: 0.25
+    pitch: 1
+    startTime: 0
+    endTime: 2
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 5300463d127877f409bd08a035d8415f, type: 3}
+    name: Enemy_Attack_Low
+    volume: 0.25
+    pitch: 1
+    startTime: 0
+    endTime: 2
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: c5a08d9334d8e754b8a94815befa9b8b, type: 3}
+    name: Enemy_Telegraph_High
+    volume: 0.25
+    pitch: 1
+    startTime: 0
+    endTime: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 4b69d8a9fbe71ec43b2883b4eb4113ad, type: 3}
+    name: Enemy_Attack_High
+    volume: 1
+    pitch: 1
+    startTime: 0.25
+    endTime: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 8da89d3ced8e9a54eb4dfa578aa652d5, type: 3}
+    name: Enemy_Attack_High_Impact
+    volume: 1
+    pitch: 1
+    startTime: 0.07
+    endTime: 0
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 3a6ea5b79baad2146885c0c8ca821963, type: 3}
+    name: Enemy_Attack_High_Miss
+    volume: 1
+    pitch: 1
+    startTime: 0
+    endTime: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 8da89d3ced8e9a54eb4dfa578aa652d5, type: 3}
+    name: Enemy_Attack_Low_Impact
+    volume: 1
+    pitch: 1
+    startTime: 0.07
+    endTime: 0
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 748557fe3aab9094e90437d2695e10ba, type: 3}
+    name: Player_Run
+    volume: 0.483
+    pitch: 1
+    startTime: 0
+    endTime: 5
+    loop: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 69ea27fb4f1b4144b890ee90e29840d8, type: 3}
+    name: Background_Music
+    volume: 0.114
+    pitch: 1
+    startTime: 0
+    endTime: 0
+    loop: 0
+    source: {fileID: 0}
