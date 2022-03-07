@@ -5,10 +5,12 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour
 {
     Animator animator;
+    AudioManager audio;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        audio = FindObjectOfType<AudioManager>();
     }
 
     public void PlayRun()
@@ -44,5 +46,6 @@ public class PlayerAnimation : MonoBehaviour
     public void PlayHurt()
     {
         animator.SetTrigger("Hurt");
+        audio.Play("Player_Hurt");
     }
 }

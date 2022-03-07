@@ -22,7 +22,7 @@ public class AudioManager : MonoBehaviour
         Sound sound = Array.Find(sounds, sound => sound.name == name);
         if (sound == null)
         {
-            Debug.LogError("Sound: " + name + " not found.");
+            Debug.LogWarning("Sound: " + name + " not found.");
             return null;
         }
 
