@@ -1901,7 +1901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerAlive: 0
-  lives: 1
+  lives: 5
   dodgePoints: 50
   scoreIncrement: 1
   level2Threshold: 15

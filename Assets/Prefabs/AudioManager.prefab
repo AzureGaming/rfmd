@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2289820576527770104}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.4979708, y: -0.5230454, z: 5.3470893}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -116,28 +116,20 @@ MonoBehaviour:
     endTime: 1
     loop: 0
     source: {fileID: 0}
-  - clip: {fileID: 8300000, guid: 8da89d3ced8e9a54eb4dfa578aa652d5, type: 3}
+  - clip: {fileID: 8300000, guid: 38ab60ba1e16a6b49891249a1edbad3b, type: 3}
     name: Enemy_Attack_High_Impact
-    volume: 1
-    pitch: 1
-    startTime: 0.07
-    endTime: 0
-    loop: 0
-    source: {fileID: 0}
-  - clip: {fileID: 8300000, guid: 3a6ea5b79baad2146885c0c8ca821963, type: 3}
-    name: Enemy_Attack_High_Miss
     volume: 1
     pitch: 1
     startTime: 0
     endTime: 1
     loop: 0
     source: {fileID: 0}
-  - clip: {fileID: 8300000, guid: 8da89d3ced8e9a54eb4dfa578aa652d5, type: 3}
+  - clip: {fileID: 8300000, guid: 38dd89bc74c296e48a6c064fc8691876, type: 3}
     name: Enemy_Attack_Low_Impact
     volume: 1
     pitch: 1
-    startTime: 0.07
-    endTime: 0
+    startTime: 0
+    endTime: 2
     loop: 0
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 748557fe3aab9094e90437d2695e10ba, type: 3}
