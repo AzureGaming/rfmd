@@ -192,7 +192,7 @@ public class Enemy : MonoBehaviour
                 delayRange = level5DelayRange;
                 break;
             default:
-                Debug.LogError($"Invalid level {level}.");
+                Debug.LogWarning($"Invalid level {level}.");
                 break;
         }
     }
