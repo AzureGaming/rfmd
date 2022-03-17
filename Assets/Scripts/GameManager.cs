@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public delegate void PickupWeaponPoint();
+    public static PickupWeaponPoint OnPickupWeaponPoint;
+    public delegate void EnemyDied();
+    public static EnemyDied OnEnemyDied;
+
+
     [HideInInspector] public bool isPlayerAlive;
 
     [SerializeField] int lives;
@@ -15,12 +21,28 @@ public class GameManager : MonoBehaviour
     [SerializeField] float level5Threshold = 58.5f;
     [SerializeField] float level6Threshold = 72f;
     [SerializeField] GameObject loseScreen;
+    [SerializeField] GameObject enemyPrefab;
 
     public int level = 1;
     public int score;
+    public int weaponPoints = 0;
 
     Coroutine scoreRoutine;
     AudioManager audioManager;
+
+    int enemyHealth;
+
+    private void OnEnable()
+    {
+        OnPickupWeaponPoint += () => weaponPoints++;
+        OnEnemyDied += SpawnEnemy;
+    }
+
+    private void OnDisable()
+    {
+        OnPickupWeaponPoint -= () => weaponPoints++;
+        OnEnemyDied -= SpawnEnemy;
+    }
 
     private void Awake()
     {
@@ -81,11 +103,28 @@ public class GameManager : MonoBehaviour
                 || level == 5 && timeElapsed >= level6Threshold)
             {
                 level++;
-                Enemy.OnLevelUp(level);
+                Enemy.OnLevelUp(level); // TODO: move level into a manager
                 Debug.Log($"Reached level {level}!");
             }
 
             yield return null;
         }
+    }
+
+    public int GetDamage()
+    {
+        return weaponPoints * 10;
+    }
+
+    void SpawnEnemy()
+    {
+        Debug.Log("Spawn Enenemy");
+        StartCoroutine(DelaySpawn());
+    }
+
+    IEnumerator DelaySpawn()
+    {
+        yield return new WaitForSeconds(1f);
+        Instantiate(enemyPrefab, Camera.main.transform);
     }
 }

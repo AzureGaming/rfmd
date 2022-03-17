@@ -6,6 +6,10 @@ public class Enemy : MonoBehaviour
 {
     public delegate void LevelUp(int level);
     public static LevelUp OnLevelUp;
+    public delegate void TakeDamage(int damage);
+    public static TakeDamage OnTakeDamage;
+    public delegate void Death();
+    public static Death OnDeath;
 
     public delegate void HighAttackHit();
     public static HighAttackHit OnHighAttackHit;
@@ -15,6 +19,7 @@ public class Enemy : MonoBehaviour
     public EnemyAudio audio;
 
     [SerializeField] EnemyAnimations anims;
+
 
     float fakeoutSpeed = 0.07f;
     float fakeoutReverseSpeed = 0.2f;
@@ -43,17 +48,23 @@ public class Enemy : MonoBehaviour
     float attackSpeed;
     GameManager gameManager;
     Coroutine attackRoutine;
+    SpriteRenderer spriteR;
+    HealthBar healthBar;
+
     bool isFakeAttackEnabled = false;
     bool isFakeAttack = false;
 
     float attackType;
     float telegraphSpeed;
+    int health;
 
     private void OnEnable()
     {
         OnLevelUp += SetAnimationSpeeds;
         OnHighAttackHit += audio.PlayHighAttackHit;
         OnLowAttackHit += audio.PlayLowAttackHit;
+        OnTakeDamage += GetHit;
+        OnDeath += Die;
     }
 
     private void OnDisable()
@@ -61,19 +72,25 @@ public class Enemy : MonoBehaviour
         OnLevelUp -= SetAnimationSpeeds;
         OnHighAttackHit -= audio.PlayHighAttackHit;
         OnLowAttackHit -= audio.PlayLowAttackHit;
+        OnTakeDamage -= GetHit;
+        OnDeath -= Die;
     }
 
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
+        spriteR = GetComponent<SpriteRenderer>();
+        healthBar = FindObjectOfType<HealthBar>();
     }
 
     private void Start()
     {
+        health = 100;
+        healthBar.SetMaxHealth(health);
         SetAnimationSpeeds(gameManager.level);
 
         float attackDelay = Random.Range(delayRange[0], delayRange[1]);
-        attackRoutine = StartCoroutine(Attack(attackDelay));
+        //attackRoutine = StartCoroutine(Attack(attackDelay));
     }
 
     public void AttackHighTelegraphEvent()
@@ -125,6 +142,26 @@ public class Enemy : MonoBehaviour
         StopCoroutine(attackRoutine);
     }
 
+    void GetHit(int damage)
+    {
+        health -= damage;
+        healthBar.SetHealth(health);
+        if (health <= 0)
+        {
+            Die();
+        }
+        else
+        {
+            StartCoroutine(FlashRed());
+        }
+    }
+
+    void Die()
+    {
+
+        StartCoroutine(DieRoutine());
+    }
+
     IEnumerator Attack(float delay)
     {
         attackType = Random.Range(0, 2);
@@ -149,6 +186,60 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    IEnumerator FlashRed()
+    {
+        float timeElapsed = 0f;
+        float totalTime = 0.023f;
+        Color origColor = spriteR.color;
+        Color redColor = Color.red;
+        redColor.a = 50;
+
+        while (timeElapsed <= totalTime)
+        {
+            if (spriteR.color == origColor)
+            {
+                spriteR.color = redColor;
+            }
+            else
+            {
+                spriteR.color = origColor;
+            }
+            timeElapsed += Time.deltaTime;
+            yield return new WaitForSeconds(0.15f);
+        }
+        spriteR.color = origColor;
+    }
+
+    IEnumerator FlashTransparent()
+    {
+        float timeElapsed = 0f;
+        float totalTime = 0.023f;
+        Color origColor = spriteR.color;
+        Color clearColor = Color.clear;
+
+        while (timeElapsed <= totalTime)
+        {
+            if (spriteR.color == origColor)
+            {
+                spriteR.color = clearColor;
+            }
+            else
+            {
+                spriteR.color = origColor;
+            }
+            timeElapsed += Time.deltaTime;
+            yield return new WaitForSeconds(0.1f);
+        }
+        spriteR.color = origColor;
+    }
+
+    IEnumerator DieRoutine()
+    {
+        yield return StartCoroutine(FlashTransparent());
+        GameManager.OnEnemyDied?.Invoke();
+        Destroy(gameObject);
+    }
+
     void SetFakeout()
     {
         isFakeAttack = false;
@@ -158,7 +249,6 @@ public class Enemy : MonoBehaviour
             isFakeAttack = randomVal > 0.8f;
             Debug.Log($"Fakeout attack {randomVal}");
         }
-
     }
 
     void SetAnimationSpeeds(int level)
