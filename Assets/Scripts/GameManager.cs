@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public static PickupWeaponPoint OnPickupWeaponPoint;
     public delegate void EnemyDied();
     public static EnemyDied OnEnemyDied;
+    public delegate void TouchWeaponLocker();
+    public static TouchWeaponLocker OnTouchWeaponLocker;
 
 
     [HideInInspector] public bool isPlayerAlive;
@@ -29,24 +31,26 @@ public class GameManager : MonoBehaviour
 
     Coroutine scoreRoutine;
     AudioManager audioManager;
-
-    int enemyHealth;
+    WeaponPoints weaponPointsDisplay;
 
     private void OnEnable()
     {
-        OnPickupWeaponPoint += () => weaponPoints++;
+        OnPickupWeaponPoint += HandlePickupWeaponPoint;
         OnEnemyDied += SpawnEnemy;
+        OnTouchWeaponLocker += HandleWeaponLockerTouch;
     }
 
     private void OnDisable()
     {
-        OnPickupWeaponPoint -= () => weaponPoints++;
+        OnPickupWeaponPoint -= HandlePickupWeaponPoint;
         OnEnemyDied -= SpawnEnemy;
+        OnTouchWeaponLocker -= HandleWeaponLockerTouch;
     }
 
     private void Awake()
     {
         audioManager = FindObjectOfType<AudioManager>();
+        weaponPointsDisplay = FindObjectOfType<WeaponPoints>();
     }
 
     private void Start()
@@ -113,13 +117,35 @@ public class GameManager : MonoBehaviour
 
     public int GetDamage()
     {
-        return weaponPoints * 10;
+        return weaponPoints * 5;
     }
 
     void SpawnEnemy()
     {
         Debug.Log("Spawn Enenemy");
         StartCoroutine(DelaySpawn());
+    }
+
+    void HandleWeaponLockerTouch()
+    {
+        Enemy.OnTakeDamage?.Invoke(GetDamage());
+        ResetWeaponPoints();
+    }
+
+    void ResetWeaponPoints()
+    {
+        SetWeaponPoints(0);
+    }
+
+    void HandlePickupWeaponPoint()
+    {
+        SetWeaponPoints(weaponPoints + 1);
+    }
+
+    void SetWeaponPoints(int points)
+    {
+        weaponPoints = points;
+        weaponPointsDisplay.SetText(weaponPoints);
     }
 
     IEnumerator DelaySpawn()
