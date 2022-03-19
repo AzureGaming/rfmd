@@ -6,8 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public delegate void PickupWeaponPoint();
     public static PickupWeaponPoint OnPickupWeaponPoint;
-    public delegate void EnemyDied();
-    public static EnemyDied OnEnemyDied;
+    public delegate void EnemyKilled();
+    public static EnemyKilled OnEnemyKilled;
     public delegate void TouchWeaponLocker();
     public static TouchWeaponLocker OnTouchWeaponLocker;
 
@@ -29,21 +29,24 @@ public class GameManager : MonoBehaviour
     public int score;
     public int weaponPoints = 0;
 
+    int enemiesKilled = 0;
+
     Coroutine scoreRoutine;
     AudioManager audioManager;
     WeaponPoints weaponPointsDisplay;
+    EnemiesKilled enemiesKilledDisplay;
 
     private void OnEnable()
     {
         OnPickupWeaponPoint += HandlePickupWeaponPoint;
-        OnEnemyDied += SpawnEnemy;
+        OnEnemyKilled += HandleEnemyKilled;
         OnTouchWeaponLocker += HandleWeaponLockerTouch;
     }
 
     private void OnDisable()
     {
         OnPickupWeaponPoint -= HandlePickupWeaponPoint;
-        OnEnemyDied -= SpawnEnemy;
+        OnEnemyKilled -= HandleEnemyKilled;
         OnTouchWeaponLocker -= HandleWeaponLockerTouch;
     }
 
@@ -51,10 +54,13 @@ public class GameManager : MonoBehaviour
     {
         audioManager = FindObjectOfType<AudioManager>();
         weaponPointsDisplay = FindObjectOfType<WeaponPoints>();
+        enemiesKilledDisplay = FindObjectOfType<EnemiesKilled>();
     }
 
     private void Start()
     {
+        ResetWeaponPoints();
+        enemiesKilled = 0;
         FindObjectOfType<Lives>().Init(lives);
         scoreRoutine = StartCoroutine(ScoreRoutine());
         StartCoroutine(LevelUpRoutine());
@@ -132,9 +138,11 @@ public class GameManager : MonoBehaviour
         ResetWeaponPoints();
     }
 
-    void ResetWeaponPoints()
+    void HandleEnemyKilled()
     {
-        SetWeaponPoints(0);
+        enemiesKilled++;
+        SetEnemiesKilled(enemiesKilled);
+        SpawnEnemy();
     }
 
     void HandlePickupWeaponPoint()
@@ -142,10 +150,21 @@ public class GameManager : MonoBehaviour
         SetWeaponPoints(weaponPoints + 1);
     }
 
+    void ResetWeaponPoints()
+    {
+        SetWeaponPoints(0);
+    }
+
     void SetWeaponPoints(int points)
     {
         weaponPoints = points;
         weaponPointsDisplay.SetText(weaponPoints);
+    }
+
+    void SetEnemiesKilled(int val)
+    {
+        enemiesKilled = val;
+        enemiesKilledDisplay.SetText(enemiesKilled);
     }
 
     IEnumerator DelaySpawn()

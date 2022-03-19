@@ -5,6 +5,8 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] Transform levelPart1;
+    [SerializeField] Transform levelPart2;
+    [SerializeField] Transform levelPart3;
     [SerializeField] Transform horizontalGroupHigh;
     [SerializeField] Transform levelPartStart;
     [SerializeField] Transform levelPartCheckpoint;
@@ -12,14 +14,20 @@ public class LevelManager : MonoBehaviour
     const float PLAYER_DISTANCE_SPAWN_LEVEL_PART = 10f;
     const float PLAYER_DISTANCE_SPAWN_CHECKPOINT = 20f;
     const int STARTING_LEVEL_PARTS = 5;
+    float levelPartOffset = 5f;
 
     Player player;
     Vector3 lastEndPos;
     Vector3 lastCheckpointPos;
+    List<Transform> levelPartList;
 
     private void Awake()
     {
         player = FindObjectOfType<Player>();
+        levelPartList = new List<Transform>();
+        levelPartList.Add(levelPart1);
+        levelPartList.Add(levelPart2);
+        levelPartList.Add(levelPart3);
     }
 
     private void Start()
@@ -48,7 +56,11 @@ public class LevelManager : MonoBehaviour
 
     void SpawnLevelPart()
     {
-        Transform lastLevelPart = SpawnLevelPart(levelPart1, lastEndPos);
+        Vector3 endPos = lastEndPos;
+        endPos.x += levelPartOffset;
+
+        Transform levelPart = levelPartList[Random.Range(0, levelPartList.Count)];
+        Transform lastLevelPart = SpawnLevelPart(levelPart, endPos);
         lastEndPos = lastLevelPart.Find("EndPosition").position;
     }
 

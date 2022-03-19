@@ -240,7 +240,7 @@ public class Enemy : MonoBehaviour
         audio.PlayDeath();
         Instantiate(bloodSplatPrefab, transform.position - new Vector3(0.5f, 0f), Quaternion.identity, Camera.main.transform);
         //yield return StartCoroutine(FlashTransparent());
-        GameManager.OnEnemyDied?.Invoke();
+        GameManager.OnEnemyKilled?.Invoke();
         Destroy(gameObject);
         yield break;
     }
