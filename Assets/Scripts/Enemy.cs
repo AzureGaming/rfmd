@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour
 
     public EnemyAudio audio;
 
+    [SerializeField] GameObject bloodSplatPrefab;
+
     [SerializeField] EnemyAnimations anims;
 
 
@@ -235,9 +237,12 @@ public class Enemy : MonoBehaviour
 
     IEnumerator DieRoutine()
     {
-        yield return StartCoroutine(FlashTransparent());
+        audio.PlayDeath();
+        Instantiate(bloodSplatPrefab, transform.position - new Vector3(0.5f, 0f), Quaternion.identity, Camera.main.transform);
+        //yield return StartCoroutine(FlashTransparent());
         GameManager.OnEnemyDied?.Invoke();
         Destroy(gameObject);
+        yield break;
     }
 
     void SetFakeout()

@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
 
     public int GetDamage()
     {
-        return weaponPoints * 5;
+        return weaponPoints * 100;
     }
 
     void SpawnEnemy()

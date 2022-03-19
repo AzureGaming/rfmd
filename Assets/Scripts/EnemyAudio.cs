@@ -50,4 +50,9 @@ public class EnemyAudio : MonoBehaviour
     {
         audioManager.Play("Enemy_Attack_Low_Impact");
     }
+
+    public void PlayDeath()
+    {
+        audioManager.Play("Enemy_Death");
+    }
 }
