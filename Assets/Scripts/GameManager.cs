@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
                 || level == 5 && timeElapsed >= level6Threshold)
             {
                 level++;
-                Enemy.OnLevelUp(level); // TODO: move level into a manager
+                FindObjectOfType<Enemy>().UpdateAnimationSpeeds();
                 Debug.Log($"Reached level {level}!");
             }
 
@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
 
     public int GetDamage()
     {
-        return weaponPoints * 100;
+        return weaponPoints * 10;
     }
 
     void SpawnEnemy()

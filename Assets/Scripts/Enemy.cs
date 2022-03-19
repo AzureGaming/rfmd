@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public delegate void LevelUp(int level);
-    public static LevelUp OnLevelUp;
     public delegate void TakeDamage(int damage);
     public static TakeDamage OnTakeDamage;
     public delegate void Death();
@@ -22,7 +20,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] EnemyAnimations anims;
 
-
+    const int MAX_HEALTH = 200;
     float fakeoutSpeed = 0.07f;
     float fakeoutReverseSpeed = 0.2f;
 
@@ -62,7 +60,6 @@ public class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
-        OnLevelUp += SetAnimationSpeeds;
         OnHighAttackHit += audio.PlayHighAttackHit;
         OnLowAttackHit += audio.PlayLowAttackHit;
         OnTakeDamage += GetHit;
@@ -71,7 +68,6 @@ public class Enemy : MonoBehaviour
 
     private void OnDisable()
     {
-        OnLevelUp -= SetAnimationSpeeds;
         OnHighAttackHit -= audio.PlayHighAttackHit;
         OnLowAttackHit -= audio.PlayLowAttackHit;
         OnTakeDamage -= GetHit;
@@ -87,12 +83,17 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        health = 100;
-        healthBar.SetMaxHealth(health);
-        SetAnimationSpeeds(gameManager.level);
+        SetHealth(MAX_HEALTH);
+        healthBar.SetMaxHealth(MAX_HEALTH);
+        UpdateAnimationSpeeds();
 
         float attackDelay = Random.Range(delayRange[0], delayRange[1]);
-        //attackRoutine = StartCoroutine(Attack(attackDelay));
+        attackRoutine = StartCoroutine(Attack(attackDelay));
+    }
+
+    public void UpdateAnimationSpeeds()
+    {
+        SetAnimationSpeeds(gameManager.level);
     }
 
     public void AttackHighTelegraphEvent()
@@ -147,7 +148,7 @@ public class Enemy : MonoBehaviour
     void GetHit(int damage)
     {
         health -= damage;
-        healthBar.SetHealth(health);
+        SetHealth(health);
         if (health <= 0)
         {
             Die();
@@ -162,6 +163,12 @@ public class Enemy : MonoBehaviour
     {
 
         StartCoroutine(DieRoutine());
+    }
+
+    void SetHealth(int val)
+    {
+        health = val;
+        healthBar.SetHealth(health);
     }
 
     IEnumerator Attack(float delay)
@@ -265,29 +272,32 @@ public class Enemy : MonoBehaviour
                 attackSpeed = level1AttackSpeed;
                 delayRange = level1DelayRange;
                 break;
-            case 2:
-                telegraphRange = level2TelegraphRange;
-                attackSpeed = level2AttackSpeed;
-                delayRange = level2DelayRange;
-                break;
-            case 3:
-                telegraphRange = level3TelegraphRange;
-                attackSpeed = level3AttackSpeed;
-                delayRange = level3DelayRange;
-                isFakeAttackEnabled = true;
-                break;
-            case 4:
-                telegraphRange = level4TelegraphRange;
-                attackSpeed = level4AttackSpeed;
-                delayRange = level4DelayRange;
-                break;
-            case 5:
-                telegraphRange = level5TelegraphRange;
-                attackSpeed = level5AttackSpeed;
-                delayRange = level5DelayRange;
-                break;
+            //case 2:
+            //    telegraphRange = level2TelegraphRange;
+            //    attackSpeed = level2AttackSpeed;
+            //    delayRange = level2DelayRange;
+            //    break;
+            //case 3:
+            //    telegraphRange = level3TelegraphRange;
+            //    attackSpeed = level3AttackSpeed;
+            //    delayRange = level3DelayRange;
+            //    isFakeAttackEnabled = true;
+            //    break;
+            //case 4:
+            //    telegraphRange = level4TelegraphRange;
+            //    attackSpeed = level4AttackSpeed;
+            //    delayRange = level4DelayRange;
+            //    break;
+            //case 5:
+            //    telegraphRange = level5TelegraphRange;
+            //    attackSpeed = level5AttackSpeed;
+            //    delayRange = level5DelayRange;
+            //    break;
             default:
                 Debug.LogWarning($"Invalid level {level}.");
+                telegraphRange = level1TelegraphRange;
+                attackSpeed = level1AttackSpeed;
+                delayRange = level1DelayRange;
                 break;
         }
     }
