@@ -255,6 +255,7 @@ MonoBehaviour:
   levelPart3: {fileID: 7001235656015025998, guid: a8625dcc0cb4e204ab229ec06c514626, type: 3}
   levelPart4: {fileID: 7001235656015025998, guid: d2c31e5c0d86def4591f36e1d95536ef, type: 3}
   levelPart5: {fileID: 7001235656015025998, guid: 1b4548e6faf2a9244883dbcebc7f48a0, type: 3}
+  levelPart6: {fileID: 7001235656015025998, guid: bc5c6e786b4de5e4d8590be836a5bf6b, type: 3}
   horizontalGroupHigh: {fileID: 39147300431469263, guid: a5632d7a5d373ae4b825037c10996b8d, type: 3}
   levelPartStart: {fileID: 1256113690}
   levelPartCheckpoint: {fileID: 5183808390840763165, guid: 9d8b754d6cca85948bab830aefd1f381, type: 3}

@@ -140,12 +140,19 @@ public class Enemy : MonoBehaviour
         Player.OnAttacked?.Invoke("LOW");
     }
 
-    public void Stop()
+    public void StartAttacking()
     {
-        StopCoroutine(attackRoutine);
+        anims.StartCurrent();
+        Attack();
     }
 
-    void GetHit(int damage)
+    public void StopAttacking()
+    {
+        StopCoroutine(attackRoutine);
+        anims.StopCurrent();
+    }
+
+    public void GetHit(int damage)
     {
         health -= damage;
         SetHealth(health);
@@ -169,6 +176,28 @@ public class Enemy : MonoBehaviour
     {
         health = val;
         healthBar.SetHealth(health);
+    }
+
+    void Attack()
+    {
+        attackType = Random.Range(0, 2);
+        telegraphSpeed = Random.Range(telegraphRange[0], telegraphRange[1]);
+        SetFakeout();
+
+        if (isFakeAttack)
+        {
+            telegraphSpeed = fakeoutSpeed;
+        }
+
+        if (attackType == 0)
+        {
+            anims.PlayTelegraphAttackHigh(telegraphSpeed);
+        }
+        else
+        {
+            anims.PlayTelegraphAttackLow(telegraphSpeed);
+        }
+
     }
 
     IEnumerator Attack(float delay)

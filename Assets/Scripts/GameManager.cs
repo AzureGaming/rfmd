@@ -6,11 +6,15 @@ public class GameManager : MonoBehaviour
 {
     public delegate void PickupWeaponPoint();
     public static PickupWeaponPoint OnPickupWeaponPoint;
+    public delegate void PickupComboPoint();
+    public static PickupComboPoint OnPickupComboPoint;
     public delegate void EnemyKilled();
     public static EnemyKilled OnEnemyKilled;
     public delegate void TouchWeaponLocker();
     public static TouchWeaponLocker OnTouchWeaponLocker;
 
+    const int COMBO_DAMAGE = 20;
+    const int WEAPON_DAMAGE_MULTIPLER = 10;
 
     [HideInInspector] public bool isPlayerAlive;
 
@@ -41,6 +45,7 @@ public class GameManager : MonoBehaviour
         OnPickupWeaponPoint += HandlePickupWeaponPoint;
         OnEnemyKilled += HandleEnemyKilled;
         OnTouchWeaponLocker += HandleWeaponLockerTouch;
+        OnPickupComboPoint += HandlePickupComboPoint;
     }
 
     private void OnDisable()
@@ -48,6 +53,7 @@ public class GameManager : MonoBehaviour
         OnPickupWeaponPoint -= HandlePickupWeaponPoint;
         OnEnemyKilled -= HandleEnemyKilled;
         OnTouchWeaponLocker -= HandleWeaponLockerTouch;
+        OnPickupComboPoint -= HandlePickupComboPoint;
     }
 
     private void Awake()
@@ -69,7 +75,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDied()
     {
-        FindObjectOfType<Enemy>().Stop();
+        FindObjectOfType<Enemy>().StopAttacking();
         loseScreen.SetActive(true);
         StopCoroutine(scoreRoutine);
         StartCoroutine(Camera.main.GetComponent<Translate>().Stop());
@@ -123,7 +129,7 @@ public class GameManager : MonoBehaviour
 
     public int GetDamage()
     {
-        return weaponPoints * 10;
+        return weaponPoints * WEAPON_DAMAGE_MULTIPLER;
     }
 
     void SpawnEnemy()
@@ -150,6 +156,21 @@ public class GameManager : MonoBehaviour
         SetWeaponPoints(weaponPoints + 1);
     }
 
+    void HandlePickupComboPoint()
+    {
+        Enemy enemy = null;
+        // enemy stops attacking
+        while (!enemy)
+        {
+            if (FindObjectOfType<Enemy>() != null)
+            {
+                enemy = FindObjectOfType<Enemy>();
+            }
+        }
+        enemy.StopAttacking();
+        StartCoroutine(ComboRoutine());
+    }
+
     void ResetWeaponPoints()
     {
         SetWeaponPoints(0);
@@ -165,6 +186,21 @@ public class GameManager : MonoBehaviour
     {
         enemiesKilled = val;
         enemiesKilledDisplay.SetText(enemiesKilled);
+    }
+
+    IEnumerator ComboRoutine()
+    {
+        // player does animation
+        FindObjectOfType<Player>().ComboAttack();
+        // enemy does animation
+        // apply damage to enemy
+        FindObjectOfType<Enemy>().StopAttacking();
+        Enemy.OnTakeDamage?.Invoke(COMBO_DAMAGE);
+        // player return to regular state
+        yield return new WaitForSeconds(2f);
+        FindObjectOfType<Player>().EndComboAttack();
+        // update score
+        FindObjectOfType<Enemy>()?.StartAttacking(); // enemy may have died from combo
     }
 
     IEnumerator DelaySpawn()

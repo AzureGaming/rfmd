@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     bool queueSlide = false;
     bool grounded = false;
     bool isInvincible = false;
+    bool isComboAttacking = false;
     Coroutine jumpRoutine;
     Coroutine slideRoutine;
     Coroutine invincibleRoutine;
@@ -26,6 +27,8 @@ public class Player : MonoBehaviour
     SpriteRenderer spriteR;
 
     GameManager gameManager;
+
+    Color origColor;
 
     private void OnEnable()
     {
@@ -48,7 +51,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-       audio.PlayRun();
+        audio.PlayRun();
     }
 
     void Update()
@@ -80,6 +83,24 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         IsGrounded();
+    }
+
+    public void ComboAttack()
+    {
+        isComboAttacking = true;
+        // PLACEHOLDER
+        Color targetColor = Color.blue;
+
+        origColor = spriteR.color;
+        spriteR.color = targetColor;
+
+
+    }
+
+    public void EndComboAttack()
+    {
+        isComboAttacking = false;
+        spriteR.color = origColor;
     }
 
     public void CheckDamage(string attackType)
@@ -185,7 +206,7 @@ public class Player : MonoBehaviour
 
     bool IsActionValid()
     {
-        return !isDead && grounded && slideRoutine == null && invincibleRoutine == null;
+        return !isDead && grounded && slideRoutine == null && invincibleRoutine == null && !isComboAttacking;
     }
 
     void IsGrounded()
