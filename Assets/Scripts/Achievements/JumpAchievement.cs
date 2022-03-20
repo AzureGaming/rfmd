@@ -5,7 +5,12 @@ using UnityEngine;
 
 public class JumpAchievement : Achievement
 {
-    public int jumps = 0;
+    [SerializeField] int jumps = 0;
+
+    private void Start()
+    {
+        title = "some title";
+    }
 
     public override bool Requirement()
     {

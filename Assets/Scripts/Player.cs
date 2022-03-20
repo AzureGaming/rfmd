@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
     public delegate void Attacked(string attackType);
     public static Attacked OnAttacked;
+    public delegate void Jumped();
+    public static Jumped OnJumped;
 
     public PlayerAnimation animation;
     public PlayerAudio audio;
@@ -71,11 +73,6 @@ public class Player : MonoBehaviour
                 queueSlide = true;
                 slideRoutine = StartCoroutine(Slide());
 
-            }
-
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                CheckDamage("");
             }
         }
 
@@ -179,6 +176,8 @@ public class Player : MonoBehaviour
 
     IEnumerator Jump()
     {
+        OnJumped.Invoke();
+
         float invincibleTime = 0.3f;
         float timeElapsed = 0f;
         audio.StopRun();

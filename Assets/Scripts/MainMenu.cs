@@ -20,6 +20,11 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
+    public void DeleteAchievementProgress()
+    {
+        FindObjectOfType<PlayerStatsTracker>().DeleteAllPrefs();
+    }
+
     IEnumerator PlayRoutine()
     {
         enemyAnimator.SetTrigger("Awake");

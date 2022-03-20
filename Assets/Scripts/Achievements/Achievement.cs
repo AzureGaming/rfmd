@@ -5,8 +5,8 @@ using UnityEngine;
 
 public abstract class Achievement : MonoBehaviour
 {
-    public string title;
-    public string description;
+    protected string title;
+    protected string description;
     public bool achieved;
 
     public void UpdateCompletion()
@@ -18,7 +18,6 @@ public abstract class Achievement : MonoBehaviour
 
         if (RequirementsMet())
         {
-            Debug.Log($"title {title} achieved");
             achieved = true;
         }
     }
