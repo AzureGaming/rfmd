@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Transform levelPart2;
     [SerializeField] Transform levelPart3;
     [SerializeField] Transform levelPart4;
+    [SerializeField] Transform levelPart5;
     [SerializeField] Transform horizontalGroupHigh;
     [SerializeField] Transform levelPartStart;
     [SerializeField] Transform levelPartCheckpoint;
@@ -31,6 +32,7 @@ public class LevelManager : MonoBehaviour
         levelPartList.Add(levelPart2);
         levelPartList.Add(levelPart3);
         levelPartList.Add(levelPart4);
+        levelPartList.Add(levelPart5);
     }
 
     private void Start()
