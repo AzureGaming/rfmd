@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] GameObject bloodSplatPrefab;
 
     [SerializeField] EnemyAnimations anims;
+    EnemyAttackTiming attackTiming;
 
     const int MAX_HEALTH = 200;
     float fakeoutSpeed = 0.07f;
@@ -79,6 +80,7 @@ public class Enemy : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         spriteR = GetComponent<SpriteRenderer>();
         healthBar = FindObjectOfType<HealthBar>();
+        attackTiming = GetComponent<EnemyAttackTiming>();
     }
 
     private void Start()
@@ -107,6 +109,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            //attackTiming.StartHighAttackTimer();
             audio.PlayAttackHigh();
             anims.PlayAttackHigh(attackSpeed);
         }

@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     SpriteRenderer spriteR;
 
     GameManager gameManager;
+    DodgeTimingManager timingManager;
 
     Color origColor;
 
@@ -45,6 +46,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteR = GetComponent<SpriteRenderer>();
         gameManager = FindObjectOfType<GameManager>();
+        timingManager = FindObjectOfType<DodgeTimingManager>();
 
         gameManager.isPlayerAlive = true;
     }
@@ -141,6 +143,7 @@ public class Player : MonoBehaviour
     void Dodge()
     {
         audio.PlayDodge();
+        //timingManager.DodgeInputted();
         gameManager.PlayerDodged();
     }
 

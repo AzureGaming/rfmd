@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public static PickupWeaponPoint OnPickupWeaponPoint;
     public delegate void PickupComboPoint();
     public static PickupComboPoint OnPickupComboPoint;
+    public delegate void PickupExperiencePoint();
+    public static PickupExperiencePoint OnPickupExperiencePoint;
     public delegate void EnemyKilled();
     public static EnemyKilled OnEnemyKilled;
     public delegate void TouchWeaponLocker();
@@ -35,11 +37,15 @@ public class GameManager : MonoBehaviour
     public int weaponPoints = 0;
 
     int enemiesKilled = 0;
+    int weaponLevel = 1;
+    int weaponExperience = 0;
 
     Coroutine scoreRoutine;
     AudioManager audioManager;
     WeaponPoints weaponPointsDisplay;
     EnemiesKilled enemiesKilledDisplay;
+    WeaponLevel weaponLevelDisplay;
+    DodgeTimingManager dodgeTimingManager;
 
     private void OnEnable()
     {
@@ -47,6 +53,7 @@ public class GameManager : MonoBehaviour
         OnEnemyKilled += HandleEnemyKilled;
         OnTouchWeaponLocker += HandleWeaponLockerTouch;
         OnPickupComboPoint += HandlePickupComboPoint;
+        OnPickupExperiencePoint += HandlePickupExperiencePoint;
     }
 
     private void OnDisable()
@@ -55,6 +62,7 @@ public class GameManager : MonoBehaviour
         OnEnemyKilled -= HandleEnemyKilled;
         OnTouchWeaponLocker -= HandleWeaponLockerTouch;
         OnPickupComboPoint -= HandlePickupComboPoint;
+        OnPickupExperiencePoint -= HandlePickupExperiencePoint;
     }
 
     private void Awake()
@@ -62,6 +70,8 @@ public class GameManager : MonoBehaviour
         audioManager = FindObjectOfType<AudioManager>();
         weaponPointsDisplay = FindObjectOfType<WeaponPoints>();
         enemiesKilledDisplay = FindObjectOfType<EnemiesKilled>();
+        dodgeTimingManager = FindObjectOfType<DodgeTimingManager>();
+        weaponLevelDisplay = FindObjectOfType<WeaponLevel>();
     }
 
     private void Start()
@@ -91,7 +101,7 @@ public class GameManager : MonoBehaviour
     public void PlayerDodged()
     {
         score += dodgePoints;
-        FindObjectOfType<Enemy>().GetHit(PLAYER_BASE_DAMAGE);
+        FindObjectOfType<Enemy>().GetHit(GetDamage());
     }
 
     public int GetLives()
@@ -131,12 +141,22 @@ public class GameManager : MonoBehaviour
 
     public int GetDamage()
     {
-        return weaponPoints * WEAPON_DAMAGE_MULTIPLER;
+        //Debug.Log("calculate damage" + dodgeTimingManager.level);
+        //switch(dodgeTimingManager.level) {
+        //    case DodgeTimingManager.DodgeLevel.LEVEL_1:
+        //        return 10;
+        //    case DodgeTimingManager.DodgeLevel.LEVEL_2:
+        //        return 20;
+        //    case DodgeTimingManager.DodgeLevel.LEVEL_3:
+        //        return 30;
+        //    default:
+        //        return 10;
+        //}
+        return PLAYER_BASE_DAMAGE * weaponLevel;
     }
 
     void SpawnEnemy()
     {
-        Debug.Log("Spawn Enenemy");
         StartCoroutine(DelaySpawn());
     }
 
@@ -171,6 +191,17 @@ public class GameManager : MonoBehaviour
         }
         enemy.StopAttacking();
         StartCoroutine(ComboRoutine());
+    }
+
+    void HandlePickupExperiencePoint()
+    {
+        weaponExperience++;
+        if (weaponExperience >= 3)
+        {
+            weaponLevel++;
+            weaponExperience = 0;
+        }
+        weaponLevelDisplay.SetText(weaponLevel);
     }
 
     void ResetWeaponPoints()

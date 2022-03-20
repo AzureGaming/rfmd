@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class WeaponPoints : MonoBehaviour
+public class WeaponLevel : MonoBehaviour
 {
     TMP_Text text;
 
@@ -14,6 +14,6 @@ public class WeaponPoints : MonoBehaviour
 
     public void SetText(float val)
     {
-        text.text = $"Weapon Points: {val}";
+        text.text = $"Weapon Level: {val}";
     }
 }
