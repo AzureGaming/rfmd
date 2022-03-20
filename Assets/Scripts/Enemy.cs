@@ -64,7 +64,6 @@ public class Enemy : MonoBehaviour
         OnHighAttackHit += audio.PlayHighAttackHit;
         OnLowAttackHit += audio.PlayLowAttackHit;
         OnTakeDamage += GetHit;
-        OnDeath += Die;
     }
 
     private void OnDisable()
@@ -72,7 +71,6 @@ public class Enemy : MonoBehaviour
         OnHighAttackHit -= audio.PlayHighAttackHit;
         OnLowAttackHit -= audio.PlayLowAttackHit;
         OnTakeDamage -= GetHit;
-        OnDeath -= Die;
     }
 
     private void Awake()
@@ -171,8 +169,11 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-
-        StartCoroutine(DieRoutine());
+        OnDeath.Invoke();
+        audio.PlayDeath();
+        Instantiate(bloodSplatPrefab, transform.position - new Vector3(0.5f, 0f), Quaternion.identity, Camera.main.transform);
+        //yield return StartCoroutine(FlashTransparent());
+        Destroy(gameObject);
     }
 
     void SetHealth(int val)
@@ -272,16 +273,6 @@ public class Enemy : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         spriteR.color = origColor;
-    }
-
-    IEnumerator DieRoutine()
-    {
-        audio.PlayDeath();
-        Instantiate(bloodSplatPrefab, transform.position - new Vector3(0.5f, 0f), Quaternion.identity, Camera.main.transform);
-        //yield return StartCoroutine(FlashTransparent());
-        GameManager.OnEnemyKilled?.Invoke();
-        Destroy(gameObject);
-        yield break;
     }
 
     void SetFakeout()

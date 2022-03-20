@@ -10,10 +10,10 @@ public class GameManager : MonoBehaviour
     public static PickupComboPoint OnPickupComboPoint;
     public delegate void PickupExperiencePoint();
     public static PickupExperiencePoint OnPickupExperiencePoint;
-    public delegate void EnemyKilled();
-    public static EnemyKilled OnEnemyKilled;
     public delegate void TouchWeaponLocker();
     public static TouchWeaponLocker OnTouchWeaponLocker;
+    public delegate void DamageEnemy(int damage);
+    public static DamageEnemy OnDamageEnemy;
 
     const int COMBO_DAMAGE = 20;
     const int WEAPON_DAMAGE_MULTIPLER = 10;
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         OnPickupWeaponPoint += HandlePickupWeaponPoint;
-        OnEnemyKilled += HandleEnemyKilled;
+        Enemy.OnDeath += HandleEnemyKilled;
         OnTouchWeaponLocker += HandleWeaponLockerTouch;
         OnPickupComboPoint += HandlePickupComboPoint;
         OnPickupExperiencePoint += HandlePickupExperiencePoint;
@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         OnPickupWeaponPoint -= HandlePickupWeaponPoint;
-        OnEnemyKilled -= HandleEnemyKilled;
+        Enemy.OnDeath -= HandleEnemyKilled;
         OnTouchWeaponLocker -= HandleWeaponLockerTouch;
         OnPickupComboPoint -= HandlePickupComboPoint;
         OnPickupExperiencePoint -= HandlePickupExperiencePoint;
@@ -101,7 +101,10 @@ public class GameManager : MonoBehaviour
     public void PlayerDodged()
     {
         score += dodgePoints;
-        FindObjectOfType<Enemy>().GetHit(GetDamage());
+
+        int damage = GetDamage();
+        OnDamageEnemy.Invoke(damage);
+        FindObjectOfType<Enemy>().GetHit(damage);
     }
 
     public int GetLives()

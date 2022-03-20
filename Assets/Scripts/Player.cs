@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     public static Attacked OnAttacked;
     public delegate void Jumped();
     public static Jumped OnJumped;
+    public delegate void Dodged();
+    public static Dodged OnDodged;
 
     public PlayerAnimation animation;
     public PlayerAudio audio;
@@ -140,6 +142,7 @@ public class Player : MonoBehaviour
     void Dodge()
     {
         audio.PlayDodge();
+        OnDodged.Invoke();
         //timingManager.DodgeInputted();
         gameManager.PlayerDodged();
     }
