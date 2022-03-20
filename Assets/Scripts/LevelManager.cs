@@ -45,7 +45,7 @@ public class LevelManager : MonoBehaviour
             SpawnLevelPart();
         }
 
-        SpawnCheckpoint(new Vector3(player.transform.position.x + PLAYER_DISTANCE_SPAWN_CHECKPOINT, 0f));
+        //SpawnCheckpoint(new Vector3(player.transform.position.x + PLAYER_DISTANCE_SPAWN_CHECKPOINT, 0f));
     }
 
     void Update()
@@ -55,10 +55,10 @@ public class LevelManager : MonoBehaviour
             SpawnLevelPart();
         }
 
-        if (Vector3.Distance(player.transform.position, lastCheckpointPos) < PLAYER_DISTANCE_SPAWN_CHECKPOINT)
-        {
-            SpawnCheckpoint();
-        }
+        //if (Vector3.Distance(player.transform.position, lastCheckpointPos) < PLAYER_DISTANCE_SPAWN_CHECKPOINT)
+        //{
+        //    SpawnCheckpoint();
+        //}
     }
 
     void SpawnLevelPart()

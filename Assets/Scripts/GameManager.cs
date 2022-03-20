@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     const int COMBO_DAMAGE = 20;
     const int WEAPON_DAMAGE_MULTIPLER = 10;
+    const int PLAYER_BASE_DAMAGE = 30;
 
     [HideInInspector] public bool isPlayerAlive;
 
@@ -90,6 +91,7 @@ public class GameManager : MonoBehaviour
     public void PlayerDodged()
     {
         score += dodgePoints;
+        FindObjectOfType<Enemy>().GetHit(PLAYER_BASE_DAMAGE);
     }
 
     public int GetLives()
@@ -119,7 +121,7 @@ public class GameManager : MonoBehaviour
                 || level == 5 && timeElapsed >= level6Threshold)
             {
                 level++;
-                FindObjectOfType<Enemy>().UpdateAnimationSpeeds();
+                FindObjectOfType<Enemy>()?.UpdateAnimationSpeeds();
                 Debug.Log($"Reached level {level}!");
             }
 

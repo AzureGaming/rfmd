@@ -227,7 +227,7 @@ public class Enemy : MonoBehaviour
     IEnumerator FlashRed()
     {
         float timeElapsed = 0f;
-        float totalTime = 0.023f;
+        float totalTime = 0.001f;
         Color origColor = spriteR.color;
         Color redColor = Color.red;
         redColor.a = 50;
