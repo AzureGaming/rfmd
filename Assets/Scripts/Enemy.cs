@@ -77,7 +77,7 @@ public class Enemy : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
         spriteR = GetComponent<SpriteRenderer>();
-        healthBar = FindObjectOfType<HealthBar>();
+        healthBar = GameObject.FindGameObjectWithTag("EnemyHealthBar").GetComponent<HealthBar>();
         attackTiming = GetComponent<EnemyAttackTiming>();
     }
 

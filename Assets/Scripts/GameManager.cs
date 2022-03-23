@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     const int COMBO_DAMAGE = 20;
     const int WEAPON_DAMAGE_MULTIPLER = 10;
     const int PLAYER_BASE_DAMAGE = 30;
+    const int WEAPON_LEVEL_UP_THRESHOLD = 50;
 
     [HideInInspector] public bool isPlayerAlive;
 
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] float level6Threshold = 72f;
     [SerializeField] GameObject loseScreen;
     [SerializeField] GameObject enemyPrefab;
+    [SerializeField] HealthBar experienceBar;
 
     public int level = 1;
     public int score;
@@ -77,6 +79,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         ResetWeaponPoints();
+        experienceBar.SetMaxHealth(WEAPON_LEVEL_UP_THRESHOLD, false);
         enemiesKilled = 0;
         FindObjectOfType<Lives>().Init(lives);
         scoreRoutine = StartCoroutine(ScoreRoutine());
@@ -199,11 +202,12 @@ public class GameManager : MonoBehaviour
     void HandlePickupExperiencePoint()
     {
         weaponExperience++;
-        if (weaponExperience >= 3)
+        if (weaponExperience >= WEAPON_LEVEL_UP_THRESHOLD)
         {
             weaponLevel++;
             weaponExperience = 0;
         }
+        experienceBar.SetHealth(weaponExperience);
         weaponLevelDisplay.SetText(weaponLevel);
     }
 
