@@ -14,27 +14,46 @@ public class GameManager : MonoBehaviour
     public static TouchWeaponLocker OnTouchWeaponLocker;
     public delegate void DamageEnemy(int damage);
     public static DamageEnemy OnDamageEnemy;
+    public delegate void DifficultyUp(int level);
+    public static DifficultyUp OnDifficultyUp;
 
     const int COMBO_DAMAGE = 20;
     const int WEAPON_DAMAGE_MULTIPLER = 10;
-    const int PLAYER_BASE_DAMAGE = 30;
-    const int WEAPON_LEVEL_UP_THRESHOLD = 50;
+    const int PLAYER_BASE_DAMAGE = 50;
+    const int WEAPON_LEVEL_UP_THRESHOLD = 25;
+    const int SCORE_INCREMENT = 1;
 
-    [HideInInspector] public bool isPlayerAlive;
+    const int LEVEL1_SCORE = 200;
+    const int LEVEL2_SCORE = 300;
+    const int LEVEL3_SCORE = 600;
+
+    public const float CAMERA_SPEED_LEVEL_0 = 2f;
+    public const float CAMERA_SPEED_LEVEL_1 = 2.5f;
+    public const float CAMERA_SPEED_LEVEL_2 = 3f;
+    public const float CAMERA_SPEED_LEVEL_3 = 4f;
+
+    public const float PARALLAX_FRONT_ROCKS_LEVEL_0 = 0.1f;
+    public const float PARALLAX_BACK_ROCKS_LEVEL_0 = 0.1f;
+    public const float PARALLAX_MOUNTAINS_LEVEL_0 = 0.7f;
+    public const float PARALLAX_BACKGROUND_LEVEL_0 = 0.9f;
+    public const float PARALLAX_GROUND_LEVEL_0 = 0f;
+
+    public const float PARALLAX_FRONT_ROCKS_LEVEL_1 = 0.1f;
+    public const float PARALLAX_BACK_ROCKS_LEVEL_1 = 0.1f;
+    public const float PARALLAX_MOUNTAINS_LEVEL_1 = 0.7f;
+    public const float PARALLAX_BACKGROUND_LEVEL_1 = 0.9f;
+    public const float PARALLAX_GROUND_LEVEL_1 = 0f;
+
 
     [SerializeField] int lives;
     [SerializeField] int dodgePoints = 50;
-    [SerializeField] int scoreIncrement;
-    [SerializeField] float level2Threshold = 15f;
-    [SerializeField] float level3Threshold = 30f;
-    [SerializeField] float level4Threshold = 45f;
-    [SerializeField] float level5Threshold = 58.5f;
-    [SerializeField] float level6Threshold = 72f;
     [SerializeField] GameObject loseScreen;
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] HealthBar experienceBar;
+    [SerializeField] GameObject levelUpText;
 
-    public int level = 1;
+    [HideInInspector] public bool isPlayerAlive;
+    public int level;
     public int score;
     public int weaponPoints = 0;
 
@@ -47,7 +66,7 @@ public class GameManager : MonoBehaviour
     WeaponPoints weaponPointsDisplay;
     EnemiesKilled enemiesKilledDisplay;
     WeaponLevel weaponLevelDisplay;
-    DodgeTimingManager dodgeTimingManager;
+    Score scoreDisplay;
 
     private void OnEnable()
     {
@@ -72,18 +91,20 @@ public class GameManager : MonoBehaviour
         audioManager = FindObjectOfType<AudioManager>();
         weaponPointsDisplay = FindObjectOfType<WeaponPoints>();
         enemiesKilledDisplay = FindObjectOfType<EnemiesKilled>();
-        dodgeTimingManager = FindObjectOfType<DodgeTimingManager>();
         weaponLevelDisplay = FindObjectOfType<WeaponLevel>();
+        scoreDisplay = FindObjectOfType<Score>();
     }
 
     private void Start()
     {
+        SetLevel(0);
+        SetScore(0);
         ResetWeaponPoints();
+        SetEnemiesKilled(enemiesKilled);
         experienceBar.SetMaxHealth(WEAPON_LEVEL_UP_THRESHOLD, false);
-        enemiesKilled = 0;
         FindObjectOfType<Lives>().Init(lives);
+
         scoreRoutine = StartCoroutine(ScoreRoutine());
-        StartCoroutine(LevelUpRoutine());
         audioManager.Play("Background_Music");
     }
 
@@ -103,7 +124,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDodged()
     {
-        score += dodgePoints;
+        SetScore(score + dodgePoints);
 
         int damage = GetDamage();
         OnDamageEnemy.Invoke(damage);
@@ -119,45 +140,13 @@ public class GameManager : MonoBehaviour
     {
         while (isPlayerAlive)
         {
-            score += scoreIncrement;
+            SetScore(score + SCORE_INCREMENT);
             yield return new WaitForSeconds(0.5f);
-        }
-    }
-
-    IEnumerator LevelUpRoutine()
-    {
-        float timeElapsed = 0f;
-        while (isPlayerAlive)
-        {
-            timeElapsed += Time.deltaTime;
-            if (level == 1 && timeElapsed >= level2Threshold
-                || level == 2 && timeElapsed >= level3Threshold
-                || level == 3 && timeElapsed >= level4Threshold
-                || level == 4 && timeElapsed >= level5Threshold
-                || level == 5 && timeElapsed >= level6Threshold)
-            {
-                level++;
-                FindObjectOfType<Enemy>()?.UpdateAnimationSpeeds();
-                Debug.Log($"Reached level {level}!");
-            }
-
-            yield return null;
         }
     }
 
     public int GetDamage()
     {
-        //Debug.Log("calculate damage" + dodgeTimingManager.level);
-        //switch(dodgeTimingManager.level) {
-        //    case DodgeTimingManager.DodgeLevel.LEVEL_1:
-        //        return 10;
-        //    case DodgeTimingManager.DodgeLevel.LEVEL_2:
-        //        return 20;
-        //    case DodgeTimingManager.DodgeLevel.LEVEL_3:
-        //        return 30;
-        //    default:
-        //        return 10;
-        //}
         return PLAYER_BASE_DAMAGE * weaponLevel;
     }
 
@@ -222,6 +211,29 @@ public class GameManager : MonoBehaviour
         weaponPointsDisplay.SetText(weaponPoints);
     }
 
+    void SetScore(int val)
+    {
+        score = val;
+        scoreDisplay.SetText(score);
+
+        if (score >= LEVEL1_SCORE && level == 0)
+        {
+            SetLevel(1);
+        }
+
+        if (score >= LEVEL2_SCORE && level == 1)
+        {
+            SetLevel(2);
+        }
+
+        if (score >= LEVEL3_SCORE && level == 2)
+        {
+            SetLevel(3);
+        }
+
+        //FindObjectOfType<Enemy>()?.UpdateAnimationSpeeds(); // enemy may be dead
+    }
+
     void SetEnemiesKilled(int val)
     {
         enemiesKilled = val;
@@ -247,5 +259,16 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         Instantiate(enemyPrefab, Camera.main.transform);
+    }
+
+    void SetLevel(int val)
+    {
+        level = val;
+        OnDifficultyUp.Invoke(level);
+        if (level > 0)
+        {
+            levelUpText.SetActive(true);
+        }
+        Debug.Log($"Reached level {level}!");
     }
 }

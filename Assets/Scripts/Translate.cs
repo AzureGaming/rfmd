@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class Translate : MonoBehaviour
 {
-    [SerializeField] float speed = 0f;
+    [SerializeField] float speed = 1f;
 
+    private void OnEnable()
+    {
+        GameManager.OnDifficultyUp += HandleDifficultyUp;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnDifficultyUp -= HandleDifficultyUp;
+    }
     private void Update()
     {
         Vector3 dir = transform.right;
@@ -24,6 +33,25 @@ public class Translate : MonoBehaviour
             }
             timeElapsed += Time.deltaTime;
             yield return null;
+        }
+    }
+
+    void HandleDifficultyUp(int level)
+    {
+        switch (level)
+        {
+            case 1:
+                speed = GameManager.CAMERA_SPEED_LEVEL_1;
+                break;
+            case 2:
+                speed = GameManager.CAMERA_SPEED_LEVEL_2;
+                break;
+            case 3:
+                speed = GameManager.CAMERA_SPEED_LEVEL_3;
+                break;
+            default:
+                speed = GameManager.CAMERA_SPEED_LEVEL_0;
+                break;
         }
     }
 }

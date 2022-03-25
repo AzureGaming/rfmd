@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ParallaxBackground : MonoBehaviour
 {
-    [SerializeField] float parallax = 1f;
+    public float parallax = 1f;
     Transform camTransform;
     Vector3 lastCamPos;
     float textureUnitSizeX;

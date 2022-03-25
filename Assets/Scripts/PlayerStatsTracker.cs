@@ -92,7 +92,6 @@ public class PlayerStatsTracker : MonoBehaviour
         PlayerPrefs.SetInt(KEY_ENEMIES_KILLED, loaded.enemiesKilled);
         ///////////////////////////////////
 
-        Debug.Log("SaveToPrefs complete.");
         LogLoadedPrefs();
     }
 

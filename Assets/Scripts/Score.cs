@@ -6,16 +6,14 @@ using UnityEngine;
 public class Score : MonoBehaviour
 {
     TMP_Text text;
-    GameManager gameManager;
 
     private void Awake()
     {
         text = GetComponent<TMP_Text>();
-        gameManager = FindObjectOfType<GameManager>();
     }
 
-    void Update()
+    public void SetText(int val)
     {
-        text.text = $"Score: {gameManager.score}";
+        text.text = $"Score: {val}";
     }
 }

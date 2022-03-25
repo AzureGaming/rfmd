@@ -19,29 +19,28 @@ public class Enemy : MonoBehaviour
     [SerializeField] GameObject bloodSplatPrefab;
 
     [SerializeField] EnemyAnimations anims;
-    EnemyAttackTiming attackTiming;
 
-    const int MAX_HEALTH = 200;
+    const int MAX_HEALTH = 150;
     float fakeoutSpeed = 0.07f;
     float fakeoutReverseSpeed = 0.2f;
 
-    float[] level1DelayRange = new float[] { 3f, 5f };
-    float[] level2DelayRange = new float[] { 2f, 4f };
-    float[] level3DelayRange = new float[] { 1f, 3f };
-    float[] level4DelayRange = new float[] { 1f, 2f };
-    float[] level5DelayRange = new float[] { 1f, 2f };
+    float[] DELAY_RANGE_LEVEL_0 = new float[] { 3f, 5f };
+    float[] DELAY_RANGE_LEVEL_1 = new float[] { 2f, 4f };
+    float[] DELAY_RANGE_LEVEL_2 = new float[] { 1f, 3f };
+    float[] DELAY_RANGE_LEVEL_3 = new float[] { 1f, 2f };
+    float[] DELAY_RANGE_LEVEL_4 = new float[] { 1f, 2f };
 
-    float[] level1TelegraphRange = new float[] { 0.1f, 0.1f };
-    float[] level2TelegraphRange = new float[] { 0.1f, 0.1f };
-    float[] level3TelegraphRange = new float[] { 0.1f, 0.2f };
-    float[] level4TelegraphRange = new float[] { 0.1f, 0.2f };
-    float[] level5TelegraphRange = new float[] { 0.1f, 0.2f };
+    float[] TELEGRAPH_RANGE_LEVEL_0 = new float[] { 0.05f, 0.05f };
+    float[] TELEGRAPH_RANGE_LEVEL_1 = new float[] { 0.08f, 0.08f };
+    float[] TELEGRAPH_RANGE_LEVEL_2 = new float[] { 0.1f, 0.2f };
+    float[] TELEGRAPH_RANGE_LEVEL_3 = new float[] { 0.1f, 0.2f };
+    float[] TELEGRAPH_RANGE_LEVEL_4 = new float[] { 0.1f, 0.2f };
 
-    float level1AttackSpeed = 0.2f;
-    float level2AttackSpeed = 0.2f;
-    float level3AttackSpeed = 0.2f;
-    float level4AttackSpeed = 0.2f;
-    float level5AttackSpeed = 0.2f;
+    float ATTACK_SPEED_LEVEL_0 = 0.2f;
+    float ATTACK_SPEED_LEVEL_1 = 0.2f;
+    float ATTACK_SPEED_LEVEL_2 = 0.2f;
+    float ATTACK_SPEED_LEVEL_3 = 0.2f;
+    float ATTACK_SPEED_LEVEL_4 = 0.2f;
 
     float[] telegraphRange;
     float[] delayRange;
@@ -78,7 +77,6 @@ public class Enemy : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         spriteR = GetComponent<SpriteRenderer>();
         healthBar = GameObject.FindGameObjectWithTag("EnemyHealthBar").GetComponent<HealthBar>();
-        attackTiming = GetComponent<EnemyAttackTiming>();
     }
 
     private void Start()
@@ -88,6 +86,7 @@ public class Enemy : MonoBehaviour
         UpdateAnimationSpeeds();
 
         float attackDelay = Random.Range(delayRange[0], delayRange[1]);
+
         attackRoutine = StartCoroutine(Attack(attackDelay));
     }
 
@@ -155,8 +154,7 @@ public class Enemy : MonoBehaviour
 
     public void GetHit(int damage)
     {
-        health -= damage;
-        SetHealth(health);
+        SetHealth(health - damage);
         if (health <= 0)
         {
             Die();
@@ -172,7 +170,6 @@ public class Enemy : MonoBehaviour
         OnDeath.Invoke();
         audio.PlayDeath();
         Instantiate(bloodSplatPrefab, transform.position - new Vector3(0.5f, 0f), Quaternion.identity, Camera.main.transform);
-        //yield return StartCoroutine(FlashTransparent());
         Destroy(gameObject);
     }
 
@@ -252,28 +249,6 @@ public class Enemy : MonoBehaviour
         spriteR.color = origColor;
     }
 
-    IEnumerator FlashTransparent()
-    {
-        float timeElapsed = 0f;
-        float totalTime = 0.023f;
-        Color origColor = spriteR.color;
-        Color clearColor = Color.clear;
-
-        while (timeElapsed <= totalTime)
-        {
-            if (spriteR.color == origColor)
-            {
-                spriteR.color = clearColor;
-            }
-            else
-            {
-                spriteR.color = origColor;
-            }
-            timeElapsed += Time.deltaTime;
-            yield return new WaitForSeconds(0.1f);
-        }
-        spriteR.color = origColor;
-    }
 
     void SetFakeout()
     {
@@ -291,36 +266,36 @@ public class Enemy : MonoBehaviour
         switch (level)
         {
             case 1:
-                telegraphRange = level1TelegraphRange;
-                attackSpeed = level1AttackSpeed;
-                delayRange = level1DelayRange;
+                telegraphRange = TELEGRAPH_RANGE_LEVEL_0;
+                attackSpeed = ATTACK_SPEED_LEVEL_0;
+                delayRange = DELAY_RANGE_LEVEL_0;
                 break;
-            //case 2:
-            //    telegraphRange = level2TelegraphRange;
-            //    attackSpeed = level2AttackSpeed;
-            //    delayRange = level2DelayRange;
-            //    break;
+            case 2:
+                telegraphRange = TELEGRAPH_RANGE_LEVEL_1;
+                attackSpeed = ATTACK_SPEED_LEVEL_1;
+                delayRange = DELAY_RANGE_LEVEL_1;
+                break;
             //case 3:
-            //    telegraphRange = level3TelegraphRange;
-            //    attackSpeed = level3AttackSpeed;
-            //    delayRange = level3DelayRange;
+            //    telegraphRange = TELEGRAPH_RANGE_LEVEL_2;
+            //    attackSpeed = ATTACK_SPEED_LEVEL_2;
+            //    delayRange = DELAY_RANGE_LEVEL_2;
             //    isFakeAttackEnabled = true;
             //    break;
             //case 4:
             //    telegraphRange = level4TelegraphRange;
-            //    attackSpeed = level4AttackSpeed;
-            //    delayRange = level4DelayRange;
+            //    attackSpeed = level4ATTACK_SPEED;
+            //    delayRange = level4DELAY_RANGE;
             //    break;
             //case 5:
             //    telegraphRange = level5TelegraphRange;
-            //    attackSpeed = level5AttackSpeed;
-            //    delayRange = level5DelayRange;
+            //    attackSpeed = level5ATTACK_SPEED;
+            //    delayRange = level5DELAY_RANGE;
             //    break;
             default:
                 Debug.LogWarning($"Invalid level {level}.");
-                telegraphRange = level1TelegraphRange;
-                attackSpeed = level1AttackSpeed;
-                delayRange = level1DelayRange;
+                telegraphRange = TELEGRAPH_RANGE_LEVEL_0;
+                attackSpeed = ATTACK_SPEED_LEVEL_0;
+                delayRange = DELAY_RANGE_LEVEL_0;
                 break;
         }
     }
