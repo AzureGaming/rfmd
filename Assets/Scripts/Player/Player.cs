@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
     public delegate void Attacked(string attackType);
     public static Attacked OnAttacked;
+    public delegate void Hit();
+    public static Hit OnHit;
     public delegate void Jumped();
     public static Jumped OnJumped;
     public delegate void Dodged();
@@ -150,7 +152,7 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        gameManager.PlayerHit();
+        OnHit?.Invoke();
         if (gameManager.GetLives() < 1)
         {
             Die();

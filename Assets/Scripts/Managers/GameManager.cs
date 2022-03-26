@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
     {
         OnPickupWeaponPoint += HandlePickupWeaponPoint;
         Enemy.OnDeath += HandleEnemyKilled;
+        Player.OnHit += PlayerHit;
         OnTouchWeaponLocker += HandleWeaponLockerTouch;
         OnPickupComboPoint += HandlePickupComboPoint;
         OnPickupExperiencePoint += HandlePickupExperiencePoint;
@@ -63,6 +64,7 @@ public class GameManager : MonoBehaviour
     {
         OnPickupWeaponPoint -= HandlePickupWeaponPoint;
         Enemy.OnDeath -= HandleEnemyKilled;
+        Player.OnHit -= PlayerHit;
         OnTouchWeaponLocker -= HandleWeaponLockerTouch;
         OnPickupComboPoint -= HandlePickupComboPoint;
         OnPickupExperiencePoint -= HandlePickupExperiencePoint;
@@ -98,7 +100,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(Camera.main.GetComponent<Translate>().Stop());
     }
 
-    public void PlayerHit()
+    void PlayerHit()
     {
         lives--;
         FindObjectOfType<Lives>().SetHearts(lives);
