@@ -23,7 +23,7 @@ public class CameraShake : MonoBehaviour
     IEnumerator ShakeRoutine()
     {
         float timeElapsed = 0f;
-        float totalTime = 1f;
+        float totalTime = 0.1f;
         Vector3 origPos = Camera.main.transform.localPosition;
         while (timeElapsed <= totalTime)
         {
