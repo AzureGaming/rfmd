@@ -11,7 +11,7 @@ public class ParallaxBackground : MonoBehaviour
 
     private void Start()
     {
-        camTransform = Camera.main.transform;
+        camTransform = transform;
         lastCamPos = camTransform.position;
         Sprite sprite = GetComponent<SpriteRenderer>().sprite;
         Texture2D texture = sprite.texture;
@@ -34,4 +34,6 @@ public class ParallaxBackground : MonoBehaviour
             transform.position = new Vector3(camTransform.position.x - offset, transform.position.y);
         }
     }
+
+
 }

@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2065611994}
   - component: {fileID: 2065611996}
-  - component: {fileID: 2065611995}
+  - component: {fileID: 62774879}
+  - component: {fileID: 62774882}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: BG_Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,13 +78,13 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 100, y: 1.6}
+  m_Size: {x: 13, y: 1.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2065611995
+--- !u!114 &62774879
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,10 +93,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 2065611993}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87865b1233fffd64688905f8f73f3cbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 43fa6cbc0ffcaf54b8be9d391dbd3f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallax: 0.00001
+--- !u!114 &62774882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065611993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dacf32985364fc94096992db25608a96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
 --- !u!1 &5825444714839623237
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,10 +119,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5825444714839623235}
   - component: {fileID: 5825444714839623234}
-  - component: {fileID: 5825444714839623232}
+  - component: {fileID: 848765955}
+  - component: {fileID: 848765958}
   m_Layer: 0
   m_Name: Front Rocks
-  m_TagString: Untagged
+  m_TagString: BG_Front_Rocks
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,13 +187,13 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 100, y: 1.6}
+  m_Size: {x: 13, y: 1.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5825444714839623232
+--- !u!114 &848765955
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -188,10 +202,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 5825444714839623237}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87865b1233fffd64688905f8f73f3cbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 43fa6cbc0ffcaf54b8be9d391dbd3f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallax: 0.01
+--- !u!114 &848765958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5825444714839623237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dacf32985364fc94096992db25608a96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
 --- !u!1 &5825444714880454848
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,11 +266,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38d8e6356821d1f4cbf17b46beb94784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frontRocks: {fileID: 5825444714839623232}
-  backRocks: {fileID: 5825444715540463064}
-  mountains: {fileID: 5825444715594825553}
-  background: {fileID: 5825444715302292751}
-  ground: {fileID: 2065611995}
+  frontRocks: {fileID: 848765958}
+  backRocks: {fileID: 1289499068}
+  mountains: {fileID: 1911261235}
+  background: {fileID: 454166227}
+  ground: {fileID: 62774882}
 --- !u!1 &5825444715302292736
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,10 +281,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5825444715302292750}
   - component: {fileID: 5825444715302292737}
-  - component: {fileID: 5825444715302292751}
+  - component: {fileID: 454166227}
+  - component: {fileID: 454166230}
   m_Layer: 0
   m_Name: Background
-  m_TagString: Untagged
+  m_TagString: BG_Mountains
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -322,13 +349,13 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 100, y: 1.6}
+  m_Size: {x: 13, y: 1.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5825444715302292751
+--- !u!114 &454166227
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -337,10 +364,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 5825444715302292736}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87865b1233fffd64688905f8f73f3cbd, type: 3}
+  m_Script: {fileID: 11500000, guid: dacf32985364fc94096992db25608a96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallax: 0.9
+  speed: 1
+--- !u!114 &454166230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5825444715302292736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43fa6cbc0ffcaf54b8be9d391dbd3f0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5825444715540463069
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,10 +390,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5825444715540463067}
   - component: {fileID: 5825444715540463066}
-  - component: {fileID: 5825444715540463064}
+  - component: {fileID: 1289499065}
+  - component: {fileID: 1289499068}
   m_Layer: 0
   m_Name: Back Rocks
-  m_TagString: Untagged
+  m_TagString: BG_Back_Rocks
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -418,13 +458,13 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 100, y: 1.6}
+  m_Size: {x: 13, y: 1.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5825444715540463064
+--- !u!114 &1289499065
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -433,10 +473,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 5825444715540463069}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87865b1233fffd64688905f8f73f3cbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 43fa6cbc0ffcaf54b8be9d391dbd3f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallax: 0.1
+--- !u!114 &1289499068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5825444715540463069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dacf32985364fc94096992db25608a96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
 --- !u!1 &5825444715594825554
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,10 +499,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5825444715594825552}
   - component: {fileID: 5825444715594825555}
-  - component: {fileID: 5825444715594825553}
+  - component: {fileID: 1911261232}
+  - component: {fileID: 1911261235}
   m_Layer: 0
   m_Name: Mountains
-  m_TagString: Untagged
+  m_TagString: BG_Mountains
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -514,13 +567,13 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 100, y: 1.6}
+  m_Size: {x: 13, y: 1.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5825444715594825553
+--- !u!114 &1911261232
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -529,7 +582,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 5825444715594825554}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87865b1233fffd64688905f8f73f3cbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 43fa6cbc0ffcaf54b8be9d391dbd3f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallax: 0.7
+--- !u!114 &1911261235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5825444715594825554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dacf32985364fc94096992db25608a96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1

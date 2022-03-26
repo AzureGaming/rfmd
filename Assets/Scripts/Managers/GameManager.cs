@@ -27,24 +27,6 @@ public class GameManager : MonoBehaviour
     const int LEVEL2_SCORE = 300;
     const int LEVEL3_SCORE = 600;
 
-    public const float CAMERA_SPEED_LEVEL_0 = 2f;
-    public const float CAMERA_SPEED_LEVEL_1 = 2.5f;
-    public const float CAMERA_SPEED_LEVEL_2 = 3f;
-    public const float CAMERA_SPEED_LEVEL_3 = 4f;
-
-    public const float PARALLAX_FRONT_ROCKS_LEVEL_0 = 0.1f;
-    public const float PARALLAX_BACK_ROCKS_LEVEL_0 = 0.1f;
-    public const float PARALLAX_MOUNTAINS_LEVEL_0 = 0.7f;
-    public const float PARALLAX_BACKGROUND_LEVEL_0 = 0.9f;
-    public const float PARALLAX_GROUND_LEVEL_0 = 0f;
-
-    public const float PARALLAX_FRONT_ROCKS_LEVEL_1 = 0.1f;
-    public const float PARALLAX_BACK_ROCKS_LEVEL_1 = 0.1f;
-    public const float PARALLAX_MOUNTAINS_LEVEL_1 = 0.7f;
-    public const float PARALLAX_BACKGROUND_LEVEL_1 = 0.9f;
-    public const float PARALLAX_GROUND_LEVEL_1 = 0f;
-
-
     [SerializeField] int lives;
     [SerializeField] int dodgePoints = 50;
     [SerializeField] GameObject loseScreen;
@@ -52,7 +34,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] HealthBar experienceBar;
     [SerializeField] GameObject levelUpText;
 
-    [HideInInspector] public bool isPlayerAlive;
+    public bool isPlayerAlive;
     public int level;
     public int score;
     public int weaponPoints = 0;
@@ -101,11 +83,11 @@ public class GameManager : MonoBehaviour
         SetScore(0);
         ResetWeaponPoints();
         SetEnemiesKilled(enemiesKilled);
-        experienceBar.SetMaxHealth(WEAPON_LEVEL_UP_THRESHOLD, false);
-        FindObjectOfType<Lives>().Init(lives);
+        experienceBar?.SetMaxHealth(WEAPON_LEVEL_UP_THRESHOLD, false);
+        FindObjectOfType<Lives>()?.Init(lives);
 
         scoreRoutine = StartCoroutine(ScoreRoutine());
-        audioManager.Play("Background_Music");
+        audioManager?.Play("Background_Music");
     }
 
     public void PlayerDied()
@@ -208,13 +190,13 @@ public class GameManager : MonoBehaviour
     void SetWeaponPoints(int points)
     {
         weaponPoints = points;
-        weaponPointsDisplay.SetText(weaponPoints);
+        weaponPointsDisplay?.SetText(weaponPoints);
     }
 
     void SetScore(int val)
     {
         score = val;
-        scoreDisplay.SetText(score);
+        scoreDisplay?.SetText(score);
 
         if (score >= LEVEL1_SCORE && level == 0)
         {
@@ -237,7 +219,7 @@ public class GameManager : MonoBehaviour
     void SetEnemiesKilled(int val)
     {
         enemiesKilled = val;
-        enemiesKilledDisplay.SetText(enemiesKilled);
+        enemiesKilledDisplay?.SetText(enemiesKilled);
     }
 
     IEnumerator ComboRoutine()
@@ -265,7 +247,7 @@ public class GameManager : MonoBehaviour
     {
         level = val;
         OnDifficultyUp.Invoke(level);
-        if (level > 0)
+        if (level > 0 && levelUpText != null)
         {
             levelUpText.SetActive(true);
         }

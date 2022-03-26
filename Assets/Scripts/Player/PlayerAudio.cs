@@ -16,31 +16,34 @@ public class PlayerAudio : MonoBehaviour
 
     public void PlaySlide()
     {
-        audioManager.Play("Player_Slide");
+        audioManager?.Play("Player_Slide");
     }
 
     public void PlayDodge()
     {
-        audioManager.Play("Player_Dodge");
+        audioManager?.Play("Player_Dodge");
     }
 
     public void PlayJump()
     {
-        audioManager.Play("Player_Jump");
+        audioManager?.Play("Player_Jump");
     }
 
     public void PlayDeath()
     {
-        audioManager.Play("Player_Death");
+        audioManager?.Play("Player_Death");
     }
 
     public void PlayRun()
     {
-       stopRun = audioManager.Play("Player_Run");
+        stopRun = audioManager?.Play("Player_Run");
     }
 
     public void StopRun()
     {
-        stopRun();
+        if (stopRun != null)
+        {
+            stopRun();
+        }
     }
 }

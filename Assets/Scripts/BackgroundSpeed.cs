@@ -1,14 +1,27 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BackgroundSpeed : MonoBehaviour
 {
-    [SerializeField] ParallaxBackground frontRocks;
-    [SerializeField] ParallaxBackground backRocks;
-    [SerializeField] ParallaxBackground mountains;
-    [SerializeField] ParallaxBackground background;
-    [SerializeField] ParallaxBackground ground;
+    const string GROUND_TAG = "BG_Ground";
+    const string BACKGROUND_TAG = "BG_Background";
+    const string MOUNTAINS_TAG = "BG_Mountains";
+    const string BACK_ROCKS_TAG = "BG_Back_Rocks";
+    const string FRONT_ROCKS_TAG = "BG_Front_Rocks";
+
+    const float FRONT_ROCKS_SPEED_SPEED_LEVEL_0 = 0.5f;
+    const float BACK_ROCKS_SPEED_LEVEL_0 = 0.5f;
+    const float MOUNTAINS_SPEED_LEVEL_0 = 0.2f;
+    const float BACKGROUND_SPEED_LEVEL_0 = 0.1f;
+    const float GROUND_SPEED_LEVEL_0 = 1f;
+
+    const float FRONT_ROCKS_SPEED_LEVEL_1 = 1f;
+    const float BACK_ROCKS_SPEED_LEVEL_1 = 1f;
+    const float MOUNTAINS_SPEED_LEVEL_1 = 0.3f;
+    const float BACKGROUND_SPEED_LEVEL_1 = 0.1f;
+    const float GROUND_SPEED_LEVEL_1 = 1.5f;
+
 
     private void OnEnable()
     {
@@ -25,19 +38,28 @@ public class BackgroundSpeed : MonoBehaviour
         switch (level)
         {
             case 1:
-                frontRocks.parallax = GameManager.PARALLAX_FRONT_ROCKS_LEVEL_1;
-                backRocks.parallax = GameManager.PARALLAX_BACK_ROCKS_LEVEL_1;
-                mountains.parallax = GameManager.PARALLAX_MOUNTAINS_LEVEL_1;
-                background.parallax = GameManager.PARALLAX_BACKGROUND_LEVEL_1;
-                ground.parallax = GameManager.PARALLAX_GROUND_LEVEL_1;
+                SetPrefabSpeeds(FRONT_ROCKS_TAG, FRONT_ROCKS_SPEED_LEVEL_1);
+                SetPrefabSpeeds(BACK_ROCKS_TAG, BACK_ROCKS_SPEED_LEVEL_1);
+                SetPrefabSpeeds(MOUNTAINS_TAG, MOUNTAINS_SPEED_LEVEL_1);
+                SetPrefabSpeeds(BACKGROUND_TAG, BACKGROUND_SPEED_LEVEL_1);
+                SetPrefabSpeeds(GROUND_TAG, GROUND_SPEED_LEVEL_1);
                 break;
             default:
-                frontRocks.parallax = GameManager.PARALLAX_FRONT_ROCKS_LEVEL_0;
-                backRocks.parallax = GameManager.PARALLAX_BACK_ROCKS_LEVEL_0;
-                mountains.parallax = GameManager.PARALLAX_MOUNTAINS_LEVEL_0;
-                background.parallax = GameManager.PARALLAX_BACKGROUND_LEVEL_0;
-                ground.parallax = GameManager.PARALLAX_GROUND_LEVEL_0;
+                SetPrefabSpeeds(FRONT_ROCKS_TAG, FRONT_ROCKS_SPEED_SPEED_LEVEL_0);
+                SetPrefabSpeeds(BACK_ROCKS_TAG, BACK_ROCKS_SPEED_LEVEL_0);
+                SetPrefabSpeeds(MOUNTAINS_TAG, MOUNTAINS_SPEED_LEVEL_0);
+                SetPrefabSpeeds(BACKGROUND_TAG, BACKGROUND_SPEED_LEVEL_0);
+                SetPrefabSpeeds(GROUND_TAG, GROUND_SPEED_LEVEL_0);
                 break;
+        }
+    }
+
+    void SetPrefabSpeeds(string tag, float speed)
+    {
+        GameObject[] prefabs = GameObject.FindGameObjectsWithTag(tag);
+        foreach (GameObject prefab in prefabs)
+        {
+            prefab.GetComponent<Translate>().speed = speed;
         }
     }
 }

@@ -176,7 +176,7 @@ public class Player : MonoBehaviour
 
     IEnumerator Jump()
     {
-        OnJumped.Invoke();
+        OnJumped?.Invoke();
 
         float invincibleTime = 0.3f;
         float timeElapsed = 0f;

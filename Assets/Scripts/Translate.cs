@@ -1,27 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Translate : MonoBehaviour
 {
-    [SerializeField] float speed = 1f;
+    public float speed = 1f;
 
-    private void OnEnable()
-    {
-        GameManager.OnDifficultyUp += HandleDifficultyUp;
-    }
-
-    private void OnDisable()
-    {
-        GameManager.OnDifficultyUp -= HandleDifficultyUp;
-    }
     private void Update()
     {
-        Vector3 dir = transform.right;
+        Vector3 dir = -transform.right;
         transform.Translate(dir * speed * Time.deltaTime);
     }
 
-    public IEnumerator Stop()
+    public IEnumerator Stop() // TODO: modify speed directly
     {
         float totalTime = 2f;
         float timeElapsed = 0f;
@@ -33,25 +25,6 @@ public class Translate : MonoBehaviour
             }
             timeElapsed += Time.deltaTime;
             yield return null;
-        }
-    }
-
-    void HandleDifficultyUp(int level)
-    {
-        switch (level)
-        {
-            case 1:
-                speed = GameManager.CAMERA_SPEED_LEVEL_1;
-                break;
-            case 2:
-                speed = GameManager.CAMERA_SPEED_LEVEL_2;
-                break;
-            case 3:
-                speed = GameManager.CAMERA_SPEED_LEVEL_3;
-                break;
-            default:
-                speed = GameManager.CAMERA_SPEED_LEVEL_0;
-                break;
         }
     }
 }

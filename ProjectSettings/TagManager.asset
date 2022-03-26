@@ -6,6 +6,11 @@ TagManager:
   tags:
   - EnemyHealthBar
   - ExperienceBar
+  - BG_Ground
+  - BG_Background
+  - BG_Mountains
+  - BG_Front_Rocks
+  - BG_Back_Rocks
   layers:
   - Default
   - TransparentFX
