@@ -8,12 +8,12 @@ public class EnemyFlashRed : MonoBehaviour
 
     private void OnEnable()
     {
-        Enemy.OnTakeDamage += HandleTakeDamage;
+        GameManager.OnDamageEnemy += HandleTakeDamage;
     }
 
     private void OnDisable()
     {
-        Enemy.OnTakeDamage -= HandleTakeDamage;
+        GameManager.OnDamageEnemy -= HandleTakeDamage;
     }
 
     private void Awake()

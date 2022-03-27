@@ -7,12 +7,12 @@ public class CameraShake : MonoBehaviour
     [SerializeField] float shakeAmount;
     private void OnEnable()
     {
-        Enemy.OnTakeDamage += Shake;
+        GameManager.OnDamageEnemy += Shake;
     }
 
     private void OnDisable()
     {
-        Enemy.OnTakeDamage -= Shake;
+        GameManager.OnDamageEnemy -= Shake;
     }
 
     void Shake(int val)
@@ -35,7 +35,6 @@ public class CameraShake : MonoBehaviour
             timeElapsed += Time.deltaTime;
             yield return null;
         }
-        Debug.Log("Done shake");
         Camera.main.transform.localPosition = origPos;
     }
 }

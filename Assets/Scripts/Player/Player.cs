@@ -151,7 +151,6 @@ public class Player : MonoBehaviour
     {
         audio.PlayDodge();
         OnDodged.Invoke();
-        gameManager.PlayerDodged();
     }
 
     void TakeDamage()
@@ -161,7 +160,7 @@ public class Player : MonoBehaviour
             return;
         }
         OnHit?.Invoke();
-        if (gameManager.GetLives() < 1)
+        if (gameManager.lives < 1)
         {
             Die();
             return;

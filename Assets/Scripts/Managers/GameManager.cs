@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public static TouchWeaponLocker OnTouchWeaponLocker;
     public delegate void DifficultyUp(int level);
     public static DifficultyUp OnDifficultyUp;
+    public delegate void DamageEnemy(int damage);
+    public static DamageEnemy OnDamageEnemy;
 
     const int COMBO_DAMAGE = 20;
     const int WEAPON_DAMAGE_MULTIPLER = 10;
@@ -25,13 +27,13 @@ public class GameManager : MonoBehaviour
     const int LEVEL2_SCORE = 300;
     const int LEVEL3_SCORE = 600;
 
-    [SerializeField] int lives;
-    [SerializeField] int dodgePoints = 50;
     [SerializeField] GameObject loseScreen;
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] HealthBar experienceBar;
     [SerializeField] GameObject levelUpText;
 
+    public int lives;
+    public int dodgePoints = 50;
     public bool isPlayerAlive;
     public int level;
     public int score;
@@ -54,6 +56,7 @@ public class GameManager : MonoBehaviour
         Enemy.OnDeath += HandleEnemyKilled;
         Player.OnHit += PlayerHit;
         Player.OnDeath += PlayerDied;
+        Player.OnDodged += PlayerDodged;
         OnTouchWeaponLocker += HandleWeaponLockerTouch;
         OnPickupComboPoint += HandlePickupComboPoint;
         OnPickupExperiencePoint += HandlePickupExperiencePoint;
@@ -65,6 +68,7 @@ public class GameManager : MonoBehaviour
         Enemy.OnDeath -= HandleEnemyKilled;
         Player.OnHit -= PlayerHit;
         Player.OnDeath -= PlayerDied;
+        Player.OnDodged -= PlayerDodged;
         OnTouchWeaponLocker -= HandleWeaponLockerTouch;
         OnPickupComboPoint -= HandlePickupComboPoint;
         OnPickupExperiencePoint -= HandlePickupExperiencePoint;
@@ -104,17 +108,10 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<Lives>().SetHearts(lives);
     }
 
-    public void PlayerDodged()
+    void PlayerDodged()
     {
         SetScore(score + dodgePoints);
-
-        int damage = GetDamage();
-        Enemy.OnTakeDamage?.Invoke(damage);
-    }
-
-    public int GetLives()
-    {
-        return lives;
+        OnDamageEnemy?.Invoke(GetDamage());
     }
 
     IEnumerator ScoreRoutine()
@@ -138,7 +135,7 @@ public class GameManager : MonoBehaviour
 
     void HandleWeaponLockerTouch()
     {
-        Enemy.OnTakeDamage?.Invoke(GetDamage());
+        OnDamageEnemy?.Invoke(GetDamage());
         ResetWeaponPoints();
     }
 
@@ -228,7 +225,7 @@ public class GameManager : MonoBehaviour
         // enemy does animation
         // apply damage to enemy
         //FindObjectOfType<Enemy>().StopAttacking();
-        Enemy.OnTakeDamage?.Invoke(COMBO_DAMAGE);
+        OnDamageEnemy?.Invoke(COMBO_DAMAGE);
         // player return to regular state
         yield return new WaitForSeconds(2f);
         FindObjectOfType<Player>().EndComboAttack();

@@ -4,23 +4,21 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public delegate void TakeDamage(int damage);
-    public static TakeDamage OnTakeDamage;
     public delegate void Death();
     public static Death OnDeath;
 
     public delegate void AttackHigh();
     public static AttackHigh OnAttackHigh;
-    public delegate void HitHigh(); // invoked from player
+    public delegate void HitHigh(); 
     public static HitHigh OnHitHigh;
-    public delegate void MissHigh(); // invoked from player
+    public delegate void MissHigh();
     public static MissHigh OnMissHigh;
 
     public delegate void AttackLow();
     public static AttackLow OnAttackLow;
-    public delegate void HitLow(); // invoked from player
+    public delegate void HitLow();
     public static HitLow OnHitLow;
-    public delegate void MissLow(); // invoked from player
+    public delegate void MissLow();
     public static MissLow OnMissLow;
 
     public EnemyAudio audio;
@@ -67,12 +65,12 @@ public class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
-        OnHitHigh += audio.PlayHighAttackHit;
-        OnHitLow += audio.PlayLowAttackHit;
-        OnMissLow += audio.PlayAttackLow;
-        OnMissHigh += audio.PlayAttackHigh;
-        OnTakeDamage += HandleTakeDamage;
+        OnHitHigh += audio.PlayHighAttackHit; // invoked from player
+        OnHitLow += audio.PlayLowAttackHit; // invoked from player
+        OnMissLow += audio.PlayAttackLow; // invoked from player
+        OnMissHigh += audio.PlayAttackHigh; // invoked from player
         Player.OnDeath += StopAttacking;
+        GameManager.OnDamageEnemy += HandleTakeDamage;
     }
 
     private void OnDisable()
@@ -81,8 +79,8 @@ public class Enemy : MonoBehaviour
         OnHitLow -= audio.PlayLowAttackHit;
         OnMissLow -= audio.PlayAttackLow;
         OnMissHigh -= audio.PlayAttackHigh;
-        OnTakeDamage -= HandleTakeDamage;
         Player.OnDeath -= StopAttacking;
+        GameManager.OnDamageEnemy -= HandleTakeDamage;
     }
 
     private void Awake()

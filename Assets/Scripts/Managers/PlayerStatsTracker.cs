@@ -15,7 +15,7 @@ public class PlayerStatsTracker : MonoBehaviour
     {
         Player.OnJumped += UpdateJumps;
         Player.OnDodged += UpdateSuccesfulDodges;
-        Enemy.OnTakeDamage += UpdateDamageDone;
+        GameManager.OnDamageEnemy += UpdateDamageDone;
         Enemy.OnDeath += UpdateEnemiesKilled;
     }
 
@@ -23,7 +23,7 @@ public class PlayerStatsTracker : MonoBehaviour
     {
         Player.OnJumped -= UpdateJumps;
         Player.OnDodged -= UpdateSuccesfulDodges;
-        Enemy.OnTakeDamage -= UpdateDamageDone;
+        GameManager.OnDamageEnemy -= UpdateDamageDone;
         Enemy.OnDeath -= UpdateEnemiesKilled;
     }
 
