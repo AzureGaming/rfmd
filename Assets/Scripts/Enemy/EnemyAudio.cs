@@ -31,16 +31,6 @@ public class EnemyAudio : MonoBehaviour
         audioManager.Play("Enemy_Telegraph_High");
     }
 
-    public void PlayAttackHighMiss()
-    {
-        audioManager.Play("Enemy_Attack_High_Miss");
-    }
-
-    public void PlayAttackLowMiss()
-    {
-        audioManager.Play("Enemy_Attack_Low_Miss");
-    }
-
     public void PlayHighAttackHit()
     {
         audioManager.Play("Enemy_Attack_High_Impact");

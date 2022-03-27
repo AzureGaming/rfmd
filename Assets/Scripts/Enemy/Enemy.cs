@@ -11,13 +11,17 @@ public class Enemy : MonoBehaviour
 
     public delegate void AttackHigh();
     public static AttackHigh OnAttackHigh;
-    public delegate void HitHigh();
+    public delegate void HitHigh(); // invoked from player
     public static HitHigh OnHitHigh;
+    public delegate void MissHigh(); // invoked from player
+    public static MissHigh OnMissHigh;
 
     public delegate void AttackLow();
     public static AttackLow OnAttackLow;
-    public delegate void HitLow();
+    public delegate void HitLow(); // invoked from player
     public static HitLow OnHitLow;
+    public delegate void MissLow(); // invoked from player
+    public static MissLow OnMissLow;
 
     public EnemyAudio audio;
     [HideInInspector]
@@ -65,6 +69,8 @@ public class Enemy : MonoBehaviour
     {
         OnHitHigh += audio.PlayHighAttackHit;
         OnHitLow += audio.PlayLowAttackHit;
+        OnMissLow += audio.PlayAttackLow;
+        OnMissHigh += audio.PlayAttackHigh;
         OnTakeDamage += HandleTakeDamage;
         Player.OnDeath += StopAttacking;
     }
@@ -73,6 +79,8 @@ public class Enemy : MonoBehaviour
     {
         OnHitHigh -= audio.PlayHighAttackHit;
         OnHitLow -= audio.PlayLowAttackHit;
+        OnMissLow -= audio.PlayAttackLow;
+        OnMissHigh -= audio.PlayAttackHigh;
         OnTakeDamage -= HandleTakeDamage;
         Player.OnDeath -= StopAttacking;
     }
@@ -87,6 +95,8 @@ public class Enemy : MonoBehaviour
     {
         SetHealth(MAX_HEALTH);
         healthBar.SetMaxHealth(MAX_HEALTH);
+
+        attackTimer = GetAttackTimer(); // TODO: account for first and subsequent timers
     }
 
     private void Update()

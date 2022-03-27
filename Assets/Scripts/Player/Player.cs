@@ -121,6 +121,7 @@ public class Player : MonoBehaviour
         }
         else
         {
+            Enemy.OnMissHigh?.Invoke();
             Dodge();
         }
     }
@@ -140,6 +141,7 @@ public class Player : MonoBehaviour
         }
         else
         {
+            Enemy.OnMissLow?.Invoke();
             Dodge();
         }
 

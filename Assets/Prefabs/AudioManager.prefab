@@ -142,7 +142,15 @@ MonoBehaviour:
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 69ea27fb4f1b4144b890ee90e29840d8, type: 3}
     name: Background_Music
-    volume: 0.114
+    volume: 0
+    pitch: 1
+    startTime: 0
+    endTime: 0
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 3456b15f648450b47b72149b5d08f450, type: 3}
+    name: Enemy_Death
+    volume: 1
     pitch: 1
     startTime: 0
     endTime: 0

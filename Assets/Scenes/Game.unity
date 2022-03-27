@@ -3661,30 +3661,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
-    - target: {fileID: 2289820576527770106, guid: 2e11c89c4d7efcd49af741ed8835e521, type: 3}
-      propertyPath: sounds.Array.size
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 2289820576527770106, guid: 2e11c89c4d7efcd49af741ed8835e521, type: 3}
-      propertyPath: sounds.Array.data[13].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 3456b15f648450b47b72149b5d08f450, type: 3}
-    - target: {fileID: 2289820576527770106, guid: 2e11c89c4d7efcd49af741ed8835e521, type: 3}
-      propertyPath: sounds.Array.data[13].name
-      value: Enemy_Death
-      objectReference: {fileID: 0}
-    - target: {fileID: 2289820576527770106, guid: 2e11c89c4d7efcd49af741ed8835e521, type: 3}
-      propertyPath: sounds.Array.data[13].pitch
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2289820576527770106, guid: 2e11c89c4d7efcd49af741ed8835e521, type: 3}
-      propertyPath: sounds.Array.data[12].volume
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2289820576527770106, guid: 2e11c89c4d7efcd49af741ed8835e521, type: 3}
-      propertyPath: sounds.Array.data[13].volume
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2289820576527770107, guid: 2e11c89c4d7efcd49af741ed8835e521, type: 3}
       propertyPath: m_RootOrder
       value: 0
