@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2387936883188701938}
   - component: {fileID: 2387936883188701939}
   - component: {fileID: 45624233435571170}
+  - component: {fileID: 4444151390657624660}
+  - component: {fileID: 2435027633626217202}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -99,6 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 45624233435571170}
+  isTelegraphing: 0
+  isHitting: 0
   bloodSplatPrefab: {fileID: 347753598495848210, guid: 924ec22e83f24a44f9aece8640ca013e, type: 3}
   anims: {fileID: 2387936883188701938}
 --- !u!114 &2387936883188701938
@@ -142,5 +146,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26fe4d354ab61974e923e2366cd48cf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4444151390657624660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2387936883188701942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e576f3e12cc85eb4c8abd818c845cee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2435027633626217202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2387936883188701942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a641e7e26f319ff4793690207bf658b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

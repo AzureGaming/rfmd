@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour
     public bool isTelegraphing;
     [HideInInspector]
     public bool isHitting;
+    public int health;
 
     [SerializeField] GameObject bloodSplatPrefab;
     [SerializeField] EnemyAnimations anims;
@@ -52,7 +53,6 @@ public class Enemy : MonoBehaviour
 
     GameManager gameManager;
     Coroutine attackRoutine;
-    SpriteRenderer spriteR;
     HealthBar healthBar;
 
     bool isFakeAttack = false;
@@ -60,7 +60,6 @@ public class Enemy : MonoBehaviour
     float attackType;
     float attackTimer;
     bool isAttacking;
-    int health;
 
     private void OnEnable()
     {
@@ -81,7 +80,6 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
-        spriteR = GetComponent<SpriteRenderer>();
         healthBar = GameObject.FindGameObjectWithTag("EnemyHealthBar").GetComponent<HealthBar>();
     }
 
@@ -116,10 +114,6 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
         {
             Die();
-        }
-        else
-        {
-            StartCoroutine(FlashRed());
         }
     }
 
@@ -171,29 +165,6 @@ public class Enemy : MonoBehaviour
         yield return new WaitUntil(() => !isHitting);
     }
 
-    IEnumerator FlashRed()
-    {
-        float timeElapsed = 0f;
-        float totalTime = 0.001f;
-        Color origColor = spriteR.color;
-        Color redColor = Color.red;
-        redColor.a = 50;
-
-        while (timeElapsed <= totalTime)
-        {
-            if (spriteR.color == origColor)
-            {
-                spriteR.color = redColor;
-            }
-            else
-            {
-                spriteR.color = origColor;
-            }
-            timeElapsed += Time.deltaTime;
-            yield return new WaitForSeconds(0.15f);
-        }
-        spriteR.color = origColor;
-    }
 
     float GetAttackTimer()
     {
