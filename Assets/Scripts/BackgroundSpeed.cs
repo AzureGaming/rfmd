@@ -10,17 +10,18 @@ public class BackgroundSpeed : MonoBehaviour
     const string BACK_ROCKS_TAG = "BG_Back_Rocks";
     const string FRONT_ROCKS_TAG = "BG_Front_Rocks";
 
-    const float FRONT_ROCKS_SPEED_SPEED_LEVEL_0 = 0.5f;
-    const float BACK_ROCKS_SPEED_LEVEL_0 = 0.5f;
-    const float MOUNTAINS_SPEED_LEVEL_0 = 0.2f;
-    const float BACKGROUND_SPEED_LEVEL_0 = 0.1f;
-    const float GROUND_SPEED_LEVEL_0 = 1f;
 
-    const float FRONT_ROCKS_SPEED_LEVEL_1 = 1f;
-    const float BACK_ROCKS_SPEED_LEVEL_1 = 1f;
-    const float MOUNTAINS_SPEED_LEVEL_1 = 0.3f;
+    const float FRONT_ROCKS_SPEED_LEVEL_0 = 1f;
+    const float BACK_ROCKS_SPEED_LEVEL_0 = 1f;
+    const float MOUNTAINS_SPEED_LEVEL_0 = 0.3f;
+    const float BACKGROUND_SPEED_LEVEL_0 = 0.1f;
+    const float GROUND_SPEED_LEVEL_0 = 1.75f;
+
+    const float FRONT_ROCKS_SPEED_LEVEL_1 = 1.5f;
+    const float BACK_ROCKS_SPEED_LEVEL_1 = 1.5f;
+    const float MOUNTAINS_SPEED_LEVEL_1 = 0.4f;
     const float BACKGROUND_SPEED_LEVEL_1 = 0.1f;
-    const float GROUND_SPEED_LEVEL_1 = 1.5f;
+    const float GROUND_SPEED_LEVEL_1 = 3f;
 
 
     private void OnEnable()
@@ -33,10 +34,17 @@ public class BackgroundSpeed : MonoBehaviour
         GameManager.OnDifficultyUp -= HandleDifficultyUp;
     }
 
-    void HandleDifficultyUp(int level)
+    void HandleDifficultyUp(int level) // TODO: create script for each bg element that inherits translate
     {
         switch (level)
         {
+            case 0:
+                SetPrefabSpeeds(FRONT_ROCKS_TAG, FRONT_ROCKS_SPEED_LEVEL_0);
+                SetPrefabSpeeds(BACK_ROCKS_TAG, BACK_ROCKS_SPEED_LEVEL_0);
+                SetPrefabSpeeds(MOUNTAINS_TAG, MOUNTAINS_SPEED_LEVEL_0);
+                SetPrefabSpeeds(BACKGROUND_TAG, BACKGROUND_SPEED_LEVEL_0);
+                SetPrefabSpeeds(GROUND_TAG, GROUND_SPEED_LEVEL_0);
+                break;
             case 1:
                 SetPrefabSpeeds(FRONT_ROCKS_TAG, FRONT_ROCKS_SPEED_LEVEL_1);
                 SetPrefabSpeeds(BACK_ROCKS_TAG, BACK_ROCKS_SPEED_LEVEL_1);
@@ -45,11 +53,6 @@ public class BackgroundSpeed : MonoBehaviour
                 SetPrefabSpeeds(GROUND_TAG, GROUND_SPEED_LEVEL_1);
                 break;
             default:
-                SetPrefabSpeeds(FRONT_ROCKS_TAG, FRONT_ROCKS_SPEED_SPEED_LEVEL_0);
-                SetPrefabSpeeds(BACK_ROCKS_TAG, BACK_ROCKS_SPEED_LEVEL_0);
-                SetPrefabSpeeds(MOUNTAINS_TAG, MOUNTAINS_SPEED_LEVEL_0);
-                SetPrefabSpeeds(BACKGROUND_TAG, BACKGROUND_SPEED_LEVEL_0);
-                SetPrefabSpeeds(GROUND_TAG, GROUND_SPEED_LEVEL_0);
                 break;
         }
     }

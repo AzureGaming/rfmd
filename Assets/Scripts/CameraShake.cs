@@ -7,12 +7,12 @@ public class CameraShake : MonoBehaviour
     [SerializeField] float shakeAmount;
     private void OnEnable()
     {
-        GameManager.OnDamageEnemy += Shake;
+        Enemy.OnTakeDamage += Shake;
     }
 
     private void OnDisable()
     {
-        GameManager.OnDamageEnemy -= Shake;
+        Enemy.OnTakeDamage -= Shake;
     }
 
     void Shake(int val)

@@ -30,11 +30,11 @@ public class LevelManager : MonoBehaviour
     {
         player = FindObjectOfType<Player>();
         levelPartList = new List<Transform>();
-        levelPartList.Add(levelPart1);
-        levelPartList.Add(levelPart2);
-        levelPartList.Add(levelPart3);
-        levelPartList.Add(levelPart4);
-        levelPartList.Add(levelPart5);
+        //levelPartList.Add(levelPart1);
+        //levelPartList.Add(levelPart2);
+        //levelPartList.Add(levelPart3);
+        //levelPartList.Add(levelPart4);
+        //levelPartList.Add(levelPart5);
         //levelPartList.Add(levelPart6);
         levelPartList.Add(levelPart7);
     }

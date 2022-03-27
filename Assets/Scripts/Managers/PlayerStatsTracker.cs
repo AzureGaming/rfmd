@@ -15,7 +15,7 @@ public class PlayerStatsTracker : MonoBehaviour
     {
         Player.OnJumped += UpdateJumps;
         Player.OnDodged += UpdateSuccesfulDodges;
-        GameManager.OnDamageEnemy += UpdateDamageDone;
+        Enemy.OnTakeDamage += UpdateDamageDone;
         Enemy.OnDeath += UpdateEnemiesKilled;
     }
 
@@ -23,7 +23,7 @@ public class PlayerStatsTracker : MonoBehaviour
     {
         Player.OnJumped -= UpdateJumps;
         Player.OnDodged -= UpdateSuccesfulDodges;
-        GameManager.OnDamageEnemy -= UpdateDamageDone;
+        Enemy.OnTakeDamage -= UpdateDamageDone;
         Enemy.OnDeath -= UpdateEnemiesKilled;
     }
 
@@ -31,7 +31,7 @@ public class PlayerStatsTracker : MonoBehaviour
     {
         LoadFromPrefs();
     }
-  
+
     public void DeleteAllPrefs()
     {
         // UPDATE WHEN KEYS ARE MODIFIED //

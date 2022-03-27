@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public delegate void Attacked(string attackType);
-    public static Attacked OnAttacked;
+    //public delegate void Attacked(string attackType);
+    //public static Attacked OnAttacked;
     public delegate void Hit();
     public static Hit OnHit;
     public delegate void Jumped();
     public static Jumped OnJumped;
     public delegate void Dodged();
     public static Dodged OnDodged;
+    public delegate void Death();
+    public static Death OnDeath;
 
     public PlayerAnimation animation;
     public PlayerAudio audio;
@@ -38,12 +40,14 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        OnAttacked += CheckDamage;
+        Enemy.OnAttackHigh += HandleAttackedHigh;
+        Enemy.OnAttackLow += HandleAttackedLow;
     }
 
     private void OnDisable()
     {
-        OnAttacked -= CheckDamage;
+        Enemy.OnAttackHigh -= HandleAttackedHigh;
+        Enemy.OnAttackLow -= HandleAttackedLow;
     }
 
     private void Awake()
@@ -94,8 +98,6 @@ public class Player : MonoBehaviour
 
         origColor = spriteR.color;
         spriteR.color = targetColor;
-
-
     }
 
     public void EndComboAttack()
@@ -104,39 +106,43 @@ public class Player : MonoBehaviour
         spriteR.color = origColor;
     }
 
-    public void CheckDamage(string attackType)
+    void HandleAttackedHigh()
     {
         if (invincibleRoutine != null)
         {
             return;
         }
 
-        if (attackType == "HIGH") // player must slide
+        if (slideRoutine == null)
         {
-            if (slideRoutine == null)
-            {
-                Debug.Log("You didn't slide. Took damage");
-                Enemy.OnHighAttackHit?.Invoke();
-                TakeDamage();
-            }
-            else
-            {
-                Dodge();
-            }
+            Debug.Log("You didn't slide. Took damage");
+            Enemy.OnHitHigh?.Invoke();
+            TakeDamage();
         }
-        else if (attackType == "LOW") // player must jump
+        else
         {
-            if (jumpRoutine == null)
-            {
-                Debug.Log("You didn't jump. Took damage");
-                Enemy.OnLowAttackHit?.Invoke();
-                TakeDamage();
-            }
-            else
-            {
-                Dodge();
-            }
+            Dodge();
         }
+    }
+
+    void HandleAttackedLow()
+    {
+        if (invincibleRoutine != null)
+        {
+            return;
+        }
+
+        if (jumpRoutine == null)
+        {
+            Debug.Log("You didn't jump. Took damage");
+            Enemy.OnHitLow?.Invoke();
+            TakeDamage();
+        }
+        else
+        {
+            Dodge();
+        }
+
     }
 
     void Dodge()
@@ -156,7 +162,6 @@ public class Player : MonoBehaviour
         if (gameManager.GetLives() < 1)
         {
             Die();
-            gameManager.PlayerDied();
             return;
         }
         animation.PlayHurt();
@@ -202,6 +207,7 @@ public class Player : MonoBehaviour
         if (!isDead) // prevent dying when dead
         {
             isDead = true;
+            OnDeath?.Invoke();
             animation.PlayDeath();
             audio.PlayDeath();
             FindObjectOfType<GameManager>().isPlayerAlive = false;

@@ -9,67 +9,73 @@ public class Enemy : MonoBehaviour
     public delegate void Death();
     public static Death OnDeath;
 
-    public delegate void HighAttackHit();
-    public static HighAttackHit OnHighAttackHit;
-    public delegate void LowAttackHit();
-    public static LowAttackHit OnLowAttackHit;
+    public delegate void AttackHigh();
+    public static AttackHigh OnAttackHigh;
+    public delegate void HitHigh();
+    public static HitHigh OnHitHigh;
+
+    public delegate void AttackLow();
+    public static AttackLow OnAttackLow;
+    public delegate void HitLow();
+    public static HitLow OnHitLow;
 
     public EnemyAudio audio;
+    [HideInInspector]
+    public bool isTelegraphing;
+    [HideInInspector]
+    public bool isHitting;
 
     [SerializeField] GameObject bloodSplatPrefab;
-
     [SerializeField] EnemyAnimations anims;
 
     const int MAX_HEALTH = 150;
     float fakeoutSpeed = 0.07f;
     float fakeoutReverseSpeed = 0.2f;
 
-    float[] DELAY_RANGE_LEVEL_0 = new float[] { 3f, 5f };
-    float[] DELAY_RANGE_LEVEL_1 = new float[] { 2f, 4f };
-    float[] DELAY_RANGE_LEVEL_2 = new float[] { 1f, 3f };
-    float[] DELAY_RANGE_LEVEL_3 = new float[] { 1f, 2f };
-    float[] DELAY_RANGE_LEVEL_4 = new float[] { 1f, 2f };
+    //float[] DELAY_RANGE_LEVEL_0 = new float[] { 3f, 5f };
+    //float[] DELAY_RANGE_LEVEL_1 = new float[] { 2f, 4f };
+    //float[] DELAY_RANGE_LEVEL_2 = new float[] { 1f, 3f };
+    //float[] DELAY_RANGE_LEVEL_3 = new float[] { 1f, 2f };
+    //float[] DELAY_RANGE_LEVEL_4 = new float[] { 1f, 2f };
 
-    float[] TELEGRAPH_RANGE_LEVEL_0 = new float[] { 0.05f, 0.05f };
-    float[] TELEGRAPH_RANGE_LEVEL_1 = new float[] { 0.08f, 0.08f };
-    float[] TELEGRAPH_RANGE_LEVEL_2 = new float[] { 0.1f, 0.2f };
-    float[] TELEGRAPH_RANGE_LEVEL_3 = new float[] { 0.1f, 0.2f };
-    float[] TELEGRAPH_RANGE_LEVEL_4 = new float[] { 0.1f, 0.2f };
+    //float[] TELEGRAPH_RANGE_LEVEL_1 = new float[] { 0.08f, 0.08f };
+    //float[] TELEGRAPH_RANGE_LEVEL_2 = new float[] { 0.1f, 0.2f };
+    //float[] TELEGRAPH_RANGE_LEVEL_3 = new float[] { 0.1f, 0.2f };
+    //float[] TELEGRAPH_RANGE_LEVEL_4 = new float[] { 0.1f, 0.2f };
 
-    float ATTACK_SPEED_LEVEL_0 = 0.2f;
-    float ATTACK_SPEED_LEVEL_1 = 0.2f;
-    float ATTACK_SPEED_LEVEL_2 = 0.2f;
-    float ATTACK_SPEED_LEVEL_3 = 0.2f;
-    float ATTACK_SPEED_LEVEL_4 = 0.2f;
+    const float TELEGRAPH_LEVEL_0 = 0.05f;
 
-    float[] telegraphRange;
-    float[] delayRange;
+    const float ATTACK_DELAY_MAX_LEVEL_0 = 5f;
+    const float ATTACK_DELAY_MIN_LEVEL_0 = 3f;
 
-    float attackSpeed;
+    const float ATTACK_SPEED = 0.2f;
+
     GameManager gameManager;
     Coroutine attackRoutine;
     SpriteRenderer spriteR;
     HealthBar healthBar;
 
-    bool isFakeAttackEnabled = false;
     bool isFakeAttack = false;
 
     float attackType;
-    float telegraphSpeed;
+    float attackTimer;
+    bool isAttacking;
     int health;
 
     private void OnEnable()
     {
-        OnHighAttackHit += audio.PlayHighAttackHit;
-        OnLowAttackHit += audio.PlayLowAttackHit;
-        OnTakeDamage += GetHit;
+        OnHitHigh += audio.PlayHighAttackHit;
+        OnHitLow += audio.PlayLowAttackHit;
+        OnTakeDamage += HandleTakeDamage;
+        Player.OnDeath += StopAttacking;
     }
 
     private void OnDisable()
     {
-        OnHighAttackHit -= audio.PlayHighAttackHit;
-        OnLowAttackHit -= audio.PlayLowAttackHit;
-        OnTakeDamage -= GetHit;
+        OnHitHigh -= audio.PlayHighAttackHit;
+        OnHitLow -= audio.PlayLowAttackHit;
+        OnTakeDamage -= HandleTakeDamage;
+        Player.OnDeath -= StopAttacking;
     }
 
     private void Awake()
@@ -83,76 +89,28 @@ public class Enemy : MonoBehaviour
     {
         SetHealth(MAX_HEALTH);
         healthBar.SetMaxHealth(MAX_HEALTH);
-        UpdateAnimationSpeeds();
-
-        float attackDelay = Random.Range(delayRange[0], delayRange[1]);
-
-        attackRoutine = StartCoroutine(Attack(attackDelay));
     }
 
-    public void UpdateAnimationSpeeds()
+    private void Update()
     {
-        SetAnimationSpeeds(gameManager.level);
+        HandleAttacking();
     }
 
-    public void AttackHighTelegraphEvent()
+    void HandleAttacking()
     {
-        float attackDelay = Random.Range(delayRange[0], delayRange[1]);
-
-        if (isFakeAttack)
+        attackTimer -= Time.deltaTime;
+        if (isAttacking)
         {
-            attackDelay = 0.5f;
-            anims.StopTelegraphAttack(fakeoutReverseSpeed);
+            return;
         }
-        else
+        if (attackTimer <= 0)
         {
-            //attackTiming.StartHighAttackTimer();
-            audio.PlayAttackHigh();
-            anims.PlayAttackHigh(attackSpeed);
+            attackTimer = GetAttackTimer();
+            attackRoutine = StartCoroutine(AttackRoutine());
         }
-
-        attackRoutine = StartCoroutine(Attack(attackDelay));
     }
 
-    public void AttackLowTelegraphEvent()
-    {
-        float attackDelay = Random.Range(delayRange[0], delayRange[1]);
-        if (isFakeAttack)
-        {
-            attackDelay = 0.5f;
-            anims.StopTelegraphAttack(fakeoutReverseSpeed);
-        }
-        else
-        {
-            anims.PlayAttackLow(attackSpeed);
-        }
-
-        attackRoutine = StartCoroutine(Attack(attackDelay));
-    }
-
-    public void AttackHighAnimationEvent()
-    {
-        Player.OnAttacked?.Invoke("HIGH");
-    }
-
-    public void AttackLowAnimationEvent()
-    {
-        Player.OnAttacked?.Invoke("LOW");
-    }
-
-    public void StartAttacking()
-    {
-        anims.StartCurrent();
-        Attack();
-    }
-
-    public void StopAttacking()
-    {
-        StopCoroutine(attackRoutine);
-        anims.StopCurrent();
-    }
-
-    public void GetHit(int damage)
+    void HandleTakeDamage(int damage)
     {
         SetHealth(health - damage);
         if (health <= 0)
@@ -165,64 +123,52 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void Die()
+    IEnumerator AttackRoutine()
     {
-        OnDeath.Invoke();
-        audio.PlayDeath();
-        Instantiate(bloodSplatPrefab, transform.position - new Vector3(0.5f, 0f), Quaternion.identity, Camera.main.transform);
-        Destroy(gameObject);
-    }
-
-    void SetHealth(int val)
-    {
-        health = val;
-        healthBar.SetHealth(health);
-    }
-
-    void Attack()
-    {
+        isAttacking = true;
         attackType = Random.Range(0, 2);
-        telegraphSpeed = Random.Range(telegraphRange[0], telegraphRange[1]);
-        SetFakeout();
+
+        yield return StartCoroutine(Telegraph());
+        isFakeAttack = gameManager.level == 2;
 
         if (isFakeAttack)
         {
-            telegraphSpeed = fakeoutSpeed;
-        }
-
-        if (attackType == 0)
-        {
-            anims.PlayTelegraphAttackHigh(telegraphSpeed);
+            anims.StopTelegraphAttack(1f);
         }
         else
         {
-            anims.PlayTelegraphAttackLow(telegraphSpeed);
+            yield return StartCoroutine(Hit());
         }
 
+        isAttacking = false;
     }
 
-    IEnumerator Attack(float delay)
+    IEnumerator Telegraph()
     {
-        attackType = Random.Range(0, 2);
-        telegraphSpeed = Random.Range(telegraphRange[0], telegraphRange[1]);
-        SetFakeout();
-
-        if (isFakeAttack)
-        {
-            telegraphSpeed = fakeoutSpeed;
-        }
-
-        Debug.Log($"Delay attack for {delay} seconds.");
-        yield return new WaitForSeconds(delay);
-
+        isTelegraphing = true;
         if (attackType == 0)
         {
-            anims.PlayTelegraphAttackHigh(telegraphSpeed);
+            anims.PlayTelegraphAttackHigh(GetTelegraphSpeed());
         }
-        else
+        if (attackType == 1)
         {
-            anims.PlayTelegraphAttackLow(telegraphSpeed);
+            anims.PlayTelegraphAttackLow(GetTelegraphSpeed());
         }
+        yield return new WaitUntil(() => !isTelegraphing);
+    }
+
+    IEnumerator Hit()
+    {
+        isHitting = true;
+        if (attackType == 0)
+        {
+            anims.PlayAttackHigh(GetAttackSpeed());
+        }
+        if (attackType == 1)
+        {
+            anims.PlayAttackLow(GetAttackSpeed());
+        }
+        yield return new WaitUntil(() => !isHitting);
     }
 
     IEnumerator FlashRed()
@@ -249,54 +195,53 @@ public class Enemy : MonoBehaviour
         spriteR.color = origColor;
     }
 
-
-    void SetFakeout()
+    float GetAttackTimer()
     {
-        isFakeAttack = false;
-        if (isFakeAttackEnabled)
+        switch (gameManager.level)
         {
-            float randomVal = Random.value;
-            isFakeAttack = randomVal > 0.8f;
-            Debug.Log($"Fakeout attack {randomVal}");
+            case 0:
+                return Random.Range(ATTACK_DELAY_MIN_LEVEL_0, ATTACK_DELAY_MAX_LEVEL_0);
+            default:
+                return Random.Range(ATTACK_DELAY_MIN_LEVEL_0, ATTACK_DELAY_MAX_LEVEL_0);
         }
     }
 
-    void SetAnimationSpeeds(int level)
+    float GetTelegraphSpeed()
     {
-        switch (level)
+        switch (gameManager.level)
         {
-            case 1:
-                telegraphRange = TELEGRAPH_RANGE_LEVEL_0;
-                attackSpeed = ATTACK_SPEED_LEVEL_0;
-                delayRange = DELAY_RANGE_LEVEL_0;
-                break;
-            case 2:
-                telegraphRange = TELEGRAPH_RANGE_LEVEL_1;
-                attackSpeed = ATTACK_SPEED_LEVEL_1;
-                delayRange = DELAY_RANGE_LEVEL_1;
-                break;
-            //case 3:
-            //    telegraphRange = TELEGRAPH_RANGE_LEVEL_2;
-            //    attackSpeed = ATTACK_SPEED_LEVEL_2;
-            //    delayRange = DELAY_RANGE_LEVEL_2;
-            //    isFakeAttackEnabled = true;
-            //    break;
-            //case 4:
-            //    telegraphRange = level4TelegraphRange;
-            //    attackSpeed = level4ATTACK_SPEED;
-            //    delayRange = level4DELAY_RANGE;
-            //    break;
-            //case 5:
-            //    telegraphRange = level5TelegraphRange;
-            //    attackSpeed = level5ATTACK_SPEED;
-            //    delayRange = level5DELAY_RANGE;
-            //    break;
+            case 0:
+                return TELEGRAPH_LEVEL_0;
             default:
-                Debug.LogWarning($"Invalid level {level}.");
-                telegraphRange = TELEGRAPH_RANGE_LEVEL_0;
-                attackSpeed = ATTACK_SPEED_LEVEL_0;
-                delayRange = DELAY_RANGE_LEVEL_0;
-                break;
+                return TELEGRAPH_LEVEL_0;
         }
+    }
+
+    float GetAttackSpeed()
+    {
+        return ATTACK_SPEED;
+    }
+
+    void SetHealth(int val)
+    {
+        health = val;
+        healthBar.SetHealth(health);
+    }
+
+    void Die()
+    {
+        OnDeath.Invoke();
+        audio.PlayDeath();
+        Instantiate(bloodSplatPrefab, transform.position - new Vector3(0.5f, 0f), Quaternion.identity, Camera.main.transform);
+        Destroy(gameObject);
+    }
+
+    void StopAttacking()
+    {
+        if (attackRoutine != null)
+        {
+            StopCoroutine(attackRoutine);
+        }
+        isAttacking = true; // TODO: refactor hack
     }
 }

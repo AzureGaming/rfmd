@@ -12,8 +12,6 @@ public class GameManager : MonoBehaviour
     public static PickupExperiencePoint OnPickupExperiencePoint;
     public delegate void TouchWeaponLocker();
     public static TouchWeaponLocker OnTouchWeaponLocker;
-    public delegate void DamageEnemy(int damage);
-    public static DamageEnemy OnDamageEnemy;
     public delegate void DifficultyUp(int level);
     public static DifficultyUp OnDifficultyUp;
 
@@ -55,6 +53,7 @@ public class GameManager : MonoBehaviour
         OnPickupWeaponPoint += HandlePickupWeaponPoint;
         Enemy.OnDeath += HandleEnemyKilled;
         Player.OnHit += PlayerHit;
+        Player.OnDeath += PlayerDied;
         OnTouchWeaponLocker += HandleWeaponLockerTouch;
         OnPickupComboPoint += HandlePickupComboPoint;
         OnPickupExperiencePoint += HandlePickupExperiencePoint;
@@ -65,6 +64,7 @@ public class GameManager : MonoBehaviour
         OnPickupWeaponPoint -= HandlePickupWeaponPoint;
         Enemy.OnDeath -= HandleEnemyKilled;
         Player.OnHit -= PlayerHit;
+        Player.OnDeath -= PlayerDied;
         OnTouchWeaponLocker -= HandleWeaponLockerTouch;
         OnPickupComboPoint -= HandlePickupComboPoint;
         OnPickupExperiencePoint -= HandlePickupExperiencePoint;
@@ -77,11 +77,11 @@ public class GameManager : MonoBehaviour
         enemiesKilledDisplay = FindObjectOfType<EnemiesKilled>();
         weaponLevelDisplay = FindObjectOfType<WeaponLevel>();
         scoreDisplay = FindObjectOfType<Score>();
+        SetLevel(0); // enemy needs this before running start
     }
 
     private void Start()
     {
-        SetLevel(0);
         SetScore(0);
         ResetWeaponPoints();
         SetEnemiesKilled(enemiesKilled);
@@ -92,12 +92,10 @@ public class GameManager : MonoBehaviour
         audioManager?.Play("Background_Music");
     }
 
-    public void PlayerDied()
+    void PlayerDied()
     {
-        FindObjectOfType<Enemy>().StopAttacking();
         loseScreen.SetActive(true);
         StopCoroutine(scoreRoutine);
-        StartCoroutine(Camera.main.GetComponent<Translate>().Stop());
     }
 
     void PlayerHit()
@@ -111,8 +109,7 @@ public class GameManager : MonoBehaviour
         SetScore(score + dodgePoints);
 
         int damage = GetDamage();
-        OnDamageEnemy.Invoke(damage);
-        FindObjectOfType<Enemy>().GetHit(damage);
+        Enemy.OnTakeDamage?.Invoke(damage);
     }
 
     public int GetLives()
@@ -168,7 +165,7 @@ public class GameManager : MonoBehaviour
                 enemy = FindObjectOfType<Enemy>();
             }
         }
-        enemy.StopAttacking();
+        //enemy.StopAttacking();
         StartCoroutine(ComboRoutine());
     }
 
@@ -230,13 +227,13 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<Player>().ComboAttack();
         // enemy does animation
         // apply damage to enemy
-        FindObjectOfType<Enemy>().StopAttacking();
+        //FindObjectOfType<Enemy>().StopAttacking();
         Enemy.OnTakeDamage?.Invoke(COMBO_DAMAGE);
         // player return to regular state
         yield return new WaitForSeconds(2f);
         FindObjectOfType<Player>().EndComboAttack();
         // update score
-        FindObjectOfType<Enemy>()?.StartAttacking(); // enemy may have died from combo
+        //FindObjectOfType<Enemy>()?.StartAttacking(); // enemy may have died from combo
     }
 
     IEnumerator DelaySpawn()

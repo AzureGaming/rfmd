@@ -11,7 +11,7 @@ public class EnemyAudio : MonoBehaviour
         audioManager = FindObjectOfType<AudioManager>();
     }
 
-    public void OnAttackLowAnimationEventStart()
+    public void PlayAttackLow()
     {
         audioManager.Play("Enemy_Attack_Low");
     }
@@ -21,22 +21,22 @@ public class EnemyAudio : MonoBehaviour
         audioManager.Play("Enemy_Attack_High");
     }
 
-    public void OnAttackLowTelegraphAnimationEventStart()
+    public void PlayTelegraphLow()
     {
         audioManager.Play("Enemy_Telegraph_Low");
     }
 
-    public void OnAttackHighTelegraphAnimationEventStart()
+    public void PlayTelegraphHigh()
     {
         audioManager.Play("Enemy_Telegraph_High");
     }
 
-    public void OnAttackHighMissAnimationEventStart()
+    public void PlayAttackHighMiss()
     {
         audioManager.Play("Enemy_Attack_High_Miss");
     }
 
-    public void OnAttackLowMissAnimationEventStart()
+    public void PlayAttackLowMiss()
     {
         audioManager.Play("Enemy_Attack_Low_Miss");
     }

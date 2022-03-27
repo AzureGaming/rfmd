@@ -41,22 +41,7 @@ public class EnemyAnimations : MonoBehaviour
         animator.SetTrigger("Stop Fakeout");
     }
 
-    public void StopCurrent()
-    {
-        animator.enabled = false;
-    }
-
-    public void StartCurrent()
-    {
-        animator.enabled = true;
-    }
-
-    //public void StopAttack()
-    //{
-    //    animator.SetTrigger("Stop Attack");
-    //}
-
-    public void SetAnimationSpeed(float val)
+    void SetAnimationSpeed(float val)
     {
         animator.SetFloat("Animation Speed", val);
     }
