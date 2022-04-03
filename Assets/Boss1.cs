@@ -41,11 +41,11 @@ public class Boss1 : Boss
         isAttacking = false;
         if (attackType == AttackType.Low)
         {
-            audio.PlayLowAttack();
+            //audio.PlayLowAttack();
         }
         if (attackType == AttackType.High)
         {
-            audio.PlayHighAttack();
+            //audio.PlayHighAttack();
         }
     }
 
@@ -57,12 +57,12 @@ public class Boss1 : Boss
         if (attackType == AttackType.Low)
         {
             anim.SetTrigger("Attack1");
-            audio.PlayLowTelegraph();
+            //audio.PlayLowTelegraph();
         }
         if (attackType == AttackType.High)
         {
             anim.SetTrigger("Attack2");
-            audio.PlayHighTelegraph();
+            //audio.PlayHighTelegraph();
         }
         yield return new WaitUntil(() => !isAttacking);
 
@@ -91,11 +91,11 @@ public class Boss1 : Boss
     {
         if (attackType == AttackType.Low)
         {
-            audio.PlayLowImpact();
+            //audio.PlayLowImpact();
         }
         if (attackType == AttackType.High)
         {
-            audio.PlayHighImpact();
+            //audio.PlayHighImpact();
         }
     }
 

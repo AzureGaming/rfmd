@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     public static DamageEnemy OnDamageEnemy;
     public delegate void DamageBoss(int damage);
     public static DamageBoss OnDamageBoss;
+    public delegate void ActionDone();
+    public static ActionDone OnActionDone;
 
     const int COMBO_DAMAGE = 20;
     const int WEAPON_DAMAGE_MULTIPLER = 10;
@@ -59,6 +61,7 @@ public class GameManager : MonoBehaviour
         OnPickupWeaponPoint += HandlePickupWeaponPoint;
         // must register every enemy type
         Enemy1.OnDeath += HandleEnemyKilled;
+        Enemy2.OnDeath += HandleEnemyKilled;
         Boss.OnDeath += HandleBossKilled;
         ///////////////////////////////////
         Player.OnHit += PlayerHit;
@@ -71,6 +74,7 @@ public class GameManager : MonoBehaviour
     {
         OnPickupWeaponPoint -= HandlePickupWeaponPoint;
         Enemy1.OnDeath -= HandleEnemyKilled;
+        Enemy2.OnDeath -= HandleEnemyKilled;
         Boss.OnDeath -= HandleBossKilled;
         Player.OnHit -= PlayerHit;
         Player.OnDeath -= PlayerDied;
@@ -110,6 +114,7 @@ public class GameManager : MonoBehaviour
     {
         lives--;
         FindObjectOfType<Lives>().SetHearts(lives);
+        OnActionDone?.Invoke();
     }
 
     void PlayerDodged()
@@ -162,19 +167,19 @@ public class GameManager : MonoBehaviour
         SetEnemiesKilled(enemiesKilled);
         SetWeaponExp(weaponExperience + 10);
 
-        if (weaponLevel >= 3)
-        {
-            Vector3 newPos = FindObjectOfType<Player>().transform.position;
-            newPos.x = playerBossPosition.position.x;
-            FindObjectOfType<Player>().transform.position = newPos;
-            Enemy1[] enemyRefs = FindObjectsOfType<Enemy1>();
-            foreach (Enemy1 enemyRef in enemyRefs)
-            {
-                Destroy(enemyRef.gameObject);
-            }
-            FindObjectOfType<EnemySpawner>().StopSpawning();
-            FindObjectOfType<EnemySpawner>().SpawnBoss();
-        }
+        //if (weaponLevel >= 3)
+        //{
+        //    Vector3 newPos = FindObjectOfType<Player>().transform.position;
+        //    newPos.x = playerBossPosition.position.x;
+        //    FindObjectOfType<Player>().transform.position = newPos;
+        //    Enemy[] enemyRefs = FindObjectsOfType<Enemy>();
+        //    foreach (Enemy enemyRef in enemyRefs)
+        //    {
+        //        Destroy(enemyRef.gameObject);
+        //    }
+        //    FindObjectOfType<EnemySpawner>().StopSpawning();
+        //    FindObjectOfType<EnemySpawner>().SpawnBoss();
+        //}
     }
 
     void HandleBossKilled()
@@ -215,7 +220,11 @@ public class GameManager : MonoBehaviour
     {
         score = val;
         scoreDisplay?.SetText(score);
+        UpdateLevel();
+    }
 
+    void UpdateLevel()
+    {
         if (score >= LEVEL1_SCORE && level == 0)
         {
             SetLevel(1);
@@ -230,8 +239,6 @@ public class GameManager : MonoBehaviour
         {
             SetLevel(3);
         }
-
-        //FindObjectOfType<Enemy>()?.UpdateAnimationSpeeds(); // enemy may be dead
     }
 
     void SetEnemiesKilled(int val)

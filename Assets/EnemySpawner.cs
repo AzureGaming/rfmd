@@ -4,17 +4,28 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] GameObject enemyPrefab;
+    public delegate void Spawned(Enemy enemy);
+    public static Spawned OnSpawned;
+
+    [SerializeField] List<GameObject> enemyPrefabs;
     [SerializeField] GameObject bossPrefab;
     [SerializeField] Transform[] spawnPositions;
     [SerializeField] GameObject bossSpawnPos;
+    GameManager gameManager;
     Coroutine spawnRoutine;
     Transform spawnPos;
     List<GameObject> enemyRefs;
+    GameObject enemyToSpawn;
+
+    const float DELAY_MIN_LEVEL_0 = 3f;
+    const float DELAY_MAX_LEVEL_0 = 5f;
+    const float DELAY_MIN_LEVEL_1 = 1f;
+    const float DELAY_MAX_LEVEL_1 = 2f;
 
     private void Awake()
     {
         enemyRefs = new List<GameObject>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     private void Start()
@@ -27,13 +38,18 @@ public class EnemySpawner : MonoBehaviour
         StopCoroutine(spawnRoutine);
     }
 
+    public void SpawnBoss()
+    {
+        Instantiate(bossPrefab, bossSpawnPos.transform);
+    }
     IEnumerator HandleSpawning()
     {
         for (; ; )
         {
             if (enemyRefs.Count < spawnPositions.Length)
             {
-                yield return new WaitForSeconds(1f); // spawn timer?
+                yield return StartCoroutine(Delay());
+                ChooseEnemyToSpawn();
                 SetSpawnPosition();
                 Spawn();
             }
@@ -41,17 +57,32 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    IEnumerator Delay()
+    {
+        int level = gameManager.level;
+
+        if (level == 0)
+        {
+            yield return new WaitForSeconds(Random.Range(DELAY_MIN_LEVEL_0, DELAY_MAX_LEVEL_0));
+        }
+        else
+        {
+            yield return new WaitForSeconds(Random.Range(DELAY_MIN_LEVEL_1, DELAY_MAX_LEVEL_1));
+        }
+    }
+
     void Spawn()
     {
         if (spawnPos)
         {
-            Instantiate(enemyPrefab, spawnPos);
+            Enemy enemy = Instantiate(enemyToSpawn, spawnPos).GetComponent<Enemy>();
+            OnSpawned?.Invoke(enemy);
         }
     }
 
-    public void SpawnBoss()
+    void ChooseEnemyToSpawn()
     {
-        Instantiate(bossPrefab, bossSpawnPos.transform);
+        enemyToSpawn = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)];
     }
 
     void SetSpawnPosition()

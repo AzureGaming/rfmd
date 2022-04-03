@@ -8,11 +8,13 @@ public class CameraShake : MonoBehaviour
     private void OnEnable()
     {
         GameManager.OnDamageEnemy += Shake;
+        GameManager.OnDamageBoss += Shake;
     }
 
     private void OnDisable()
     {
         GameManager.OnDamageEnemy -= Shake;
+        GameManager.OnDamageBoss -= Shake;
     }
 
     void Shake(int val)

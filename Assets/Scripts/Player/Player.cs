@@ -36,14 +36,20 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
+        // MUST REGISTER EVERY ENEMY TYPE
         Enemy1.OnImpact += HandleAttacked;
+        Enemy2.OnImpact += HandleAttacked;
         Boss.OnImpact += HandleAttacked;
+        /////////////////////////////////
     }
 
     private void OnDisable()
     {
+        // MUST REGISTER EVERY ENEMY TYPE
         Enemy1.OnImpact -= HandleAttacked;
+        Enemy2.OnImpact -= HandleAttacked;
         Boss.OnImpact -= HandleAttacked;
+        /////////////////////////////////
     }
 
     private void Awake()

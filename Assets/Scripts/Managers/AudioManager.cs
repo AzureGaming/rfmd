@@ -46,6 +46,25 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void Play(string name, Vector3 position)
+    {
+        Sound sound = Array.Find(sounds, sound => sound.name == name);
+        if (sound == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found.");
+            return;
+        }
+
+        sound.source.time = sound.startTime;
+
+        AudioSource.PlayClipAtPoint(sound.clip, position);
+
+        if (sound.endTime != default)
+        {
+            sound.source.SetScheduledEndTime(AudioSettings.dspTime + (sound.endTime - sound.startTime));
+        }
+    }
+
     void AttachAudioSource(Sound sound)
     {
         sound.source = gameObject.AddComponent<AudioSource>();

@@ -570,7 +570,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39bd8b97e89651a4fb9f76f04295463f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 2586019717237176780, guid: 98a2c9cbdb2ebbf44948e07d2ea4ac1b, type: 3}
+  enemyPrefabs:
+  - {fileID: 2586019717237176780, guid: 98a2c9cbdb2ebbf44948e07d2ea4ac1b, type: 3}
+  - {fileID: 2586019717237176780, guid: dc735c3e5f9c31346b744bb8b7255a26, type: 3}
   bossPrefab: {fileID: 4280012704958805786, guid: 4c293139bb8ba9c45a16378913dd98f8, type: 3}
   spawnPositions:
   - {fileID: 424337497}

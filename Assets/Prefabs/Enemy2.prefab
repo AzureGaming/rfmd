@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2586019717237176782}
   - component: {fileID: 2586019717237176781}
-  - component: {fileID: 1435595953310037511}
   - component: {fileID: 2988493076682731986}
   - component: {fileID: 4099802476344946042}
   - component: {fileID: -4201439154388309645}
+  - component: {fileID: 7435367769130745997}
   m_Layer: 0
-  m_Name: Enemy1
+  m_Name: Enemy2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 500
   m_Sprite: {fileID: 8281347510488068062, guid: c766ea1cbf3c0844f81fef235daa1991, type: 3}
-  m_Color: {r: 0.4842936, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.8291087, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -86,20 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1435595953310037511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2586019717237176780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62765e6c18e126147b4e70714596cc81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 0
-  bloodSplatPrefab: {fileID: 347753598495848210, guid: 924ec22e83f24a44f9aece8640ca013e, type: 3}
 --- !u!95 &2988493076682731986
 Animator:
   serializedVersion: 3
@@ -110,7 +96,7 @@ Animator:
   m_GameObject: {fileID: 2586019717237176780}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7e5ec3a86c67c2d478ed3efafa51d197, type: 2}
+  m_Controller: {fileID: 9100000, guid: e215462a79aa4d344956a42a82740365, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -144,28 +130,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - clip: {fileID: 8300000, guid: c5a08d9334d8e754b8a94815befa9b8b, type: 3}
+  - clip: {fileID: 8300000, guid: e436d2dfb0646a04497477ac7362b6f4, type: 3}
     name: Telegraph
     volume: 0.25
     pitch: 1
     startTime: 0
-    endTime: 1
+    endTime: 2
     loop: 0
     source: {fileID: 0}
-  - clip: {fileID: 8300000, guid: 4b69d8a9fbe71ec43b2883b4eb4113ad, type: 3}
+  - clip: {fileID: 8300000, guid: 5300463d127877f409bd08a035d8415f, type: 3}
     name: Attack
-    volume: 1
+    volume: 0.25
     pitch: 1
-    startTime: 0.25
-    endTime: 1
+    startTime: 0
+    endTime: 2
     loop: 0
     source: {fileID: 0}
-  - clip: {fileID: 8300000, guid: 38ab60ba1e16a6b49891249a1edbad3b, type: 3}
+  - clip: {fileID: 8300000, guid: 38dd89bc74c296e48a6c064fc8691876, type: 3}
     name: Impact
     volume: 1
     pitch: 1
     startTime: 0
-    endTime: 1
+    endTime: 2
     loop: 0
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 3456b15f648450b47b72149b5d08f450, type: 3}
@@ -176,3 +162,17 @@ MonoBehaviour:
     endTime: 0
     loop: 0
     source: {fileID: 0}
+--- !u!114 &7435367769130745997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586019717237176780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f1211d8a1b2e204a8fbad5c134053b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  bloodSplatPrefab: {fileID: 347753598495848210, guid: 924ec22e83f24a44f9aece8640ca013e, type: 3}

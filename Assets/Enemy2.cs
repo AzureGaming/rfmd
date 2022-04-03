@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy1 : Enemy
+public class Enemy2 : Enemy
 {
     public delegate void Impact(AttackType attackType);
     public static Impact OnImpact;
@@ -16,7 +16,7 @@ public class Enemy1 : Enemy
 
     const int MAX_HEALTH = 10;
     const float DESTROY_DELAY = 0.5f;
-    const AttackType ATTACK_TYPE = AttackType.High;
+    const AttackType ATTACK_TYPE = AttackType.Low;
     bool isAttacking;
 
     private void OnEnable()
@@ -75,9 +75,9 @@ public class Enemy1 : Enemy
 
     void Die()
     {
+        OnDeath.Invoke();
         audio.PlayDeath();
         Instantiate(bloodSplatPrefab, transform.position - new Vector3(0.5f, 0f), Quaternion.identity, Camera.main.transform);
-        OnDeath.Invoke();
         FindObjectOfType<EnemyAttackManager>().RemoveEnemy(this);
         GameManager.OnActionDone?.Invoke();
         Destroy(gameObject);
