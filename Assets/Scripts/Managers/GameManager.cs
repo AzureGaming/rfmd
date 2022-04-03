@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     public static DifficultyUp OnDifficultyUp;
     public delegate void DamageEnemy(int damage);
     public static DamageEnemy OnDamageEnemy;
+    public delegate void DamageBoss(int damage);
+    public static DamageBoss OnDamageBoss;
 
     const int COMBO_DAMAGE = 20;
     const int WEAPON_DAMAGE_MULTIPLER = 10;
@@ -55,7 +57,10 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         OnPickupWeaponPoint += HandlePickupWeaponPoint;
+        // must register every enemy type
         Enemy1.OnDeath += HandleEnemyKilled;
+        Boss.OnDeath += HandleBossKilled;
+        ///////////////////////////////////
         Player.OnHit += PlayerHit;
         Player.OnDeath += PlayerDied;
         Player.OnDodged += PlayerDodged;
@@ -66,6 +71,7 @@ public class GameManager : MonoBehaviour
     {
         OnPickupWeaponPoint -= HandlePickupWeaponPoint;
         Enemy1.OnDeath -= HandleEnemyKilled;
+        Boss.OnDeath -= HandleBossKilled;
         Player.OnHit -= PlayerHit;
         Player.OnDeath -= PlayerDied;
         Player.OnDodged -= PlayerDodged;
@@ -109,7 +115,16 @@ public class GameManager : MonoBehaviour
     void PlayerDodged()
     {
         SetScore(score + dodgePoints);
-        OnDamageEnemy?.Invoke(GetDamage());
+        // NOTE: enemy and boss events are both invoked when dodge occurs.
+        bool isBossAlive = FindObjectOfType<Boss>() != null;
+        if (isBossAlive)
+        {
+            OnDamageBoss?.Invoke(GetDamage());
+        }
+        else
+        {
+            OnDamageEnemy?.Invoke(GetDamage());
+        }
     }
 
     IEnumerator ScoreRoutine()
@@ -123,6 +138,11 @@ public class GameManager : MonoBehaviour
 
     public int GetDamage()
     {
+        bool isDamagingBoss = FindObjectOfType<Boss>() != null;
+        if (isDamagingBoss)
+        {
+            return (int)(PLAYER_BASE_DAMAGE * weaponLevel * FindObjectOfType<Boss>().DAMAGE_REDUCTION);
+        }
         return PLAYER_BASE_DAMAGE * weaponLevel;
     }
 
@@ -148,13 +168,18 @@ public class GameManager : MonoBehaviour
             newPos.x = playerBossPosition.position.x;
             FindObjectOfType<Player>().transform.position = newPos;
             Enemy1[] enemyRefs = FindObjectsOfType<Enemy1>();
-            foreach(Enemy1 enemyRef in enemyRefs)
+            foreach (Enemy1 enemyRef in enemyRefs)
             {
                 Destroy(enemyRef.gameObject);
             }
             FindObjectOfType<EnemySpawner>().StopSpawning();
             FindObjectOfType<EnemySpawner>().SpawnBoss();
         }
+    }
+
+    void HandleBossKilled()
+    {
+
     }
 
     void HandlePickupWeaponPoint()

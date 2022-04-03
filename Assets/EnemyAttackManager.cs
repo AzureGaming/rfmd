@@ -44,11 +44,10 @@ public class EnemyAttackManager : MonoBehaviour
     {
         for (; ; )
         {
-            Enemy[] enemyRefs = FindObjectsOfType<Enemy>();
-            Debug.Log(enemyRefs.Length);
+            GameObject[] enemyRefs = GameObject.FindGameObjectsWithTag("Enemy");
             if (enemyRefs.Length > 0)
             {
-                attackingEnemy = enemyRefs[Random.Range(0, enemyRefs.Length - 1)];
+                attackingEnemy = enemyRefs[Random.Range(0, enemyRefs.Length - 1)].GetComponent<Enemy>();
                 yield return StartCoroutine(attackingEnemy.Attack());
                 yield return new WaitForSeconds(1f);
             }

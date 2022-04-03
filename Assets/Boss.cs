@@ -11,11 +11,12 @@ public class Boss : Enemy
     public delegate void Spawn();
     public static Spawn OnSpawn;
 
-    protected HealthBar healthBar;
+    public float DAMAGE_REDUCTION { get; private set; } = 0.5f;
 
-    const int MAX_HEALTH = 10;
+    const int MAX_HEALTH = 100;
     protected bool isAttacking;
     protected AttackType attackType;
+    protected HealthBar healthBar;
 
     protected virtual void Awake()
     {
@@ -38,11 +39,6 @@ public class Boss : Enemy
         {
             Die();
         }
-    }
-
-    public void DoneAttack()
-    {
-        isAttacking = false;
     }
 
     protected void SetHealth(int val)

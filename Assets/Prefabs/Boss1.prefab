@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 1538683657}
   - component: {fileID: -5362513529512413647}
   - component: {fileID: -7633160041082298821}
-  - component: {fileID: -406520089606654157}
+  - component: {fileID: -419283360205045387}
+  - component: {fileID: 2443911908491982309}
   m_Layer: 0
   m_Name: Boss1
   m_TagString: Boss
@@ -118,7 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   bloodSplatPrefab: {fileID: 347753598495848210, guid: 924ec22e83f24a44f9aece8640ca013e, type: 3}
---- !u!114 &-406520089606654157
+--- !u!114 &-419283360205045387
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,6 +128,75 @@ MonoBehaviour:
   m_GameObject: {fileID: 4280012704958805786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26fe4d354ab61974e923e2366cd48cf2, type: 3}
+  m_Script: {fileID: 11500000, guid: eab3a667ad0884e4b8193a3412bbeee2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - clip: {fileID: 8300000, guid: e436d2dfb0646a04497477ac7362b6f4, type: 3}
+    name: Telegraph_Low
+    volume: 0.25
+    pitch: 1
+    startTime: 0
+    endTime: 2
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 5300463d127877f409bd08a035d8415f, type: 3}
+    name: Attack_Low
+    volume: 0.25
+    pitch: 1
+    startTime: 0
+    endTime: 2
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: c5a08d9334d8e754b8a94815befa9b8b, type: 3}
+    name: Telegraph_High
+    volume: 0.25
+    pitch: 1
+    startTime: 0
+    endTime: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 4b69d8a9fbe71ec43b2883b4eb4113ad, type: 3}
+    name: Attack_High
+    volume: 1
+    pitch: 1
+    startTime: 0.25
+    endTime: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 38ab60ba1e16a6b49891249a1edbad3b, type: 3}
+    name: High_Impact
+    volume: 1
+    pitch: 1
+    startTime: 0
+    endTime: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 38dd89bc74c296e48a6c064fc8691876, type: 3}
+    name: Low_Impact
+    volume: 1
+    pitch: 1
+    startTime: 0
+    endTime: 2
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 3456b15f648450b47b72149b5d08f450, type: 3}
+    name: Death
+    volume: 1
+    pitch: 1
+    startTime: 0
+    endTime: 0
+    loop: 0
+    source: {fileID: 0}
+--- !u!114 &2443911908491982309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4280012704958805786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9e4c5e68e0400147bad7c9b50146206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
