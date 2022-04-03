@@ -22,13 +22,18 @@ public class EnemyAnimationEvents : MonoBehaviour
         enemyRef.isHitting = false;
     }
 
+    public void ReverseTelegraphAnimationComplete()
+    {
+        enemyRef.isReverseTelegraphing = false;
+    }
+
     public void AttackHighAnimationImpact()
     {
-        Enemy.OnAttackHigh?.Invoke();
+        Enemy.OnAttackHigh?.Invoke(GetComponent<Enemy>());
     }
 
     public void AttackLowAnimationImpact()
     {
-        Enemy.OnAttackLow?.Invoke();
+        Enemy.OnAttackLow?.Invoke(GetComponent<Enemy>());
     }
 }

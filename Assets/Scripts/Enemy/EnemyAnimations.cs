@@ -35,7 +35,7 @@ public class EnemyAnimations : MonoBehaviour
         animator.SetTrigger("Attack Low");
     }
 
-    public void StopTelegraphAttack(float speed)
+    public void PlayReverseTelegraph(float speed)
     {
         SetAnimationSpeed(speed);
         animator.SetTrigger("Stop Fakeout");

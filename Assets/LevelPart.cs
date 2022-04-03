@@ -23,7 +23,7 @@ public class LevelPart : Translate
         switch (level)
         {
             case 0:
-                    speed = LEVEL_PART_SPEED_LEVEL_0;
+                speed = LEVEL_PART_SPEED_LEVEL_0;
                 break;
             case 1:
                 speed = LEVEL_PART_SPEED_LEVEL_1;

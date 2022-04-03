@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    //public delegate void Attacked(string attackType);
-    //public static Attacked OnAttacked;
     public delegate void Hit();
     public static Hit OnHit;
     public delegate void Jumped();
@@ -23,8 +21,6 @@ public class Player : MonoBehaviour
     public bool isDead { get; private set; } = false;
 
     [SerializeField] bool isGodMode = false;
-    bool queueJump = false;
-    bool queueSlide = false;
     bool grounded = false;
     bool isInvincible = false;
     bool isComboAttacking = false;
@@ -42,12 +38,14 @@ public class Player : MonoBehaviour
     {
         Enemy.OnAttackHigh += HandleAttackedHigh;
         Enemy.OnAttackLow += HandleAttackedLow;
+        Enemy1.OnImpact += Test;
     }
 
     private void OnDisable()
     {
         Enemy.OnAttackHigh -= HandleAttackedHigh;
         Enemy.OnAttackLow -= HandleAttackedLow;
+        Enemy1.OnImpact -= Test;
     }
 
     private void Awake()
@@ -70,13 +68,11 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
-                queueJump = true;
                 jumpRoutine = StartCoroutine(Jump());
             }
 
             if (Input.GetKeyDown(KeyCode.S))
             {
-                queueSlide = true;
                 slideRoutine = StartCoroutine(Slide());
 
             }
@@ -88,6 +84,20 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         IsGrounded();
+    }
+
+    void Test()
+    {
+        if (slideRoutine == null)
+        {
+            Debug.Log("You didn't slide. Took damage");
+            TakeDamage();
+        }
+        else
+        {
+            Enemy.OnMissHigh?.Invoke();
+            Dodge();
+        }
     }
 
     public void ComboAttack()
@@ -106,7 +116,7 @@ public class Player : MonoBehaviour
         spriteR.color = origColor;
     }
 
-    void HandleAttackedHigh()
+    void HandleAttackedHigh(Enemy enemyRef)
     {
         if (invincibleRoutine != null)
         {
@@ -116,7 +126,7 @@ public class Player : MonoBehaviour
         if (slideRoutine == null)
         {
             Debug.Log("You didn't slide. Took damage");
-            Enemy.OnHitHigh?.Invoke();
+            //Enemy.OnHitHigh?.Invoke();
             TakeDamage();
         }
         else
@@ -126,7 +136,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void HandleAttackedLow()
+    void HandleAttackedLow(Enemy enemyRef)
     {
         if (invincibleRoutine != null)
         {

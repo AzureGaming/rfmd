@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public int level;
     public int score;
     public int weaponPoints = 0;
+    public bool isFirstEnemy = true;
 
     int enemiesKilled = 0;
     int weaponLevel = 1;
@@ -53,7 +54,7 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         OnPickupWeaponPoint += HandlePickupWeaponPoint;
-        Enemy.OnDeath += HandleEnemyKilled;
+        Enemy1.OnDeath += HandleEnemyKilled;
         Player.OnHit += PlayerHit;
         Player.OnDeath += PlayerDied;
         Player.OnDodged += PlayerDodged;
@@ -65,7 +66,7 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         OnPickupWeaponPoint -= HandlePickupWeaponPoint;
-        Enemy.OnDeath -= HandleEnemyKilled;
+        Enemy1.OnDeath -= HandleEnemyKilled;
         Player.OnHit -= PlayerHit;
         Player.OnDeath -= PlayerDied;
         Player.OnDodged -= PlayerDodged;
@@ -141,9 +142,22 @@ public class GameManager : MonoBehaviour
 
     void HandleEnemyKilled()
     {
+        if (isFirstEnemy)
+        {
+            isFirstEnemy = false;
+        }
         enemiesKilled++;
         SetEnemiesKilled(enemiesKilled);
-        SpawnEnemy();
+
+
+        SetWeaponExp(weaponExperience + 10);
+
+        //if (enemiesKilled == 2)
+        //{
+        //    FindObjectOfType<EnemySpawner>().StopSpawning();
+        //    FindObjectOfType<EnemySpawner>().SpawnBoss();
+        //}
+        //SpawnEnemy();
     }
 
     void HandlePickupWeaponPoint()
@@ -168,7 +182,17 @@ public class GameManager : MonoBehaviour
 
     void HandlePickupExperiencePoint()
     {
-        weaponExperience++;
+        SetWeaponExp(weaponExperience + 1);
+    }
+
+    void ResetWeaponPoints()
+    {
+        SetWeaponPoints(0);
+    }
+
+    void SetWeaponExp(int value)
+    {
+        weaponExperience += value;
         if (weaponExperience >= WEAPON_LEVEL_UP_THRESHOLD)
         {
             weaponLevel++;
@@ -176,11 +200,7 @@ public class GameManager : MonoBehaviour
         }
         experienceBar.SetHealth(weaponExperience);
         weaponLevelDisplay.SetText(weaponLevel);
-    }
 
-    void ResetWeaponPoints()
-    {
-        SetWeaponPoints(0);
     }
 
     void SetWeaponPoints(int points)

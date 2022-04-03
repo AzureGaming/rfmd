@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyFlashRed : MonoBehaviour
 {
     SpriteRenderer spriteR;
+    Color origColor;
 
     private void OnEnable()
     {
@@ -19,6 +20,7 @@ public class EnemyFlashRed : MonoBehaviour
     private void Awake()
     {
         spriteR = GetComponent<SpriteRenderer>();
+        origColor = spriteR.color;
     }
 
     void HandleTakeDamage(int damage)
@@ -33,7 +35,6 @@ public class EnemyFlashRed : MonoBehaviour
     {
         float timeElapsed = 0f;
         float totalTime = 0.001f;
-        Color origColor = spriteR.color;
         Color redColor = Color.red;
         redColor.a = 50;
 
