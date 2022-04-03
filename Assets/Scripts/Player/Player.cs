@@ -36,16 +36,14 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        Enemy.OnAttackHigh += HandleAttackedHigh;
-        Enemy.OnAttackLow += HandleAttackedLow;
-        Enemy1.OnImpact += Test;
+        Enemy1.OnImpact += HandleAttacked;
+        Boss.OnImpact += HandleAttacked;
     }
 
     private void OnDisable()
     {
-        Enemy.OnAttackHigh -= HandleAttackedHigh;
-        Enemy.OnAttackLow -= HandleAttackedLow;
-        Enemy1.OnImpact -= Test;
+        Enemy1.OnImpact -= HandleAttacked;
+        Boss.OnImpact -= HandleAttacked;
     }
 
     private void Awake()
@@ -74,7 +72,6 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.S))
             {
                 slideRoutine = StartCoroutine(Slide());
-
             }
         }
 
@@ -86,75 +83,24 @@ public class Player : MonoBehaviour
         IsGrounded();
     }
 
-    void Test()
-    {
-        if (slideRoutine == null)
-        {
-            Debug.Log("You didn't slide. Took damage");
-            TakeDamage();
-        }
-        else
-        {
-            Enemy.OnMissHigh?.Invoke();
-            Dodge();
-        }
-    }
-
-    public void ComboAttack()
-    {
-        isComboAttacking = true;
-        // PLACEHOLDER
-        Color targetColor = Color.blue;
-
-        origColor = spriteR.color;
-        spriteR.color = targetColor;
-    }
-
-    public void EndComboAttack()
-    {
-        isComboAttacking = false;
-        spriteR.color = origColor;
-    }
-
-    void HandleAttackedHigh(Enemy enemyRef)
+    void HandleAttacked(Enemy.AttackType attackType)
     {
         if (invincibleRoutine != null)
         {
             return;
         }
 
-        if (slideRoutine == null)
+        bool damagedHigh = attackType == Enemy.AttackType.High && slideRoutine == null;
+        bool damagedLow = attackType == Enemy.AttackType.Low && jumpRoutine == null;
+
+        if (damagedHigh || damagedLow)
         {
-            Debug.Log("You didn't slide. Took damage");
-            //Enemy.OnHitHigh?.Invoke();
             TakeDamage();
         }
         else
         {
-            Enemy.OnMissHigh?.Invoke();
             Dodge();
         }
-    }
-
-    void HandleAttackedLow(Enemy enemyRef)
-    {
-        if (invincibleRoutine != null)
-        {
-            return;
-        }
-
-        if (jumpRoutine == null)
-        {
-            Debug.Log("You didn't jump. Took damage");
-            Enemy.OnHitLow?.Invoke();
-            TakeDamage();
-        }
-        else
-        {
-            Enemy.OnMissLow?.Invoke();
-            Dodge();
-        }
-
     }
 
     void Dodge()
@@ -169,6 +115,7 @@ public class Player : MonoBehaviour
         {
             return;
         }
+
         OnHit?.Invoke();
         if (gameManager.lives < 1)
         {

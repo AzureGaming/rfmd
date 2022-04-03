@@ -10,9 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 5919046974775828537}
   - component: {fileID: 1538683657}
+  - component: {fileID: -5362513529512413647}
+  - component: {fileID: -7633160041082298821}
+  - component: {fileID: -406520089606654157}
   m_Layer: 0
-  m_Name: Boss
-  m_TagString: Untagged
+  m_Name: Boss1
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,3 +85,48 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &-5362513529512413647
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4280012704958805786}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c4622c213c719464d95d6a34b4f6a566, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-7633160041082298821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4280012704958805786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77010e7ab98c6a240a662ad797018789, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  bloodSplatPrefab: {fileID: 347753598495848210, guid: 924ec22e83f24a44f9aece8640ca013e, type: 3}
+--- !u!114 &-406520089606654157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4280012704958805786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26fe4d354ab61974e923e2366cd48cf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

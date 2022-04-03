@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 2586019717237176782}
   - component: {fileID: 2586019717237176781}
   - component: {fileID: 1435595953310037511}
-  - component: {fileID: 7150959676097301905}
   - component: {fileID: 2988493076682731986}
   - component: {fileID: 4099802476344946042}
+  - component: {fileID: -4201439154388309645}
   m_Layer: 0
   m_Name: Enemy1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,19 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62765e6c18e126147b4e70714596cc81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
   bloodSplatPrefab: {fileID: 347753598495848210, guid: 924ec22e83f24a44f9aece8640ca013e, type: 3}
---- !u!114 &7150959676097301905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2586019717237176780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: add5372db72b3b34291a46b3f72d1b4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &2988493076682731986
 Animator:
   serializedVersion: 3
@@ -142,3 +131,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26fe4d354ab61974e923e2366cd48cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4201439154388309645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586019717237176780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eab3a667ad0884e4b8193a3412bbeee2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - clip: {fileID: 8300000, guid: c5a08d9334d8e754b8a94815befa9b8b, type: 3}
+    name: Telegraph
+    volume: 0.25
+    pitch: 1
+    startTime: 0
+    endTime: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 4b69d8a9fbe71ec43b2883b4eb4113ad, type: 3}
+    name: Attack
+    volume: 1
+    pitch: 1
+    startTime: 0.25
+    endTime: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 38ab60ba1e16a6b49891249a1edbad3b, type: 3}
+    name: Impact
+    volume: 1
+    pitch: 1
+    startTime: 0
+    endTime: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 3456b15f648450b47b72149b5d08f450, type: 3}
+    name: Death
+    volume: 1
+    pitch: 1
+    startTime: 0
+    endTime: 0
+    loop: 0
+    source: {fileID: 0}

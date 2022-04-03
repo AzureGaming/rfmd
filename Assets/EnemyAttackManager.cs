@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyAttackManager : MonoBehaviour
 {
-    Enemy1 attackingEnemy;
+    Enemy attackingEnemy;
     GameManager gameManager;
 
     const float ATTACK_DELAY_MAX_LEVEL_0 = 4f;
@@ -44,12 +44,13 @@ public class EnemyAttackManager : MonoBehaviour
     {
         for (; ; )
         {
-            Enemy1[] enemyRefs = FindObjectsOfType<Enemy1>();
+            Enemy[] enemyRefs = FindObjectsOfType<Enemy>();
+            Debug.Log(enemyRefs.Length);
             if (enemyRefs.Length > 0)
             {
                 attackingEnemy = enemyRefs[Random.Range(0, enemyRefs.Length - 1)];
                 yield return StartCoroutine(attackingEnemy.Attack());
-                yield return new WaitForSeconds(GetAttackDelay());
+                yield return new WaitForSeconds(1f);
             }
             yield return null;
         }

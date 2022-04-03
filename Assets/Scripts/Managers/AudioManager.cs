@@ -6,11 +6,9 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
-    List<Coroutine> activeSounds;
 
     private void Awake()
     {
-        activeSounds = new List<Coroutine>();
         foreach (Sound sound in sounds)
         {
             AttachAudioSource(sound);
@@ -30,7 +28,6 @@ public class AudioManager : MonoBehaviour
         if (sound.loop)
         {
             Coroutine loopRoutine = StartCoroutine(PlayLoop(sound));
-            //activeSounds.Add(loopRoutine);
             return () =>
             {
                 sound.source.Stop();

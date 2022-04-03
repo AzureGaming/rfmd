@@ -11,6 +11,8 @@ TagManager:
   - BG_Mountains
   - BG_Front_Rocks
   - BG_Back_Rocks
+  - Enemy
+  - Boss
   layers:
   - Default
   - TransparentFX

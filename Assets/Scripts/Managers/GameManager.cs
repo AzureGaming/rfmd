@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] HealthBar experienceBar;
     [SerializeField] GameObject levelUpText;
+    [SerializeField] Transform playerBossPosition;
 
     public int lives;
     public int dodgePoints = 50;
@@ -59,8 +60,6 @@ public class GameManager : MonoBehaviour
         Player.OnDeath += PlayerDied;
         Player.OnDodged += PlayerDodged;
         OnTouchWeaponLocker += HandleWeaponLockerTouch;
-        OnPickupComboPoint += HandlePickupComboPoint;
-        OnPickupExperiencePoint += HandlePickupExperiencePoint;
     }
 
     private void OnDisable()
@@ -71,8 +70,6 @@ public class GameManager : MonoBehaviour
         Player.OnDeath -= PlayerDied;
         Player.OnDodged -= PlayerDodged;
         OnTouchWeaponLocker -= HandleWeaponLockerTouch;
-        OnPickupComboPoint -= HandlePickupComboPoint;
-        OnPickupExperiencePoint -= HandlePickupExperiencePoint;
     }
 
     private void Awake()
@@ -129,11 +126,6 @@ public class GameManager : MonoBehaviour
         return PLAYER_BASE_DAMAGE * weaponLevel;
     }
 
-    void SpawnEnemy()
-    {
-        StartCoroutine(DelaySpawn());
-    }
-
     void HandleWeaponLockerTouch()
     {
         OnDamageEnemy?.Invoke(GetDamage());
@@ -148,41 +140,26 @@ public class GameManager : MonoBehaviour
         }
         enemiesKilled++;
         SetEnemiesKilled(enemiesKilled);
-
-
         SetWeaponExp(weaponExperience + 10);
 
-        //if (enemiesKilled == 2)
-        //{
-        //    FindObjectOfType<EnemySpawner>().StopSpawning();
-        //    FindObjectOfType<EnemySpawner>().SpawnBoss();
-        //}
-        //SpawnEnemy();
+        if (weaponLevel >= 3)
+        {
+            Vector3 newPos = FindObjectOfType<Player>().transform.position;
+            newPos.x = playerBossPosition.position.x;
+            FindObjectOfType<Player>().transform.position = newPos;
+            Enemy1[] enemyRefs = FindObjectsOfType<Enemy1>();
+            foreach(Enemy1 enemyRef in enemyRefs)
+            {
+                Destroy(enemyRef.gameObject);
+            }
+            FindObjectOfType<EnemySpawner>().StopSpawning();
+            FindObjectOfType<EnemySpawner>().SpawnBoss();
+        }
     }
 
     void HandlePickupWeaponPoint()
     {
         SetWeaponPoints(weaponPoints + 1);
-    }
-
-    void HandlePickupComboPoint()
-    {
-        Enemy enemy = null;
-        // enemy stops attacking
-        while (!enemy)
-        {
-            if (FindObjectOfType<Enemy>() != null)
-            {
-                enemy = FindObjectOfType<Enemy>();
-            }
-        }
-        //enemy.StopAttacking();
-        StartCoroutine(ComboRoutine());
-    }
-
-    void HandlePickupExperiencePoint()
-    {
-        SetWeaponExp(weaponExperience + 1);
     }
 
     void ResetWeaponPoints()
@@ -238,26 +215,6 @@ public class GameManager : MonoBehaviour
         enemiesKilledDisplay?.SetText(enemiesKilled);
     }
 
-    IEnumerator ComboRoutine()
-    {
-        // player does animation
-        FindObjectOfType<Player>().ComboAttack();
-        // enemy does animation
-        // apply damage to enemy
-        //FindObjectOfType<Enemy>().StopAttacking();
-        OnDamageEnemy?.Invoke(COMBO_DAMAGE);
-        // player return to regular state
-        yield return new WaitForSeconds(2f);
-        FindObjectOfType<Player>().EndComboAttack();
-        // update score
-        //FindObjectOfType<Enemy>()?.StartAttacking(); // enemy may have died from combo
-    }
-
-    IEnumerator DelaySpawn()
-    {
-        yield return new WaitForSeconds(1f);
-        Instantiate(enemyPrefab, Camera.main.transform);
-    }
 
     void SetLevel(int val)
     {
