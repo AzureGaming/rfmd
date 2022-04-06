@@ -5,76 +5,80 @@ using UnityEngine;
 
 public class EnemyAttackManager : MonoBehaviour
 {
-    Enemy attackingEnemy;
+    Enemy chosen;
     GameManager gameManager;
-    List<Enemy> enemyRefs;
-    Coroutine routine;
+    EnemyManager enemyManager;
+    bool isEnemyAttacking = false;
+    float attackTimer;
 
     const float ATTACK_DELAY_MAX_LEVEL_0 = 3.5f;
     const float ATTACK_DELAY_MIN_LEVEL_0 = 3f;
     const float ATTACK_DELAY_MAX_LEVEL_1 = 3f;
     const float ATTACK_DELAY_MIN_LEVEL_1 = 2f;
-    bool isActionDone = true; // flag set when player dodges or enemy dies 
 
     private void OnEnable()
     {
-        GameManager.OnDamageEnemy += ActiveEnemyTakeDamage;
-        EnemySpawner.OnSpawned += AddEnemy;
-        GameManager.OnActionDone += CompleteAction;
+        GameManager.OnDamageEnemy += EnemyDamaged;
+        GameManager.OnDamagePlayer += PlayerDamaged;
     }
 
     private void OnDisable()
     {
-        GameManager.OnDamageEnemy -= ActiveEnemyTakeDamage;
-        EnemySpawner.OnSpawned -= AddEnemy;
-        GameManager.OnActionDone -= CompleteAction;
+        GameManager.OnDamageEnemy -= EnemyDamaged;
+        GameManager.OnDamagePlayer -= PlayerDamaged;
     }
 
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
-        enemyRefs = new List<Enemy>();
+        enemyManager = FindObjectOfType<EnemyManager>();
     }
 
-    private void Start()
+    private void Update()
     {
-        StartCoroutine(Routine());
-    }
-
-    public void RemoveEnemy(Enemy enemy)
-    {
-        enemyRefs.Remove(enemy);
-    }
-
-    public void ActiveEnemyTakeDamage(int damage)
-    {
-        if (attackingEnemy != null)
+        if (!chosen)
         {
-            attackingEnemy.TakeDamage(damage);
+            ChooseRandomEnemy();
+            SetAttackTimer();
+        }
+
+        if (chosen && attackTimer <= 0f)
+        {
+            isEnemyAttacking = true;
+            chosen.Attack();
+        }
+
+        attackTimer -= Time.deltaTime;
+    }
+
+    void ChooseRandomEnemy()
+    {
+        List<Enemy> availableEnemies = enemyManager.enemyRefs;
+        if (availableEnemies.Count > 0)
+        {
+            chosen = availableEnemies[Random.Range(0, availableEnemies.Count)];
         }
     }
 
-    IEnumerator Routine()
+    void EnemyDamaged(int damage)
     {
-        for (; ; )
+        if (isEnemyAttacking)
         {
-            if (enemyRefs.Count > 0 && isActionDone)
-            {
-                // TODO: fix first enemy attacking instantly
-                isActionDone = false;
-                EnemyAttack();
-                yield return new WaitWhile(() => !isActionDone);
-                yield return new WaitForSeconds(GetAttackDelay());
-            }
-            yield return null;
+            chosen?.TakeDamage(damage);
         }
+        isEnemyAttacking = false;
+        chosen = null;
     }
 
-    void EnemyAttack()
+    void PlayerDamaged()
     {
-        Enemy enemyToAttack = enemyRefs[Random.Range(0, enemyRefs.Count)];
-        attackingEnemy = enemyToAttack;
-        StartCoroutine(enemyToAttack.Attack());
+        isEnemyAttacking = false;
+        chosen = null;
+    }
+
+    void SetAttackTimer()
+    {
+        attackTimer = GetAttackDelay();
     }
 
     float GetAttackDelay()
@@ -88,15 +92,5 @@ public class EnemyAttackManager : MonoBehaviour
         {
             return Random.Range(ATTACK_DELAY_MIN_LEVEL_1, ATTACK_DELAY_MAX_LEVEL_1);
         }
-    }
-
-    void AddEnemy(Enemy enemy)
-    {
-        enemyRefs.Add(enemy);
-    }
-
-    void CompleteAction()
-    {
-        isActionDone = true;
     }
 }

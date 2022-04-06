@@ -11,6 +11,6 @@ public class Enemy : MonoBehaviour
         Low
     }
 
-    public virtual IEnumerator Attack() { yield break; }
+    public virtual void Attack() { }
     public virtual void TakeDamage(int damage) { }
 }

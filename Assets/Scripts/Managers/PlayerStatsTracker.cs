@@ -77,7 +77,7 @@ public class PlayerStatsTracker : MonoBehaviour
         SaveToPrefs();
     }
 
-    void UpdateEnemiesKilled()
+    void UpdateEnemiesKilled(Enemy _)
     {
         loaded.enemiesKilled += 1;
         SaveToPrefs();

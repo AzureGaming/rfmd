@@ -6,7 +6,7 @@ public class Enemy1 : Enemy
 {
     public delegate void Impact(AttackType attackType);
     public static Impact OnImpact;
-    public delegate void Death();
+    public delegate void Death(Enemy self);
     public static Death OnDeath;
 
     [SerializeField] GameObject bloodSplatPrefab;
@@ -15,18 +15,18 @@ public class Enemy1 : Enemy
     new Enemy1Audio audio;
 
     const int MAX_HEALTH = 10;
-    const float DESTROY_DELAY = 0.5f;
     const AttackType ATTACK_TYPE = AttackType.High;
     bool isAttacking;
+    bool waitingForHitResponse;
 
     private void OnEnable()
     {
-        //Player.OnHit += audio.PlayImpact;
+        Player.OnHit += HandleHitSuccess;
     }
 
     private void OnDisable()
     {
-        //Player.OnHit -= audio.PlayImpact;
+        Player.OnHit -= HandleHitSuccess;
     }
 
     private void Awake()
@@ -42,28 +42,42 @@ public class Enemy1 : Enemy
         healthBar.SetMaxHealth(MAX_HEALTH);
     }
 
-    public void CheckHit()
+    private void Update()
     {
-        isAttacking = false;
+        if (isAttacking)
+        {
+            isAttacking = false;
+            anim.SetTrigger("Attack");
+            waitingForHitResponse = true;
+        }
+
+        if (health <= 0)
+        {
+            Die();
+        }
     }
 
-    public override IEnumerator Attack()
+    public override void Attack()
     {
-        // Note: this coroutine may still be running when gameobj is destroyed due to death.
         isAttacking = true;
-        anim.SetTrigger("Attack");
-        audio.PlayTelegraph();
-        yield return new WaitUntil(() => !isAttacking);
+    }
+
+    public void CheckHit()
+    {
         OnImpact?.Invoke(ATTACK_TYPE);
-        audio.PlayAttack();
     }
 
     public override void TakeDamage(int damage)
     {
         SetHealth(health - damage);
-        if (health <= 0)
+    }
+
+    void HandleHitSuccess()
+    {
+        if (waitingForHitResponse)
         {
-            Die();
+            audio.PlayImpact();
+            waitingForHitResponse = false;
         }
     }
 
@@ -75,11 +89,9 @@ public class Enemy1 : Enemy
 
     void Die()
     {
+        OnDeath.Invoke(this);
         audio.PlayDeath();
         Instantiate(bloodSplatPrefab, transform.position - new Vector3(0.5f, 0f), Quaternion.identity, Camera.main.transform);
-        OnDeath.Invoke();
-        FindObjectOfType<EnemyAttackManager>().RemoveEnemy(this);
-        GameManager.OnActionDone?.Invoke();
         Destroy(gameObject);
     }
 }

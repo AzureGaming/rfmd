@@ -9,7 +9,7 @@ public class Boss1 : Boss
     SpriteRenderer spriteR;
     new Boss1Audio audio;
 
-    const float DESTROY_DELAY = 0.5f;
+    new protected const int MAX_HEALTH = 200;
 
     private void OnEnable()
     {
@@ -49,8 +49,12 @@ public class Boss1 : Boss
         }
     }
 
+    //public override void Attack()
+    //{
+    //    StartCoroutine(AttackRoutine());
+    //}
 
-    public override IEnumerator Attack()
+    IEnumerator AttackRoutine()
     {
         isAttacking = true;
         attackType = (AttackType)Random.Range(0, 2);
@@ -69,13 +73,32 @@ public class Boss1 : Boss
 
         //loop
         yield return new WaitForSeconds(1f);
-        StartCoroutine(Attack());
+        StartCoroutine(AttackRoutine());
     }
 
     protected override IEnumerator BossRoutine()
     {
-        yield return new WaitForSeconds(1f);
-        StartCoroutine(Attack());
+        // phase 1
+        yield return new WaitForSeconds(1.5f); // grace period
+        while (health >= 100)
+        {
+            Debug.Log("PHASE 1");
+            anim.SetTrigger("Attack1");
+            yield return new WaitUntil(() => !isAttacking);
+            anim.SetTrigger("Attack1");
+            yield return new WaitUntil(() => !isAttacking);
+
+            anim.SetTrigger("Attack2");
+            yield return new WaitUntil(() => !isAttacking);
+            anim.SetTrigger("Attack2");
+            yield return new WaitUntil(() => !isAttacking);
+            yield return new WaitForSeconds(1f);
+            Debug.Log("DONE PHASE 1");
+        }
+
+        Debug.Log("PHASE 2");
+        anim.SetTrigger("Attack1");
+        yield return new WaitUntil(() => !isAttacking);
     }
 
     protected override void Die()
@@ -84,7 +107,7 @@ public class Boss1 : Boss
         audio.PlayDeath();
         spriteR.color = Color.clear;
         Instantiate(bloodSplatPrefab, transform.position - new Vector3(0.5f, 0f), Quaternion.identity, Camera.main.transform);
-        StartCoroutine(Destroy(DESTROY_DELAY));
+        Destroy(gameObject);
     }
 
     void HandlePlayerHit()
@@ -97,11 +120,5 @@ public class Boss1 : Boss
         {
             //audio.PlayHighImpact();
         }
-    }
-
-    IEnumerator Destroy(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        Destroy(gameObject);
     }
 }

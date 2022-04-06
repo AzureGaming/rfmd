@@ -15,7 +15,7 @@ public class Boss : Enemy
 
     public float DAMAGE_REDUCTION { get; private set; } = 0.1f;
 
-    const int MAX_HEALTH = 100;
+    protected const int MAX_HEALTH = 100;
     protected bool isAttacking;
     protected AttackType attackType;
     protected HealthBar healthBar;
