@@ -17,7 +17,7 @@ public class CameraShake : MonoBehaviour
         GameManager.OnDamageBoss -= Shake;
     }
 
-    void Shake(int val)
+    void Shake(int _)
     {
         StartCoroutine(ShakeRoutine());
     }

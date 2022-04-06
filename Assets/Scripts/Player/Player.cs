@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public static Hit OnHit;
     public delegate void Jumped();
     public static Jumped OnJumped;
-    public delegate void Dodged();
+    public delegate void Dodged(Enemy enemyRef);
     public static Dodged OnDodged;
     public delegate void Death();
     public static Death OnDeath;
@@ -36,20 +36,12 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        // MUST REGISTER EVERY ENEMY TYPE
-        Enemy1.OnImpact += HandleAttacked;
-        Enemy2.OnImpact += HandleAttacked;
-        Boss.OnImpact += HandleAttacked;
-        /////////////////////////////////
+        Enemy.OnImpact += HandleAttacked;
     }
 
     private void OnDisable()
     {
-        // MUST REGISTER EVERY ENEMY TYPE
-        Enemy1.OnImpact -= HandleAttacked;
-        Enemy2.OnImpact -= HandleAttacked;
-        Boss.OnImpact -= HandleAttacked;
-        /////////////////////////////////
+        Enemy.OnImpact -= HandleAttacked;
     }
 
     private void Awake()
@@ -89,7 +81,7 @@ public class Player : MonoBehaviour
         IsGrounded();
     }
 
-    void HandleAttacked(Enemy.AttackType attackType)
+    void HandleAttacked(Enemy.AttackType attackType, Enemy enemyRef)
     {
         if (invincibleRoutine != null)
         {
@@ -105,14 +97,14 @@ public class Player : MonoBehaviour
         }
         else
         {
-            Dodge();
+            Dodge(enemyRef);
         }
     }
 
-    void Dodge()
+    void Dodge(Enemy enemyRef)
     {
         audio.PlayDodge();
-        OnDodged.Invoke();
+        OnDodged?.Invoke(enemyRef);
     }
 
     void TakeDamage()

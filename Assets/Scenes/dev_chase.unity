@@ -572,6 +572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
+  - {fileID: 2586019717237176780, guid: 98a2c9cbdb2ebbf44948e07d2ea4ac1b, type: 3}
   - {fileID: 2586019717237176780, guid: dc735c3e5f9c31346b744bb8b7255a26, type: 3}
   bossPrefab: {fileID: 4280012704958805786, guid: 4c293139bb8ba9c45a16378913dd98f8, type: 3}
   spawnPositions:
@@ -3830,7 +3831,7 @@ MonoBehaviour:
   lives: 5
   dodgePoints: 50
   isPlayerAlive: 0
-  level: 1
+  level: 5
   score: 0
   weaponPoints: 0
   isFirstEnemy: 1

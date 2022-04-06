@@ -5,16 +5,19 @@ using UnityEngine;
 
 public class EnemyAttackManager : MonoBehaviour
 {
-    Enemy chosen;
     GameManager gameManager;
     EnemyManager enemyManager;
-    bool isEnemyAttacking = false;
+    List<Enemy> attackingEnemies;
+    Enemy chosen;
     float attackTimer;
 
     const float ATTACK_DELAY_MAX_LEVEL_0 = 3.5f;
     const float ATTACK_DELAY_MIN_LEVEL_0 = 3f;
     const float ATTACK_DELAY_MAX_LEVEL_1 = 3f;
     const float ATTACK_DELAY_MIN_LEVEL_1 = 2f;
+    const float ATTACK_DELAY_LEVEL_2 = 2f;
+    const float ATTACK_DELAY_LEVEL_3 = 1f;
+    const float ATTACK_DELAY_LEVEL_4 = 0.5f;
 
     private void OnEnable()
     {
@@ -42,9 +45,8 @@ public class EnemyAttackManager : MonoBehaviour
             SetAttackTimer();
         }
 
-        if (chosen && attackTimer <= 0f)
+        if (IsValidAttack())
         {
-            isEnemyAttacking = true;
             chosen.Attack();
         }
 
@@ -60,19 +62,19 @@ public class EnemyAttackManager : MonoBehaviour
         }
     }
 
-    void EnemyDamaged(int damage)
+    void EnemyDamaged(int _)
     {
-        if (isEnemyAttacking)
-        {
-            chosen?.TakeDamage(damage);
-        }
-        isEnemyAttacking = false;
-        chosen = null;
+        CompleteAttack();
     }
 
     void PlayerDamaged()
     {
-        isEnemyAttacking = false;
+        CompleteAttack();
+    }
+
+    void CompleteAttack()
+    {
+        Debug.Log("Enemy finsiehd attack");
         chosen = null;
     }
 
@@ -88,9 +90,24 @@ public class EnemyAttackManager : MonoBehaviour
         {
             return Random.Range(ATTACK_DELAY_MIN_LEVEL_0, ATTACK_DELAY_MAX_LEVEL_0);
         }
-        else
+        if (level == 1)
         {
             return Random.Range(ATTACK_DELAY_MIN_LEVEL_1, ATTACK_DELAY_MAX_LEVEL_1);
         }
+        if (level == 2)
+        {
+            return ATTACK_DELAY_LEVEL_2;
+        }
+        if (level == 3)
+        {
+            return ATTACK_DELAY_LEVEL_3;
+        }
+        return ATTACK_DELAY_LEVEL_4;
+    }
+
+    bool IsValidAttack()
+    {
+        float timerBuffer = 0f + 1f;
+        return chosen && (attackTimer <= timerBuffer);
     }
 }

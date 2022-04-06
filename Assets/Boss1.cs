@@ -49,11 +49,6 @@ public class Boss1 : Boss
         }
     }
 
-    //public override void Attack()
-    //{
-    //    StartCoroutine(AttackRoutine());
-    //}
-
     IEnumerator AttackRoutine()
     {
         isAttacking = true;

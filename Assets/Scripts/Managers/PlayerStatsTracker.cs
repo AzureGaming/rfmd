@@ -65,7 +65,7 @@ public class PlayerStatsTracker : MonoBehaviour
         SaveToPrefs();
     }
 
-    void UpdateSuccesfulDodges()
+    void UpdateSuccesfulDodges(Enemy _)
     {
         loaded.successfulDodges += 1;
         SaveToPrefs();

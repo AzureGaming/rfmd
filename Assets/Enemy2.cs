@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class Enemy2 : Enemy
 {
-    public delegate void Impact(AttackType attackType);
-    public static Impact OnImpact;
-    public delegate void Death(Enemy self);
-    public static Death OnDeath;
-
     [SerializeField] GameObject bloodSplatPrefab;
     HealthBar healthBar;
     Animator anim;
@@ -40,6 +35,7 @@ public class Enemy2 : Enemy
     {
         SetHealth(MAX_HEALTH);
         healthBar.SetMaxHealth(MAX_HEALTH);
+        OnSpawned?.Invoke(this);
     }
 
     private void Update()
@@ -64,7 +60,7 @@ public class Enemy2 : Enemy
 
     public void CheckHit()
     {
-        OnImpact?.Invoke(ATTACK_TYPE);
+        OnImpact?.Invoke(ATTACK_TYPE, this);
     }
 
     public override void TakeDamage(int damage)

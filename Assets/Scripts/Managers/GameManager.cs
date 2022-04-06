@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     const int LEVEL1_SCORE = 200;
     const int LEVEL2_SCORE = 300;
     const int LEVEL3_SCORE = 600;
+    const int LEVEL4_SCORE = 800;
 
     [SerializeField] GameObject loseScreen;
     [SerializeField] GameObject enemyPrefab;
@@ -59,11 +60,8 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         OnPickupWeaponPoint += HandlePickupWeaponPoint;
-        // must register every enemy type
-        Enemy1.OnDeath += HandleEnemyKilled;
-        Enemy2.OnDeath += HandleEnemyKilled;
+        Enemy.OnDeath += HandleEnemyKilled;
         Boss.OnDeath += HandleBossKilled;
-        ///////////////////////////////////
         Player.OnHit += PlayerHit;
         Player.OnDeath += PlayerDied;
         Player.OnDodged += PlayerDodged;
@@ -73,8 +71,7 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         OnPickupWeaponPoint -= HandlePickupWeaponPoint;
-        Enemy1.OnDeath -= HandleEnemyKilled;
-        Enemy2.OnDeath -= HandleEnemyKilled;
+        Enemy.OnDeath -= HandleEnemyKilled;
         Boss.OnDeath -= HandleBossKilled;
         Player.OnHit -= PlayerHit;
         Player.OnDeath -= PlayerDied;
@@ -117,19 +114,12 @@ public class GameManager : MonoBehaviour
         OnDamagePlayer?.Invoke();
     }
 
-    void PlayerDodged()
+    void PlayerDodged(Enemy enemyRef)
     {
         SetScore(score + dodgePoints);
-        // NOTE: enemy and boss events are both invoked when dodge occurs.
-        bool isBossAlive = FindObjectOfType<Boss>() != null;
-        if (isBossAlive)
-        {
-            OnDamageBoss?.Invoke(GetDamage());
-        }
-        else
-        {
-            OnDamageEnemy?.Invoke(GetDamage());
-        }
+        int damage = GetDamage();
+        enemyRef.TakeDamage(damage);
+        OnDamageEnemy?.Invoke(damage);
     }
 
     IEnumerator ScoreRoutine()
@@ -143,6 +133,7 @@ public class GameManager : MonoBehaviour
 
     public int GetDamage()
     {
+        // Note: manual check of boss
         bool isDamagingBoss = FindObjectOfType<Boss>() != null;
         if (isDamagingBoss)
         {
@@ -238,6 +229,10 @@ public class GameManager : MonoBehaviour
         if (score >= LEVEL3_SCORE && level == 2)
         {
             SetLevel(3);
+        }
+        if (score >= LEVEL4_SCORE && level == 3)
+        {
+            SetLevel(4);
         }
     }
 

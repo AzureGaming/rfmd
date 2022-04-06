@@ -13,26 +13,14 @@ public class EnemyManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EnemySpawner.OnSpawned += Add;
-        Enemy1.OnDeath += Remove;
-        Enemy2.OnDeath += Remove;
+        Enemy.OnSpawned += Add;
+        Enemy.OnDeath += Remove;
     }
 
     private void OnDisable()
     {
-        EnemySpawner.OnSpawned -= Add;
-        Enemy1.OnDeath -= Remove;
-        Enemy2.OnDeath -= Remove;
-    }
-
-    private void Start()
-    {
-        // if enemies were not added by spawner
-        Enemy[] initialEnemies = FindObjectsOfType<Enemy>();
-        foreach(Enemy enemy in initialEnemies)
-        {
-            enemyRefs.Add(enemy);
-        }
+        Enemy.OnSpawned -= Add;
+        Enemy.OnDeath -= Remove;
     }
 
     public void Add(Enemy enemy)
