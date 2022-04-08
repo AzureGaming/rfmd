@@ -16,8 +16,13 @@ public class Enemy : MonoBehaviour
     public static Death OnDeath;
     public delegate void Impact(AttackType attackType, Enemy self);
     public static Impact OnImpact;
+    public delegate void FinishAttackAnimation(Enemy self);
+    public static FinishAttackAnimation OnFinishAttackAnimation;
 
     public int health;
+    public float animationLength;
+    public bool isAttacking = false;
+    public bool shouldAttack = false;
 
     public virtual void Attack() { }
     public virtual void TakeDamage(int damage) { }

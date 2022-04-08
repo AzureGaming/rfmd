@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,10 +11,11 @@ public class Enemy1 : Enemy
     new Enemy1Audio audio;
 
     const int MAX_HEALTH = 10;
+    const float TELEGRAPH_FRAMES = 5.00f;
+    const float TELEGRAPH_ANIMATION_SPEED = 0.1f;
+    const float ATTACK_FRAMES = 8.00f;
+    const float ATTACK_ANIMATION_SPEED = 0.2f;
     const AttackType ATTACK_TYPE = AttackType.High;
-    bool isAttacking;
-    bool waitingForHitResponse;
-
 
     private void OnEnable()
     {
@@ -37,15 +39,17 @@ public class Enemy1 : Enemy
         SetHealth(MAX_HEALTH);
         healthBar.SetMaxHealth(MAX_HEALTH);
         OnSpawned?.Invoke(this);
+
+        animationLength = GetAnimationLength();
     }
 
     private void Update()
     {
-        if (isAttacking)
+        if (shouldAttack)
         {
-            isAttacking = false;
+            shouldAttack = false;
+            isAttacking = true;
             anim.SetTrigger("Attack");
-            waitingForHitResponse = true;
         }
 
         if (health <= 0)
@@ -56,7 +60,17 @@ public class Enemy1 : Enemy
 
     public override void Attack()
     {
-        isAttacking = true;
+        if (!isAttacking)
+        {
+            shouldAttack = true;
+        }
+    }
+
+    public void CompleteAttack()
+    {
+        isAttacking = false;
+        shouldAttack = false;
+        OnFinishAttackAnimation?.Invoke(this);
     }
 
     public void CheckHit()
@@ -69,12 +83,21 @@ public class Enemy1 : Enemy
         SetHealth(health - damage);
     }
 
+    float GetAnimationLength()
+    {
+        //AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
+        //AnimationClip clip = Array.Find(clips, (AnimationClip clip) => clip.name == "Telegraph");
+        float telegraphLength = (float)(TELEGRAPH_FRAMES / 60.00 / TELEGRAPH_ANIMATION_SPEED);
+        float attackLength = (float)(ATTACK_FRAMES / 60.00 / ATTACK_ANIMATION_SPEED);
+        // this is rounded
+        return telegraphLength + attackLength;
+    }
+
     void HandleHitSuccess()
     {
-        if (waitingForHitResponse)
+        if (isAttacking)
         {
             audio.PlayImpact();
-            waitingForHitResponse = false;
         }
     }
 

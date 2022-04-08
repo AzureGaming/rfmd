@@ -61,14 +61,15 @@ public class EnemySpawner : MonoBehaviour
     {
         int level = gameManager.level;
 
-        if (level == 0)
-        {
-            yield return new WaitForSeconds(Random.Range(DELAY_MIN_LEVEL_0, DELAY_MAX_LEVEL_0));
-        }
-        else
-        {
-            yield return new WaitForSeconds(Random.Range(DELAY_MIN_LEVEL_1, DELAY_MAX_LEVEL_1));
-        }
+        //if (level == 0)
+        //{
+        //    yield return new WaitForSeconds(Random.Range(DELAY_MIN_LEVEL_0, DELAY_MAX_LEVEL_0));
+        //}
+        //else
+        //{
+        //    yield return new WaitForSeconds(Random.Range(DELAY_MIN_LEVEL_1, DELAY_MAX_LEVEL_1));
+        //}
+        yield return new WaitForSeconds(1f);
     }
 
     void Spawn()

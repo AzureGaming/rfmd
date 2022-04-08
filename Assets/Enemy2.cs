@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,8 +12,7 @@ public class Enemy2 : Enemy
 
     const int MAX_HEALTH = 10;
     const AttackType ATTACK_TYPE = AttackType.Low;
-    bool isAttacking;
-    bool waitingForHitResponse;
+    bool shouldAttack;
 
     private void OnEnable()
     {
@@ -36,15 +36,17 @@ public class Enemy2 : Enemy
         SetHealth(MAX_HEALTH);
         healthBar.SetMaxHealth(MAX_HEALTH);
         OnSpawned?.Invoke(this);
+
+        animationLength = GetAnimationLength();
     }
 
     private void Update()
     {
-        if (isAttacking)
+        if (shouldAttack)
         {
-            isAttacking = false;
+            shouldAttack = false;
+            isAttacking = true;
             anim.SetTrigger("Attack");
-            waitingForHitResponse = true;
         }
 
         if (health <= 0)
@@ -55,12 +57,16 @@ public class Enemy2 : Enemy
 
     public override void Attack()
     {
-        isAttacking = true;
+        if (!isAttacking)
+        {
+            shouldAttack = true;
+        }
     }
 
     public void CheckHit()
     {
         OnImpact?.Invoke(ATTACK_TYPE, this);
+        isAttacking = false;
     }
 
     public override void TakeDamage(int damage)
@@ -68,12 +74,19 @@ public class Enemy2 : Enemy
         SetHealth(health - damage);
     }
 
+    float GetAnimationLength()
+    {
+        AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
+        AnimationClip clip = Array.Find(clips, (AnimationClip clip) => clip.name == "Telegraph");
+        return clip.length;
+    }
+
     void HandleHitSuccess()
     {
-        if (waitingForHitResponse)
+        if (isAttacking)
         {
             audio.PlayImpact();
-            waitingForHitResponse = false;
+            isAttacking = false;
         }
     }
 

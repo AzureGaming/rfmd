@@ -5,12 +5,11 @@ using UnityEngine;
 
 public class EnemyAttackManager : MonoBehaviour
 {
-    GameManager gameManager;
     EnemyManager enemyManager;
-    List<Enemy> attackingEnemies;
-    Enemy chosen;
-    float attackTimer;
+    Dictionary<Enemy, float> cooldownMap;
+    List<Enemy> enemyList;
 
+    const float MAX_PLAYER_REACTION = 1f;
     const float ATTACK_DELAY_MAX_LEVEL_0 = 3.5f;
     const float ATTACK_DELAY_MIN_LEVEL_0 = 3f;
     const float ATTACK_DELAY_MAX_LEVEL_1 = 3f;
@@ -21,93 +20,119 @@ public class EnemyAttackManager : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.OnDamageEnemy += EnemyDamaged;
-        GameManager.OnDamagePlayer += PlayerDamaged;
+        Enemy.OnFinishAttackAnimation += SetEnemyCooldown;
     }
 
     private void OnDisable()
     {
-        GameManager.OnDamageEnemy -= EnemyDamaged;
-        GameManager.OnDamagePlayer -= PlayerDamaged;
+        Enemy.OnFinishAttackAnimation -= SetEnemyCooldown;
     }
 
     private void Awake()
     {
-        gameManager = FindObjectOfType<GameManager>();
         enemyManager = FindObjectOfType<EnemyManager>();
+        cooldownMap = new Dictionary<Enemy, float>();
+        enemyList = new List<Enemy>();
     }
 
     private void Update()
     {
-        if (!chosen)
-        {
-            ChooseRandomEnemy();
-            SetAttackTimer();
-        }
-
-        if (IsValidAttack())
-        {
-            chosen.Attack();
-        }
-
-        attackTimer -= Time.deltaTime;
+        UpdateTrackedEnemies();
+        DecrementCooldowns();
+        ExecuteAttacks();
     }
 
-    void ChooseRandomEnemy()
+    void UpdateTrackedEnemies()
     {
         List<Enemy> availableEnemies = enemyManager.enemyRefs;
-        if (availableEnemies.Count > 0)
+        List<Enemy> enemiesToRemove = new List<Enemy>();
+        foreach (Enemy enemy in enemyList)
         {
-            chosen = availableEnemies[Random.Range(0, availableEnemies.Count)];
+            if (!availableEnemies.Contains(enemy))
+            {
+                enemiesToRemove.Add(enemy);
+            }
+        }
+        foreach (Enemy enemy in enemiesToRemove)
+        {
+            enemyList.Remove(enemy);
+            cooldownMap.Remove(enemy);
+        }
+
+        foreach (Enemy enemy in availableEnemies)
+        {
+            if (!enemyList.Contains(enemy))
+            {
+                enemyList.Add(enemy);
+            }
+            if (!cooldownMap.ContainsKey(enemy))
+            {
+                cooldownMap[enemy] = GetCooldown(enemy);
+            }
         }
     }
 
-    void EnemyDamaged(int _)
+    void ExecuteAttacks()
     {
-        CompleteAttack();
-    }
-
-    void PlayerDamaged()
-    {
-        CompleteAttack();
-    }
-
-    void CompleteAttack()
-    {
-        Debug.Log("Enemy finsiehd attack");
-        chosen = null;
-    }
-
-    void SetAttackTimer()
-    {
-        attackTimer = GetAttackDelay();
-    }
-
-    float GetAttackDelay()
-    {
-        int level = gameManager.level;
-        if (level == 0)
+        foreach (Enemy enemy in enemyList)
         {
-            return Random.Range(ATTACK_DELAY_MIN_LEVEL_0, ATTACK_DELAY_MAX_LEVEL_0);
+            if (cooldownMap[enemy] <= 0f)
+            {
+                enemy.Attack();
+            }
         }
-        if (level == 1)
-        {
-            return Random.Range(ATTACK_DELAY_MIN_LEVEL_1, ATTACK_DELAY_MAX_LEVEL_1);
-        }
-        if (level == 2)
-        {
-            return ATTACK_DELAY_LEVEL_2;
-        }
-        if (level == 3)
-        {
-            return ATTACK_DELAY_LEVEL_3;
-        }
-        return ATTACK_DELAY_LEVEL_4;
     }
 
-    bool IsValidAttack()
+    void SetEnemyCooldown(Enemy enemy)
     {
-        float timerBuffer = 0f + 1f;
-        return chosen && (attackTimer <= timerBuffer);
+        if (cooldownMap.Keys.Contains(enemy))
+        {
+            cooldownMap[enemy] = GetCooldown(enemy);
+        }
+    }
+
+    float GetCooldown(Enemy enemy)
+    {
+        float attackAnimationSpeed = enemy.animationLength;
+        float playerLockout = 0.5f;
+        float minCooldown = attackAnimationSpeed + playerLockout;
+        foreach (KeyValuePair<Enemy, float> cooldownkp in cooldownMap)
+        {
+            if (enemy.isAttacking)
+            {
+                continue;
+            }
+
+            if (!IsValidCooldown(minCooldown, cooldownkp.Value))
+            {
+                minCooldown = cooldownkp.Value + MAX_PLAYER_REACTION;
+            }
+        }
+
+        float cooldown = Random.Range(minCooldown, (float)(minCooldown * 2));
+
+        enemy.GetComponentInChildren<CooldownText>().SetText(cooldown);
+        return cooldown;
+    }
+
+    bool IsValidCooldown(float cooldown, float comparisonCooldown)
+    {
+        return Mathf.Abs(cooldown - comparisonCooldown) > MAX_PLAYER_REACTION;
+    }
+
+    void DecrementCooldowns()
+    {
+        foreach (Enemy enemy in enemyList)
+        {
+            if (cooldownMap[enemy] > 0f)
+            {
+                cooldownMap[enemy] -= Time.deltaTime;
+                if (cooldownMap[enemy] <= 0f)
+                {
+                    cooldownMap[enemy] = 0f;
+                }
+                enemy.GetComponentInChildren<CooldownText>().SetText(cooldownMap[enemy]);
+            }
+        }
     }
 }
