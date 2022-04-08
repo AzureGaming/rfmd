@@ -33,7 +33,6 @@ public class GameManager : MonoBehaviour
     const int LEVEL4_SCORE = 800;
 
     [SerializeField] GameObject loseScreen;
-    [SerializeField] GameObject enemyPrefab;
     [SerializeField] HealthBar experienceBar;
     [SerializeField] GameObject levelUpText;
     [SerializeField] Transform playerBossPosition;
@@ -45,6 +44,7 @@ public class GameManager : MonoBehaviour
     public int score;
     public int weaponPoints = 0;
     public bool isFirstEnemy = true;
+    [Header("Dev Settings")] public bool showCooldowns;
 
     int enemiesKilled = 0;
     int weaponLevel = 1;
@@ -99,6 +99,29 @@ public class GameManager : MonoBehaviour
 
         scoreRoutine = StartCoroutine(ScoreRoutine());
         audioManager?.Play("Background_Music");
+    }
+
+    private void Update()
+    {
+        ShowCooldownText();
+    }
+
+    void ShowCooldownText()
+    {
+        CooldownText[] cooldownTexts = FindObjectsOfType<CooldownText>(true);
+        if (showCooldowns)
+        {
+            foreach(CooldownText text in cooldownTexts)
+            {
+                text.gameObject.SetActive(true);
+            }
+        } else
+        {
+            foreach (CooldownText text in cooldownTexts)
+            {
+                text.gameObject.SetActive(false);
+            }
+        }
     }
 
     void PlayerDied()

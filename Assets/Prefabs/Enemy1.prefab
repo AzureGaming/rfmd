@@ -325,6 +325,7 @@ MonoBehaviour:
   health: 0
   animationLength: 0
   isAttacking: 0
+  shouldAttack: 0
   bloodSplatPrefab: {fileID: 347753598495848210, guid: 924ec22e83f24a44f9aece8640ca013e, type: 3}
 --- !u!95 &2988493076682731986
 Animator:

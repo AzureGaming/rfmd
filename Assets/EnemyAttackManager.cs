@@ -111,7 +111,7 @@ public class EnemyAttackManager : MonoBehaviour
 
         float cooldown = Random.Range(minCooldown, (float)(minCooldown * 2));
 
-        enemy.GetComponentInChildren<CooldownText>().SetText(cooldown);
+        enemy.GetComponentInChildren<CooldownText>()?.SetText(cooldown);
         return cooldown;
     }
 
@@ -131,7 +131,7 @@ public class EnemyAttackManager : MonoBehaviour
                 {
                     cooldownMap[enemy] = 0f;
                 }
-                enemy.GetComponentInChildren<CooldownText>().SetText(cooldownMap[enemy]);
+                enemy.GetComponentInChildren<CooldownText>()?.SetText(cooldownMap[enemy]);
             }
         }
     }

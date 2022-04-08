@@ -11,8 +11,11 @@ public class Enemy2 : Enemy
     new Enemy1Audio audio;
 
     const int MAX_HEALTH = 10;
+    const float TELEGRAPH_FRAMES = 5.00f;
+    const float TELEGRAPH_ANIMATION_SPEED = 0.1f;
+    const float ATTACK_FRAMES = 8.00f;
+    const float ATTACK_ANIMATION_SPEED = 0.2f;
     const AttackType ATTACK_TYPE = AttackType.Low;
-    bool shouldAttack;
 
     private void OnEnable()
     {
@@ -63,10 +66,16 @@ public class Enemy2 : Enemy
         }
     }
 
+    public void CompleteAttack()
+    {
+        isAttacking = false;
+        shouldAttack = false;
+        OnFinishAttackAnimation?.Invoke(this);
+    }
+
     public void CheckHit()
     {
         OnImpact?.Invoke(ATTACK_TYPE, this);
-        isAttacking = false;
     }
 
     public override void TakeDamage(int damage)
@@ -76,9 +85,12 @@ public class Enemy2 : Enemy
 
     float GetAnimationLength()
     {
-        AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
-        AnimationClip clip = Array.Find(clips, (AnimationClip clip) => clip.name == "Telegraph");
-        return clip.length;
+        //AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
+        //AnimationClip clip = Array.Find(clips, (AnimationClip clip) => clip.name == "Telegraph");
+        float telegraphLength = (float)(TELEGRAPH_FRAMES / 60.00 / TELEGRAPH_ANIMATION_SPEED);
+        float attackLength = (float)(ATTACK_FRAMES / 60.00 / ATTACK_ANIMATION_SPEED);
+        // this is rounded
+        return telegraphLength + attackLength;
     }
 
     void HandleHitSuccess()
@@ -86,7 +98,6 @@ public class Enemy2 : Enemy
         if (isAttacking)
         {
             audio.PlayImpact();
-            isAttacking = false;
         }
     }
 
