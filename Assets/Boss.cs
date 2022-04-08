@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Boss : Enemy
 {
-    public delegate void Impact(AttackType attackType);
-    public static Impact OnImpact;
     public delegate void Death();
     public static Death OnDeath;
     public delegate void Spawn();
@@ -17,7 +15,6 @@ public class Boss : Enemy
 
     protected const int MAX_HEALTH = 100;
     protected bool isAttacking;
-    protected AttackType attackType;
     protected HealthBar healthBar;
 
     protected virtual void Awake()

@@ -4,23 +4,26 @@ using UnityEngine;
 
 public class Boss1 : Boss
 {
+    enum AttackPatterns
+    {
+        Basic1,
+        Basic2
+    }
+
     [SerializeField] GameObject bloodSplatPrefab;
     Animator anim;
     SpriteRenderer spriteR;
     new Boss1Audio audio;
+    AttackPatterns attackPattern;
 
     new protected const int MAX_HEALTH = 200;
 
     private void OnEnable()
     {
-        Player.OnHit += HandlePlayerHit;
-        GameManager.OnDamageBoss += TakeDamage;
     }
 
     private void OnDisable()
     {
-        Player.OnHit -= HandlePlayerHit;
-        GameManager.OnDamageBoss -= TakeDamage;
     }
 
     protected override void Awake()
@@ -31,69 +34,71 @@ public class Boss1 : Boss
         spriteR = GetComponent<SpriteRenderer>();
     }
 
-    public void CheckHit()
+    public void CheckHitLow()
     {
-        OnImpact?.Invoke(attackType);
+        OnImpact?.Invoke(AttackType.Low, this);
     }
 
-    public void DoneAttack()
+    public void CheckHitHigh()
+    {
+        OnImpact?.Invoke(AttackType.High, this);
+    }
+
+    public void CompleteAttack()
     {
         isAttacking = false;
-        if (attackType == AttackType.Low)
+    }
+
+    private void Start()
+    {
+        SetHealth(MAX_HEALTH);
+        healthBar.SetMaxHealth(MAX_HEALTH);
+    }
+
+    private void Update()
+    {
+        if (health > 0)
         {
-            //audio.PlayLowAttack();
+            ChooseAttack();
+            ExecuteAttack();
         }
-        if (attackType == AttackType.High)
+        if (health <= 0)
         {
-            //audio.PlayHighAttack();
+            Die();
         }
     }
 
-    IEnumerator AttackRoutine()
+    void ChooseAttack()
     {
-        isAttacking = true;
-        attackType = (AttackType)Random.Range(0, 2);
-        if (attackType == AttackType.Low)
+        int attackType = Random.Range(0, 2);
+        if (attackType == 0)
         {
-            anim.SetTrigger("Attack1");
-            //audio.PlayLowTelegraph();
+            attackPattern = AttackPatterns.Basic1;
         }
-        if (attackType == AttackType.High)
+        if (attackType == 1)
         {
-            anim.SetTrigger("Attack2");
-            //audio.PlayHighTelegraph();
+            attackPattern = AttackPatterns.Basic2;
         }
-        yield return new WaitUntil(() => !isAttacking);
-
-
-        //loop
-        yield return new WaitForSeconds(1f);
-        StartCoroutine(AttackRoutine());
     }
 
-    protected override IEnumerator BossRoutine()
+    void ExecuteAttack()
     {
-        // phase 1
-        yield return new WaitForSeconds(1.5f); // grace period
-        while (health >= 100)
+        if (attackPattern == AttackPatterns.Basic1)
         {
-            Debug.Log("PHASE 1");
-            anim.SetTrigger("Attack1");
-            yield return new WaitUntil(() => !isAttacking);
-            anim.SetTrigger("Attack1");
-            yield return new WaitUntil(() => !isAttacking);
-
-            anim.SetTrigger("Attack2");
-            yield return new WaitUntil(() => !isAttacking);
-            anim.SetTrigger("Attack2");
-            yield return new WaitUntil(() => !isAttacking);
-            yield return new WaitForSeconds(1f);
-            Debug.Log("DONE PHASE 1");
+            if (!isAttacking)
+            {
+                isAttacking = true;
+                anim.SetTrigger("Attack1");
+            }
         }
-
-        Debug.Log("PHASE 2");
-        anim.SetTrigger("Attack1");
-        yield return new WaitUntil(() => !isAttacking);
+        if (attackPattern == AttackPatterns.Basic2)
+        {
+            if (!isAttacking)
+            {
+                isAttacking = true;
+                anim.SetTrigger("Attack2");
+            }
+        }
     }
 
     protected override void Die()
@@ -103,17 +108,5 @@ public class Boss1 : Boss
         spriteR.color = Color.clear;
         Instantiate(bloodSplatPrefab, transform.position - new Vector3(0.5f, 0f), Quaternion.identity, Camera.main.transform);
         Destroy(gameObject);
-    }
-
-    void HandlePlayerHit()
-    {
-        if (attackType == AttackType.Low)
-        {
-            //audio.PlayLowImpact();
-        }
-        if (attackType == AttackType.High)
-        {
-            //audio.PlayHighImpact();
-        }
     }
 }

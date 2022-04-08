@@ -11,32 +11,32 @@ public class PlayerAudio : MonoBehaviour
 
     private void Awake()
     {
-        audioManager = FindObjectOfType<AudioManager>();
+        audioManager = GetComponent<AudioManager>();
     }
 
     public void PlaySlide()
     {
-        audioManager?.Play("Player_Slide");
+        audioManager.Play("Slide");
     }
 
     public void PlayDodge()
     {
-        audioManager?.Play("Player_Dodge");
+        audioManager.Play("Dodge");
     }
 
     public void PlayJump()
     {
-        audioManager?.Play("Player_Jump");
+        audioManager.Play("Jump");
     }
 
     public void PlayDeath()
     {
-        audioManager?.Play("Player_Death");
+        audioManager.Play("Death");
     }
 
     public void PlayRun()
     {
-        stopRun = audioManager?.Play("Player_Run");
+        stopRun = audioManager.Play("Run");
     }
 
     public void StopRun()
