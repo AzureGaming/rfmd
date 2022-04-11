@@ -15,6 +15,8 @@ public class Boss1 : Boss
     SpriteRenderer spriteR;
     new Boss1Audio audio;
     AttackPatterns attackPattern;
+    float attackTimer;
+    CooldownText cdText;
 
     new protected const int MAX_HEALTH = 200;
 
@@ -32,6 +34,7 @@ public class Boss1 : Boss
         anim = GetComponent<Animator>();
         audio = GetComponent<Boss1Audio>();
         spriteR = GetComponent<SpriteRenderer>();
+        cdText = GetComponentInChildren<CooldownText>();
     }
 
     public void CheckHitLow()
@@ -57,14 +60,17 @@ public class Boss1 : Boss
 
     private void Update()
     {
-        if (health > 0)
-        {
-            ChooseAttack();
-            ExecuteAttack();
-        }
         if (health <= 0)
         {
             Die();
+        }
+
+        UpdateAttackTimer();
+        if (attackTimer <= 0f && !isAttacking)
+        {
+            ChooseAttack();
+            ExecuteAttack();
+            SetAttackTimer();
         }
     }
 
@@ -85,20 +91,74 @@ public class Boss1 : Boss
     {
         if (attackPattern == AttackPatterns.Basic1)
         {
-            if (!isAttacking)
-            {
-                isAttacking = true;
-                anim.SetTrigger("Attack1");
-            }
+            isAttacking = true;
+            anim.SetTrigger("Attack1");
         }
         if (attackPattern == AttackPatterns.Basic2)
         {
-            if (!isAttacking)
-            {
-                isAttacking = true;
-                anim.SetTrigger("Attack2");
-            }
+            isAttacking = true;
+            anim.SetTrigger("Attack2");
         }
+    }
+
+    void UpdateAttackTimer()
+    {
+        if (attackTimer > 0f)
+        {
+            attackTimer -= Time.deltaTime;
+        }
+        if (attackTimer < 0f)
+        {
+            attackTimer = 0f;
+        }
+        cdText.SetText(attackTimer);
+    }
+
+    void SetAttackTimer()
+    {
+        if (attackPattern == AttackPatterns.Basic1)
+        {
+            attackTimer = GetAttack1AnimationLength();
+        }
+        else if (attackPattern == AttackPatterns.Basic2)
+        {
+            attackTimer = GetAttack2AnimationLength();
+        }
+
+        if (health / 100 >= 0.75f)
+        {
+            attackTimer += 1f;
+        }
+        else if (health / 100 >= 0.5f)
+        {
+            attackTimer += 0.5f;
+        }
+        else if (health / 100 < 0.5f)
+        {
+            attackTimer += 0.1f;
+        }
+    }
+
+    float GetAttack1AnimationLength()
+    {
+        const float TELEGRAPH_FRAMES = 6f;
+        const float TELEGRAPH_ANIMATION_SPEED = 0.1f;
+        const float ATTACK_FRAMES = 8f;
+        const float ATTACK_ANIMATION_SPEED = 0.2f;
+        float telegraphLength = (float)(TELEGRAPH_FRAMES / 60.00 / TELEGRAPH_ANIMATION_SPEED);
+        float attackLength = (float)(ATTACK_FRAMES / 60.00 / ATTACK_ANIMATION_SPEED);
+        return telegraphLength + attackLength;
+    }
+
+    float GetAttack2AnimationLength()
+    {
+        const float TELEGRAPH_FRAMES = 6f;
+        const float TELEGRAPH_ANIMATION_SPEED = 0.1f;
+        const float ATTACK_FRAMES = 9f;
+        const float ATTACK_ANIMATION_SPEED = 0.2f;
+        float telegraphLength = (float)(TELEGRAPH_FRAMES / 60.00 / TELEGRAPH_ANIMATION_SPEED);
+        float attackLength = (float)(ATTACK_FRAMES / 60.00 / ATTACK_ANIMATION_SPEED);
+        return telegraphLength + attackLength;
     }
 
     protected override void Die()

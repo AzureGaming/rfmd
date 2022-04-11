@@ -43,7 +43,8 @@ public class GameManager : MonoBehaviour
     public int level;
     public int score;
     public int weaponPoints = 0;
-    public bool isFirstEnemy = true;
+    public int minutes = 0;
+    public int seconds = 0;
     [Header("Dev Settings")] public bool showCooldowns;
 
     int enemiesKilled = 0;
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
     EnemiesKilled enemiesKilledDisplay;
     WeaponLevel weaponLevelDisplay;
     Score scoreDisplay;
+    TimeElapsed timeDisplay;
 
     private void OnEnable()
     {
@@ -86,6 +88,7 @@ public class GameManager : MonoBehaviour
         enemiesKilledDisplay = FindObjectOfType<EnemiesKilled>();
         weaponLevelDisplay = FindObjectOfType<WeaponLevel>();
         scoreDisplay = FindObjectOfType<Score>();
+        timeDisplay = FindObjectOfType<TimeElapsed>();
         SetLevel(0); // enemy needs this before running start
     }
 
@@ -104,6 +107,15 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         ShowCooldownText();
+        UpdateTime();
+    }
+
+    void UpdateTime()
+    {
+        minutes = (int)Time.time / 60;
+        seconds = (int)Time.time % 60;
+
+        timeDisplay.SetText(minutes, seconds);
     }
 
     void ShowCooldownText()
@@ -111,11 +123,12 @@ public class GameManager : MonoBehaviour
         CooldownText[] cooldownTexts = FindObjectsOfType<CooldownText>(true);
         if (showCooldowns)
         {
-            foreach(CooldownText text in cooldownTexts)
+            foreach (CooldownText text in cooldownTexts)
             {
                 text.gameObject.SetActive(true);
             }
-        } else
+        }
+        else
         {
             foreach (CooldownText text in cooldownTexts)
             {
@@ -173,27 +186,9 @@ public class GameManager : MonoBehaviour
 
     void HandleEnemyKilled(Enemy _)
     {
-        if (isFirstEnemy)
-        {
-            isFirstEnemy = false;
-        }
         enemiesKilled++;
         SetEnemiesKilled(enemiesKilled);
         SetWeaponExp(weaponExperience + 10);
-
-        //if (weaponLevel >= 5)
-        //{
-        //    Vector3 newPos = FindObjectOfType<Player>().transform.position;
-        //    newPos.x = playerBossPosition.position.x;
-        //    FindObjectOfType<Player>().transform.position = newPos;
-        //    Enemy[] enemyRefs = FindObjectsOfType<Enemy>();
-        //    foreach (Enemy enemyRef in enemyRefs)
-        //    {
-        //        Destroy(enemyRef.gameObject);
-        //    }
-        //FindObjectOfType<EnemySpawner>().StopSpawning();
-        //FindObjectOfType<EnemySpawner>().SpawnBoss();
-        //}
     }
 
     void HandleBossKilled()
@@ -266,7 +261,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void SetLevel(int val)
+    void SetLevel(int val) // should be trash enemy centric
     {
         level = val;
         OnDifficultyUp.Invoke(level);

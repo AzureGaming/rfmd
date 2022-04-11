@@ -26,4 +26,6 @@ public class Enemy : MonoBehaviour
 
     public virtual void Attack() { }
     public virtual void TakeDamage(int damage) { }
+
+    public virtual void Die() { }
 }

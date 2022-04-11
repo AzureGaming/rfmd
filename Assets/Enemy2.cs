@@ -11,7 +11,7 @@ public class Enemy2 : Enemy
     new Enemy1Audio audio;
 
     const int MAX_HEALTH = 10;
-    const float TELEGRAPH_FRAMES = 5.00f;
+    const float TELEGRAPH_FRAMES = 6.00f;
     const float TELEGRAPH_ANIMATION_SPEED = 0.1f;
     const float ATTACK_FRAMES = 8.00f;
     const float ATTACK_ANIMATION_SPEED = 0.2f;
@@ -83,6 +83,14 @@ public class Enemy2 : Enemy
         SetHealth(health - damage);
     }
 
+    public override void Die()
+    {
+        OnDeath.Invoke(this);
+        audio.PlayDeath();
+        Instantiate(bloodSplatPrefab, transform.position - new Vector3(0.5f, 0f), Quaternion.identity, Camera.main.transform);
+        Destroy(gameObject);
+    }
+
     float GetAnimationLength()
     {
         //AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
@@ -105,13 +113,5 @@ public class Enemy2 : Enemy
     {
         health = val;
         healthBar.SetHealth(health);
-    }
-
-    void Die()
-    {
-        OnDeath.Invoke(this);
-        audio.PlayDeath();
-        Instantiate(bloodSplatPrefab, transform.position - new Vector3(0.5f, 0f), Quaternion.identity, Camera.main.transform);
-        Destroy(gameObject);
     }
 }

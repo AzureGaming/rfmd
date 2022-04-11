@@ -13,7 +13,6 @@ public class AudioManager : MonoBehaviour
         {
             AttachAudioSource(sound);
         }
-        Debug.Log(sounds.Length);
     }
 
     public Action Play(string name)

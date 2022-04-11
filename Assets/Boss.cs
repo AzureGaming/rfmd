@@ -14,7 +14,6 @@ public class Boss : Enemy
     public float DAMAGE_REDUCTION { get; private set; } = 0.1f;
 
     protected const int MAX_HEALTH = 100;
-    protected bool isAttacking;
     protected HealthBar healthBar;
 
     protected virtual void Awake()
@@ -28,7 +27,6 @@ public class Boss : Enemy
         healthBar.SetMaxHealth(MAX_HEALTH);
 
         OnSpawn?.Invoke();
-        StartCoroutine(BossRoutine());
     }
 
     public override void TakeDamage(int damage)
@@ -46,8 +44,6 @@ public class Boss : Enemy
         health = val;
         healthBar.SetHealth(health);
     }
-
-    protected virtual IEnumerator BossRoutine() { yield break; }
 
     protected virtual void Die() { }
 }

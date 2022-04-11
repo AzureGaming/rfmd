@@ -28,7 +28,7 @@ public class EnemySpawner : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
     }
 
-    private void Start()
+    public void StartSpawning()
     {
         spawnRoutine = StartCoroutine(HandleSpawning());
     }
@@ -38,10 +38,6 @@ public class EnemySpawner : MonoBehaviour
         StopCoroutine(spawnRoutine);
     }
 
-    public void SpawnBoss()
-    {
-        Instantiate(bossPrefab, bossSpawnPos.transform);
-    }
     IEnumerator HandleSpawning()
     {
         for (; ; )
