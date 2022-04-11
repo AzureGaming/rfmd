@@ -43,6 +43,6 @@ public class Boss1Audio : MonoBehaviour
 
     public void PlayDeath()
     {
-        audioManager.Play("Death");
+        audioManager.Play("Death", transform.position);
     }
 }

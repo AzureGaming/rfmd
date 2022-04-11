@@ -22,10 +22,12 @@ public class Boss1 : Boss
 
     private void OnEnable()
     {
+        Player.OnHit += HandleHitSuccess;
     }
 
     private void OnDisable()
     {
+        Player.OnHit -= HandleHitSuccess;
     }
 
     protected override void Awake()
@@ -56,6 +58,7 @@ public class Boss1 : Boss
     {
         SetHealth(MAX_HEALTH);
         healthBar.SetMaxHealth(MAX_HEALTH);
+        SetAttackTimer(); // load up first attack
     }
 
     private void Update()
@@ -72,6 +75,8 @@ public class Boss1 : Boss
             ExecuteAttack();
             SetAttackTimer();
         }
+
+        SetColor();
     }
 
     void ChooseAttack()
@@ -168,5 +173,30 @@ public class Boss1 : Boss
         spriteR.color = Color.clear;
         Instantiate(bloodSplatPrefab, transform.position - new Vector3(0.5f, 0f), Quaternion.identity, Camera.main.transform);
         Destroy(gameObject);
+    }
+
+    void SetColor()
+    {
+        float healthPct = (float)health / (float)MAX_HEALTH;
+        if (healthPct >= 0.25 && healthPct <= 0.5)
+        {
+            spriteR.color = Color.yellow;
+        }
+        else if (healthPct < 0.25)
+        {
+            spriteR.color = Color.red;
+        }
+    }
+
+    void HandleHitSuccess()
+    {
+        if (attackPattern == AttackPatterns.Basic1)
+        {
+            audio.PlayLowImpact();
+        }
+        if (attackPattern == AttackPatterns.Basic2)
+        {
+            audio.PlayHighImpact();
+        }
     }
 }

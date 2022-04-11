@@ -15,10 +15,12 @@ public class Boss : Enemy
 
     protected const int MAX_HEALTH = 100;
     protected HealthBar healthBar;
+    SpriteRenderer spriteR;
 
     protected virtual void Awake()
     {
         healthBar = GameObject.FindGameObjectWithTag("EnemyHealthBar").GetComponent<HealthBar>();
+        spriteR = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -33,6 +35,7 @@ public class Boss : Enemy
     {
         SetHealth(health - damage);
         OnDamaged?.Invoke(health, MAX_HEALTH);
+
         if (health <= 0)
         {
             Die();

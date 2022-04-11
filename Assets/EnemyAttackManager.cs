@@ -152,7 +152,6 @@ public class EnemyAttackManager : MonoBehaviour
 
     bool IsCooldownRangeReactable(float min, float max)
     {
-        Debug.Log($"Reactable? {(max - min) >= MAX_PLAYER_REACTION}");
         return (max - min) >= MAX_PLAYER_REACTION;
     }
 
