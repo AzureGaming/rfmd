@@ -13,6 +13,7 @@ TagManager:
   - BG_Back_Rocks
   - Enemy
   - Boss
+  - BoneTarget
   layers:
   - Default
   - TransparentFX
