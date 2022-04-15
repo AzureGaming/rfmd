@@ -10,7 +10,7 @@ public class Enemy2 : Enemy
     Animator anim;
     new Enemy1Audio audio;
 
-    const int MAX_HEALTH = 10;
+    const int MAX_HEALTH = 100;
     const float TELEGRAPH_FRAMES = 6.00f;
     const float TELEGRAPH_ANIMATION_SPEED = 0.1f;
     const float ATTACK_FRAMES = 8.00f;
@@ -29,7 +29,7 @@ public class Enemy2 : Enemy
 
     private void Awake()
     {
-        healthBar = GameObject.FindGameObjectWithTag("EnemyHealthBar").GetComponent<HealthBar>();
+        healthBar = GetComponentInChildren<HealthBar>();
         anim = GetComponent<Animator>();
         audio = GetComponent<Enemy1Audio>();
     }
@@ -81,6 +81,10 @@ public class Enemy2 : Enemy
     public override void TakeDamage(int damage)
     {
         SetHealth(health - damage);
+        if (health > 0)
+        {
+            GetComponent<FlashRed>()?.RunRoutine();
+        }
     }
 
     public override void Die()
@@ -112,6 +116,6 @@ public class Enemy2 : Enemy
     void SetHealth(int val)
     {
         health = val;
-        healthBar.SetHealth(health);
+        healthBar?.SetHealth(health);
     }
 }

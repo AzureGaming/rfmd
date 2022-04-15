@@ -9,7 +9,7 @@ public class HotSkull : Enemy
     HealthBar healthBar;
     Animator anim;
 
-    const int MAX_HEALTH = 10;
+    const int MAX_HEALTH = 100;
     const float TELEGRAPH_FRAMES = 6.00f;
     const float TELEGRAPH_ANIMATION_SPEED = 0.1f;
     const float ATTACK_FRAMES = 8.00f;
@@ -28,7 +28,7 @@ public class HotSkull : Enemy
 
     private void Awake()
     {
-        healthBar = GameObject.FindGameObjectWithTag("EnemyHealthBar").GetComponent<HealthBar>();
+        healthBar = GetComponentInChildren<HealthBar>();
         anim = GetComponent<Animator>();
     }
 
@@ -79,6 +79,10 @@ public class HotSkull : Enemy
     public override void TakeDamage(int damage)
     {
         SetHealth(health - damage);
+        if (health > 0)
+        {
+            GetComponent<FlashRed>()?.RunRoutine();
+        }
     }
 
     public void SpawnBone()
@@ -113,6 +117,6 @@ public class HotSkull : Enemy
     void SetHealth(int val)
     {
         health = val;
-        healthBar.SetHealth(health);
+        healthBar?.SetHealth(health);
     }
 }

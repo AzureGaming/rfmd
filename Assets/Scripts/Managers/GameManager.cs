@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public delegate void PickupWeaponPoint();
-    public static PickupWeaponPoint OnPickupWeaponPoint;
-    public delegate void PickupComboPoint();
-    public static PickupComboPoint OnPickupComboPoint;
-    public delegate void PickupExperiencePoint();
-    public static PickupExperiencePoint OnPickupExperiencePoint;
-    public delegate void TouchWeaponLocker();
-    public static TouchWeaponLocker OnTouchWeaponLocker;
     public delegate void DifficultyUp(int level);
     public static DifficultyUp OnDifficultyUp;
     public delegate void DamageEnemy(int damage);
@@ -23,17 +15,16 @@ public class GameManager : MonoBehaviour
 
     const int COMBO_DAMAGE = 20;
     const int WEAPON_DAMAGE_MULTIPLER = 10;
-    const int PLAYER_BASE_DAMAGE = 50;
+    const int PLAYER_BASE_DAMAGE = 25;
     const int WEAPON_LEVEL_UP_THRESHOLD = 25;
     const int SCORE_INCREMENT = 1;
 
     const int LEVEL1_SCORE = 200;
-    const int LEVEL2_SCORE = 300;
+    const int LEVEL2_SCORE = 400;
     const int LEVEL3_SCORE = 600;
     const int LEVEL4_SCORE = 800;
 
     [SerializeField] GameObject loseScreen;
-    [SerializeField] HealthBar experienceBar;
     [SerializeField] GameObject levelUpText;
     [SerializeField] Transform playerBossPosition;
 
@@ -53,7 +44,6 @@ public class GameManager : MonoBehaviour
 
     Coroutine scoreRoutine;
     AudioManager audioManager;
-    WeaponPoints weaponPointsDisplay;
     EnemiesKilled enemiesKilledDisplay;
     WeaponLevel weaponLevelDisplay;
     Score scoreDisplay;
@@ -61,30 +51,25 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        OnPickupWeaponPoint += HandlePickupWeaponPoint;
         Enemy.OnDeath += HandleEnemyKilled;
         Boss.OnDeath += HandleBossKilled;
         Player.OnHit += PlayerHit;
         Player.OnDeath += PlayerDied;
         Player.OnDodged += PlayerDodged;
-        OnTouchWeaponLocker += HandleWeaponLockerTouch;
     }
 
     private void OnDisable()
     {
-        OnPickupWeaponPoint -= HandlePickupWeaponPoint;
         Enemy.OnDeath -= HandleEnemyKilled;
         Boss.OnDeath -= HandleBossKilled;
         Player.OnHit -= PlayerHit;
         Player.OnDeath -= PlayerDied;
         Player.OnDodged -= PlayerDodged;
-        OnTouchWeaponLocker -= HandleWeaponLockerTouch;
     }
 
     private void Awake()
     {
         audioManager = FindObjectOfType<AudioManager>();
-        weaponPointsDisplay = FindObjectOfType<WeaponPoints>();
         enemiesKilledDisplay = FindObjectOfType<EnemiesKilled>();
         weaponLevelDisplay = FindObjectOfType<WeaponLevel>();
         scoreDisplay = FindObjectOfType<Score>();
@@ -95,9 +80,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SetScore(0);
-        ResetWeaponPoints();
         SetEnemiesKilled(enemiesKilled);
-        experienceBar?.SetMaxHealth(WEAPON_LEVEL_UP_THRESHOLD, false);
         FindObjectOfType<Lives>()?.Init(lives);
 
         scoreRoutine = StartCoroutine(ScoreRoutine());
@@ -146,6 +129,7 @@ public class GameManager : MonoBehaviour
     void PlayerHit()
     {
         lives--;
+        SetWeaponLevel(0);
         FindObjectOfType<Lives>().SetHearts(lives);
         OnDamagePlayer?.Invoke();
     }
@@ -156,6 +140,7 @@ public class GameManager : MonoBehaviour
         int damage = GetDamage();
         enemyRef.TakeDamage(damage);
         OnDamageEnemy?.Invoke(damage);
+        SetWeaponLevel(weaponLevel + 1);
     }
 
     IEnumerator ScoreRoutine()
@@ -167,7 +152,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public int GetDamage()
+    int GetDamage()
     {
         // Note: manual check of boss
         bool isDamagingBoss = FindObjectOfType<Boss>() != null;
@@ -178,17 +163,10 @@ public class GameManager : MonoBehaviour
         return PLAYER_BASE_DAMAGE * weaponLevel;
     }
 
-    void HandleWeaponLockerTouch()
-    {
-        OnDamageEnemy?.Invoke(GetDamage());
-        ResetWeaponPoints();
-    }
-
     void HandleEnemyKilled(Enemy _)
     {
         enemiesKilled++;
         SetEnemiesKilled(enemiesKilled);
-        SetWeaponExp(weaponExperience + 10);
     }
 
     void HandleBossKilled()
@@ -196,40 +174,17 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void HandlePickupWeaponPoint()
+    void SetWeaponLevel(int value)
     {
-        SetWeaponPoints(weaponPoints + 1);
-    }
-
-    void ResetWeaponPoints()
-    {
-        SetWeaponPoints(0);
-    }
-
-    void SetWeaponExp(int value)
-    {
-        weaponExperience += value;
-        if (weaponExperience >= WEAPON_LEVEL_UP_THRESHOLD)
-        {
-            weaponLevel++;
-            weaponExperience = 0;
-        }
-        experienceBar.SetHealth(weaponExperience);
+        weaponLevel = value;
         weaponLevelDisplay.SetText(weaponLevel);
-
-    }
-
-    void SetWeaponPoints(int points)
-    {
-        weaponPoints = points;
-        weaponPointsDisplay?.SetText(weaponPoints);
     }
 
     void SetScore(int val)
     {
         score = val;
         scoreDisplay?.SetText(score);
-        UpdateLevel();
+        //UpdateLevel();
     }
 
     void UpdateLevel()
@@ -260,7 +215,6 @@ public class GameManager : MonoBehaviour
         enemiesKilledDisplay?.SetText(enemiesKilled);
     }
 
-
     void SetLevel(int val) // should be trash enemy centric
     {
         level = val;
@@ -269,6 +223,5 @@ public class GameManager : MonoBehaviour
         {
             levelUpText.SetActive(true);
         }
-        Debug.Log($"Reached level {level}!");
     }
 }

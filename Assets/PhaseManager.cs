@@ -9,6 +9,7 @@ public class PhaseManager : MonoBehaviour
     [SerializeField] Transform playerEnemyPos;
     [SerializeField] Transform playerBossPos;
     [SerializeField] Transform bossPos;
+    [SerializeField] GameObject bossHealthBar;
 
     GameManager gameManager;
     bool bossPhased;
@@ -50,6 +51,7 @@ public class PhaseManager : MonoBehaviour
         }
 
         FindObjectOfType<EnemySpawner>()?.StartSpawning();
+        bossHealthBar.SetActive(false);
     }
 
     void SetBossPhase()
@@ -70,6 +72,7 @@ public class PhaseManager : MonoBehaviour
         {
             enemy.Die();
         }
+        bossHealthBar.SetActive(true);
         Instantiate(bossPrefab, bossPos, true);
     }
 }

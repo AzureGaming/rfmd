@@ -2,20 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFlashRed : MonoBehaviour
+public class FlashRed : MonoBehaviour
 {
     SpriteRenderer spriteR;
     Color origColor;
-
-    private void OnEnable()
-    {
-        GameManager.OnDamageEnemy += HandleTakeDamage;
-    }
-
-    private void OnDisable()
-    {
-        GameManager.OnDamageEnemy -= HandleTakeDamage;
-    }
 
     private void Awake()
     {
@@ -23,12 +13,9 @@ public class EnemyFlashRed : MonoBehaviour
         origColor = spriteR.color;
     }
 
-    void HandleTakeDamage(int damage)
+    public void RunRoutine()
     {
-        if (damage < GetComponent<Enemy>().health)
-        {
-            StartCoroutine(FlashRedRoutine());
-        }
+        StartCoroutine(FlashRedRoutine());
     }
 
     IEnumerator FlashRedRoutine()

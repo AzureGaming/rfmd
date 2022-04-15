@@ -6,10 +6,14 @@ using UnityEngine;
 public class EnemyAttackManager : MonoBehaviour
 {
     EnemyManager enemyManager;
+    GameManager gameManager;
     Dictionary<Enemy, float> cooldownMap;
     List<Enemy> enemyList;
 
-    const float MAX_PLAYER_REACTION = 1.5f;
+    const float PLAYER_REACTION_LEVEL_0 = 1.5f;
+    const float PLAYER_REACTION_LEVEL_1 = 1.25f;
+    const float PLAYER_REACTION_LEVEL_2 = 1f;
+
     const float ATTACK_DELAY_MAX_LEVEL_0 = 3.5f;
     const float ATTACK_DELAY_MIN_LEVEL_0 = 3f;
     const float ATTACK_DELAY_MAX_LEVEL_1 = 3f;
@@ -33,6 +37,7 @@ public class EnemyAttackManager : MonoBehaviour
         enemyManager = FindObjectOfType<EnemyManager>();
         cooldownMap = new Dictionary<Enemy, float>();
         enemyList = new List<Enemy>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     private void Update()
@@ -93,8 +98,9 @@ public class EnemyAttackManager : MonoBehaviour
 
     float GetCooldown(Enemy enemy)
     {
+        float reactionTime = GetReactionTime();
         float attackAnimationSpeed = enemy.animationLength;
-        float minCooldown = attackAnimationSpeed + MAX_PLAYER_REACTION;
+        float minCooldown = attackAnimationSpeed + reactionTime;
         List<List<float>> cooldownRanges = new List<List<float>>();
 
         List<float> cooldowns = cooldownMap.Values.ToList();
@@ -114,14 +120,14 @@ public class EnemyAttackManager : MonoBehaviour
             float nextCooldown;
             if (i == cooldowns.Count - 1)
             {
-                nextCooldown = cooldown + (2 * MAX_PLAYER_REACTION);
+                nextCooldown = cooldown + (1.5f * reactionTime);
             }
             else
             {
                 nextCooldown = cooldowns[i + 1];
             }
-            float max = cooldown - MAX_PLAYER_REACTION;
-            float min = prevCooldown + MAX_PLAYER_REACTION;
+            float max = cooldown - reactionTime;
+            float min = prevCooldown + reactionTime;
             if (!IsCooldownRangeReactable(min, max))
             {
                 continue;
@@ -133,12 +139,13 @@ public class EnemyAttackManager : MonoBehaviour
         if (cooldowns.Count < 1)
         {
             // this is the only enemy on screen
-            chosenCooldown = Random.Range(minCooldown, (minCooldown * 2));
-        } else if (cooldownRanges.Count < 1)
+            chosenCooldown = Random.Range(minCooldown, (minCooldown + reactionTime));
+        }
+        else if (cooldownRanges.Count < 1)
         {
             // multiple enemies on screen but theres no space between them
-            float min2 = cooldowns.Last() + MAX_PLAYER_REACTION;
-            float max2 = min2 + MAX_PLAYER_REACTION;
+            float min2 = cooldowns.Last() + reactionTime;
+            float max2 = min2 + reactionTime;
             chosenCooldown = Random.Range(min2, max2);
         }
         else
@@ -152,7 +159,24 @@ public class EnemyAttackManager : MonoBehaviour
 
     bool IsCooldownRangeReactable(float min, float max)
     {
-        return (max - min) >= MAX_PLAYER_REACTION;
+        return (max - min) >= GetReactionTime();
+    }
+
+    float GetReactionTime()
+    {
+        int level = gameManager.level;
+        if (level == 0)
+        {
+            return PLAYER_REACTION_LEVEL_0;
+        }
+        if (level == 1)
+        {
+            return PLAYER_REACTION_LEVEL_1;
+        }
+        //if (level == 2)
+        //{
+        return PLAYER_REACTION_LEVEL_2;
+        //}
     }
 
     void DecrementCooldowns()

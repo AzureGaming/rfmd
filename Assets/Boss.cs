@@ -19,7 +19,7 @@ public class Boss : Enemy
 
     protected virtual void Awake()
     {
-        healthBar = GameObject.FindGameObjectWithTag("EnemyHealthBar").GetComponent<HealthBar>();
+        healthBar = GameObject.Find("BossHealthBar").GetComponent<HealthBar>();
         spriteR = GetComponent<SpriteRenderer>();
     }
 
