@@ -1032,7 +1032,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &787560483
 Transform:
   m_ObjectHideFlags: 0
@@ -1064,6 +1064,7 @@ MonoBehaviour:
   playerEnemyPos: {fileID: 1862779610}
   playerBossPos: {fileID: 0}
   bossPos: {fileID: 0}
+  bossHealthBar: {fileID: 0}
 --- !u!1 &821839479
 GameObject:
   m_ObjectHideFlags: 0
@@ -1110,6 +1111,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 821839479}
   m_CullTransparentMesh: 1
+--- !u!1 &859079042
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 859079043}
+  m_Layer: 0
+  m_Name: MaskTargetPosition
+  m_TagString: MaskTarget
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &859079043
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859079042}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.584, y: -0.398, z: -0.23389246}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &874072908
 GameObject:
   m_ObjectHideFlags: 0

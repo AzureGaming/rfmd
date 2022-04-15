@@ -14,6 +14,7 @@ TagManager:
   - Enemy
   - Boss
   - BoneTarget
+  - MaskTarget
   layers:
   - Default
   - TransparentFX
