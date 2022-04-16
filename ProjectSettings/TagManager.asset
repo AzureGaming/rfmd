@@ -15,6 +15,7 @@ TagManager:
   - Boss
   - BoneTarget
   - MaskTarget
+  - ImpTarget
   layers:
   - Default
   - TransparentFX

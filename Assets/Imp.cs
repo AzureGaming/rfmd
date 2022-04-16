@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MaskEnemy : Enemy
+public class Imp : Enemy
 {
     [SerializeField] GameObject bloodSplatPrefab;
+    [SerializeField] GameObject summonCirclePrefab;
     HealthBar healthBar;
     Animator anim;
     new Enemy1Audio audio;
@@ -12,11 +13,11 @@ public class MaskEnemy : Enemy
     Vector3 targetPos;
 
     const int MAX_HEALTH = 100;
-    const float TELEGRAPH_FRAMES = 6.00f;
-    const float TELEGRAPH_ANIMATION_SPEED = 0.1f;
-    const float ATTACK_FRAMES = 8.00f;
+    const float TELEGRAPH_FRAMES = 10.00f;
+    const float TELEGRAPH_ANIMATION_SPEED = 0.2f;
+    const float ATTACK_FRAMES = 17.00f;
     const float ATTACK_ANIMATION_SPEED = 0.2f;
-    const AttackType ATTACK_TYPE = AttackType.High;
+    const AttackType ATTACK_TYPE = AttackType.Low;
 
     private void OnEnable()
     {
@@ -33,7 +34,7 @@ public class MaskEnemy : Enemy
         healthBar = GetComponentInChildren<HealthBar>();
         anim = GetComponent<Animator>();
         audio = GetComponent<Enemy1Audio>();
-        targetPos = GameObject.FindGameObjectWithTag("MaskTarget").transform.position;
+        targetPos = GameObject.FindGameObjectWithTag("ImpTarget").transform.position;
         startPos = transform.position;
     }
 
@@ -52,7 +53,7 @@ public class MaskEnemy : Enemy
         {
             shouldAttack = false;
             isAttacking = true;
-            anim.SetTrigger("Telegraph");
+            anim.SetTrigger("Attack");
         }
 
         if (health <= 0)
@@ -74,7 +75,6 @@ public class MaskEnemy : Enemy
         isAttacking = false;
         shouldAttack = false;
         OnFinishAttackAnimation?.Invoke(this);
-        MoveToStartPos();
     }
 
     public void CheckHit()
@@ -99,15 +99,10 @@ public class MaskEnemy : Enemy
         Destroy(gameObject);
     }
 
-    public void MoveToTargetPos()
+    public void SpawnSummonCircle()
     {
-        transform.position = targetPos;
-        anim.SetTrigger("Attack");
-    }
-
-    void MoveToStartPos()
-    {
-        transform.position = startPos;
+        SummonCircle summonCircle = Instantiate(summonCirclePrefab, targetPos, Quaternion.identity).GetComponent<SummonCircle>();
+        summonCircle.SetImp(this);
     }
 
     float GetAnimationLength()
