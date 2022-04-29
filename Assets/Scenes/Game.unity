@@ -572,9 +572,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
-  - {fileID: 2586019717237176780, guid: 98a2c9cbdb2ebbf44948e07d2ea4ac1b, type: 3}
-  - {fileID: 2586019717237176780, guid: dc735c3e5f9c31346b744bb8b7255a26, type: 3}
+  - {fileID: 8958377908182392230, guid: 5a19ca9031a6a6a4aa969a39194635bc, type: 3}
   - {fileID: 9019160954528900644, guid: 7f0712a8a42c2eb4abd5ce44ff3706f1, type: 3}
+  - {fileID: 5075347911659764755, guid: f3710c00cd489514688c67dab01f3fc7, type: 3}
   bossPrefab: {fileID: 4280012704958805786, guid: 4c293139bb8ba9c45a16378913dd98f8, type: 3}
   spawnPositions:
   - {fileID: 424337497}
@@ -1004,7 +1004,7 @@ GameObject:
   m_Component:
   - component: {fileID: 942122725}
   m_Layer: 0
-  m_Name: BoneTargetPosition
+  m_Name: BoneAttackPosition
   m_TagString: BoneTarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1132,6 +1132,36 @@ MonoBehaviour:
   playerBossPos: {fileID: 1224545021}
   bossPos: {fileID: 322026853}
   bossHealthBar: {fileID: 1858566744}
+--- !u!1 &1031161663
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1031161664}
+  m_Layer: 0
+  m_Name: MaskAttackPosition
+  m_TagString: MaskTarget
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1031161664
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031161663}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.573, y: -0.402, z: -0.42590857}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1093167856
 GameObject:
   m_ObjectHideFlags: 0
@@ -3640,6 +3670,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959296021}
   m_CullTransparentMesh: 1
+--- !u!1 &2001256765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2001256766}
+  m_Layer: 0
+  m_Name: ImpAttackPosition
+  m_TagString: ImpTarget
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2001256766
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001256765}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.573, y: -0.548, z: -0.42590857}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2007430378
 GameObject:
   m_ObjectHideFlags: 0
@@ -3828,7 +3888,7 @@ MonoBehaviour:
   weaponPoints: 0
   minutes: 0
   seconds: 0
-  showCooldowns: 1
+  showCooldowns: 0
 --- !u!1001 &2289820577702107157
 PrefabInstance:
   m_ObjectHideFlags: 0
