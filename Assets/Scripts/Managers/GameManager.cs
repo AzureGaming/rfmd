@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     const int LEVEL4_SCORE = 800;
 
     [SerializeField] GameObject loseScreen;
+    [SerializeField] GameObject resultsScreen;
+    [SerializeField] GameObject mainScreen;
     [SerializeField] GameObject levelUpText;
     [SerializeField] Transform playerBossPosition;
 
@@ -37,8 +39,9 @@ public class GameManager : MonoBehaviour
     public int minutes = 0;
     public int seconds = 0;
     [Header("Dev Settings")] public bool showCooldowns;
+    public int enemiesKilled { get; private set; } = 0;
+    public int runCurrency { get; private set; } = 0;
 
-    int enemiesKilled = 0;
     int weaponLevel = 1;
     int weaponExperience = 0;
 
@@ -79,6 +82,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        loseScreen.SetActive(false);
+        resultsScreen.SetActive(false);
+        mainScreen.SetActive(true);
+
         SetScore(0);
         SetEnemiesKilled(enemiesKilled);
         FindObjectOfType<Lives>()?.Init(lives);
@@ -89,6 +96,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (timeDisplay == null)
+        {
+            return;
+        }
         ShowCooldownText();
         UpdateTime();
     }
@@ -165,13 +176,15 @@ public class GameManager : MonoBehaviour
 
     void HandleEnemyKilled(Enemy _)
     {
+        runCurrency += 5;
         enemiesKilled++;
         SetEnemiesKilled(enemiesKilled);
     }
 
     void HandleBossKilled()
     {
-
+        resultsScreen.SetActive(true);
+        StopCoroutine(scoreRoutine);
     }
 
     void SetWeaponLevel(int value)
