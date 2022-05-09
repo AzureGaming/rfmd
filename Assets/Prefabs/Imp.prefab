@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 8958377908182392233}
   - component: {fileID: 8958377908182392235}
   - component: {fileID: 7084468311452162966}
+  - component: {fileID: -6511731614112261951}
   m_Layer: 0
   m_Name: Imp
   m_TagString: Untagged
@@ -346,6 +347,18 @@ MonoBehaviour:
   shouldAttack: 0
   bloodSplatPrefab: {fileID: 347753598495848210, guid: 924ec22e83f24a44f9aece8640ca013e, type: 3}
   summonCirclePrefab: {fileID: 5294578099753905932, guid: fda2c98376cc0604598cb4d7bd8f1050, type: 3}
+--- !u!114 &-6511731614112261951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8958377908182392230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a641e7e26f319ff4793690207bf658b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8958377908215976444
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -28,11 +28,7 @@ public class Player : MonoBehaviour
     Coroutine slideRoutine;
     Coroutine invincibleRoutine;
     Rigidbody2D rb;
-    SpriteRenderer spriteR;
-
     GameManager gameManager;
-
-    Color origColor;
 
     private void OnEnable()
     {
@@ -47,7 +43,6 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        spriteR = GetComponent<SpriteRenderer>();
         gameManager = FindObjectOfType<GameManager>();
 
         gameManager.isPlayerAlive = true;
@@ -97,6 +92,13 @@ public class Player : MonoBehaviour
         }
         else
         {
+            if (attackType == Enemy.AttackType.High)
+            {
+                animation.PlaySlideAttack();
+            } else
+            {
+                animation.PlayJumpAttack();
+            }
             Dodge(enemyRef);
         }
     }
@@ -121,7 +123,6 @@ public class Player : MonoBehaviour
             return;
         }
         animation.PlayHurt();
-        invincibleRoutine = StartCoroutine(ActivateInvincible());
     }
 
     IEnumerator Slide()
@@ -194,11 +195,5 @@ public class Player : MonoBehaviour
     {
         animation.SetYVelocity(Mathf.Round(rb.velocity.y));
         animation.SetGrounded(grounded);
-    }
-
-    IEnumerator ActivateInvincible()
-    {
-        yield return new WaitForSeconds(0.5f);
-        invincibleRoutine = null;
     }
 }

@@ -13,6 +13,11 @@ public class PlayerAnimation : MonoBehaviour
         audio = FindObjectOfType<AudioManager>();
     }
 
+    private void Start()
+    {
+        animator.SetBool("MirrorAttack", false);
+    }
+
     public void PlayRun()
     {
         animator.SetBool("Grounded", true);
@@ -47,5 +52,15 @@ public class PlayerAnimation : MonoBehaviour
     {
         animator.SetTrigger("Hurt");
         audio.Play("Player_Hurt");
+    }
+
+    public void PlayJumpAttack()
+    {
+        animator.SetTrigger("JumpAttack");
+    }
+
+    public void PlaySlideAttack()
+    {
+        animator.SetTrigger("SlideAttack");
     }
 }

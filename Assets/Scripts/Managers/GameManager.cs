@@ -82,9 +82,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        loseScreen.SetActive(false);
-        resultsScreen.SetActive(false);
-        mainScreen.SetActive(true);
+        SetGameObjectActive(loseScreen, false);
+        SetGameObjectActive(resultsScreen, false);
+        SetGameObjectActive(mainScreen, true);
 
         SetScore(0);
         SetEnemiesKilled(enemiesKilled);
@@ -102,6 +102,14 @@ public class GameManager : MonoBehaviour
         }
         ShowCooldownText();
         UpdateTime();
+    }
+
+    void SetGameObjectActive(GameObject obj, bool val)
+    {
+        if (obj != null)
+        {
+            obj.SetActive(val);
+        }
     }
 
     void UpdateTime()
@@ -140,7 +148,7 @@ public class GameManager : MonoBehaviour
     void PlayerHit()
     {
         lives--;
-        SetWeaponLevel(0);
+        SetWeaponLevel(1);
         FindObjectOfType<Lives>().SetHearts(lives);
         OnDamagePlayer?.Invoke();
     }

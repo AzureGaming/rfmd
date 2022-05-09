@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -534, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6744326217227254318
@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: -7633160041082298821}
   - component: {fileID: -419283360205045387}
   - component: {fileID: 2443911908491982309}
+  - component: {fileID: 1250934472355400778}
   m_Layer: 0
   m_Name: Boss1
   m_TagString: Boss
@@ -225,7 +226,7 @@ SpriteRenderer:
   m_SortingOrder: 500
   m_Sprite: {fileID: 8281347510488068062, guid: c766ea1cbf3c0844f81fef235daa1991, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 2.94, y: 1.58}
@@ -349,6 +350,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9e4c5e68e0400147bad7c9b50146206, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1250934472355400778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4280012704958805786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a641e7e26f319ff4793690207bf658b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6527166520101960337

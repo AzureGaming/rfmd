@@ -17,8 +17,8 @@ public class EnemySpawner : MonoBehaviour
     List<GameObject> enemyRefs;
     GameObject enemyToSpawn;
 
-    const float DELAY_LEVEL_0 = 5f;
-    const float DELAY_LEVEL_1 = 5f;
+    const float DELAY_LEVEL_0 = 3f;
+    const float DELAY_LEVEL_1 = 3f;
     //const float DELAY_MIN_LEVEL_0 = 3f;
     //const float DELAY_MAX_LEVEL_0 = 5f;
     //const float DELAY_MIN_LEVEL_1 = 4f;

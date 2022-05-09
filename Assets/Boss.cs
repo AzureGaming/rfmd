@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss : Enemy
+public abstract class Boss : Enemy
 {
     public delegate void Death();
     public static Death OnDeath;
@@ -13,18 +13,17 @@ public class Boss : Enemy
 
     public float DAMAGE_REDUCTION { get; private set; } = 0.1f;
 
-    protected const int MAX_HEALTH = 100;
+    protected virtual int MAX_HEALTH { get; set; }
     protected HealthBar healthBar;
-    SpriteRenderer spriteR;
 
     protected virtual void Awake()
     {
-        healthBar = GameObject.Find("BossHealthBar").GetComponent<HealthBar>();
-        spriteR = GetComponent<SpriteRenderer>();
+        healthBar = GameObject.FindGameObjectWithTag("BossHealthBar").GetComponent<HealthBar>();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
+        healthBar.gameObject.SetActive(true);
         SetHealth(MAX_HEALTH);
         healthBar.SetMaxHealth(MAX_HEALTH);
 
@@ -35,7 +34,6 @@ public class Boss : Enemy
     {
         SetHealth(health - damage);
         OnDamaged?.Invoke(health, MAX_HEALTH);
-
         if (health <= 0)
         {
             Die();
@@ -48,5 +46,7 @@ public class Boss : Enemy
         healthBar.SetHealth(health);
     }
 
-    protected virtual void Die() { }
+    protected virtual void Die() {
+        healthBar.gameObject.SetActive(false);
+    }
 }

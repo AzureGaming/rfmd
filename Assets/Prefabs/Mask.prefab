@@ -237,6 +237,7 @@ GameObject:
   - component: {fileID: 5075347911659764752}
   - component: {fileID: 6949198665103460009}
   - component: {fileID: 5677784870777655095}
+  - component: {fileID: -1102454315223696132}
   m_Layer: 0
   m_Name: Mask
   m_TagString: Untagged
@@ -352,6 +353,18 @@ MonoBehaviour:
   shouldAttack: 0
   bloodSplatPrefab: {fileID: 347753598495848210, guid: 924ec22e83f24a44f9aece8640ca013e, type: 3}
 --- !u!114 &5677784870777655095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5075347911659764755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a641e7e26f319ff4793690207bf658b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1102454315223696132
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

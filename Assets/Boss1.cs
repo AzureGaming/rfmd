@@ -18,7 +18,7 @@ public class Boss1 : Boss
     float attackTimer;
     CooldownText cdText;
 
-    new protected const int MAX_HEALTH = 200;
+    protected override int MAX_HEALTH { get { return 200; } }
 
     private void OnEnable()
     {
@@ -39,25 +39,9 @@ public class Boss1 : Boss
         cdText = GetComponentInChildren<CooldownText>();
     }
 
-    public void CheckHitLow()
+    protected override void Start()
     {
-        OnImpact?.Invoke(AttackType.Low, this);
-    }
-
-    public void CheckHitHigh()
-    {
-        OnImpact?.Invoke(AttackType.High, this);
-    }
-
-    public void CompleteAttack()
-    {
-        isAttacking = false;
-    }
-
-    private void Start()
-    {
-        SetHealth(MAX_HEALTH);
-        healthBar.SetMaxHealth(MAX_HEALTH);
+        base.Start();
         SetAttackTimer(); // load up first attack
     }
 
@@ -79,9 +63,24 @@ public class Boss1 : Boss
         SetColor();
     }
 
+    public void CheckHitLow()
+    {
+        OnImpact?.Invoke(AttackType.Low, this);
+    }
+
+    public void CheckHitHigh()
+    {
+        OnImpact?.Invoke(AttackType.High, this);
+    }
+
+    public void CompleteAttack()
+    {
+        isAttacking = false;
+    }
+
     void ChooseAttack()
     {
-        int attackType = Random.Range(0, 2);
+        int attackType = Random.Range(0, System.Enum.GetValues(typeof(AttackPatterns)).Length);
         if (attackType == 0)
         {
             attackPattern = AttackPatterns.Basic1;
@@ -168,6 +167,7 @@ public class Boss1 : Boss
 
     protected override void Die()
     {
+        base.Die();
         OnDeath?.Invoke();
         audio.PlayDeath();
         spriteR.color = Color.clear;

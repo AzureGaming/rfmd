@@ -24,8 +24,25 @@ public class Enemy : MonoBehaviour
     public bool isAttacking = false;
     public bool shouldAttack = false;
 
+    protected void OnEnable()
+    {
+        Player.OnDodged += FlashRed;
+    }
+
+    private void OnDisable()
+    {
+        Player.OnDodged -= FlashRed;
+    }
+
     public virtual void Attack() { }
     public virtual void TakeDamage(int damage) { }
-
     public virtual void Die() { }
+
+    void FlashRed(Enemy enemyRef)
+    {
+        if (this == enemyRef)
+        {
+            GetComponent<FlashRed>().RunRoutine();
+        }
+    }
 }

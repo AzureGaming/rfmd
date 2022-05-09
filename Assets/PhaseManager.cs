@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class PhaseManager : MonoBehaviour
 {
-    [SerializeField] GameObject playerPrefab;
     [SerializeField] GameObject bossPrefab;
-    [SerializeField] Transform playerEnemyPos;
-    [SerializeField] Transform playerBossPos;
-    [SerializeField] Transform bossPos;
     [SerializeField] GameObject bossHealthBar;
 
     GameManager gameManager;
@@ -40,39 +36,17 @@ public class PhaseManager : MonoBehaviour
 
     void SetEnemyPhase()
     {
-        Player player = FindObjectOfType<Player>();
-        if (player)
-        {
-            player.transform.position = playerEnemyPos.position;
-        }
-        else
-        {
-            Instantiate(playerPrefab, playerEnemyPos, true);
-        }
-
+        GameObject.FindGameObjectWithTag("BossHealthBar")?.SetActive(false);
         FindObjectOfType<EnemySpawner>()?.StartSpawning();
-        bossHealthBar.SetActive(false);
     }
 
     void SetBossPhase()
     {
-        Player player = FindObjectOfType<Player>();
-        if (player)
-        {
-            player.transform.position = playerBossPos.position;
-        }
-        else
-        {
-            Instantiate(playerPrefab, playerBossPos, true);
-        }
-
         FindObjectOfType<EnemySpawner>()?.StopSpawning();
         Enemy[] enemies = FindObjectsOfType<Enemy>();
         foreach (Enemy enemy in enemies)
         {
             enemy.Die();
         }
-        bossHealthBar.SetActive(true);
-        Instantiate(bossPrefab, bossPos, true);
     }
 }
