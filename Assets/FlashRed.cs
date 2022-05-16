@@ -40,5 +40,4 @@ public class FlashRed : MonoBehaviour
         }
         spriteR.color = origColor;
     }
-
 }

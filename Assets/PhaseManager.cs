@@ -9,6 +9,17 @@ public class PhaseManager : MonoBehaviour
 
     GameManager gameManager;
     bool bossPhased;
+    bool isBossAlive;
+
+    private void OnEnable()
+    {
+        Boss.OnDeath += SetBossDeath;
+    }
+
+    private void OnDisable()
+    {
+        Boss.OnDeath -= SetBossDeath;
+    }
 
     private void Awake()
     {
@@ -27,26 +38,42 @@ public class PhaseManager : MonoBehaviour
 
     void CheckPhase(int minutes, int seconds)
     {
-        if (minutes == 1 && seconds == 0 && !bossPhased)
+        if (minutes == 0 && seconds == 3 && !bossPhased)
         {
             bossPhased = true;
             SetBossPhase();
+        }
+        if (bossPhased && !isBossAlive)
+        {
+            bossPhased = false;
         }
     }
 
     void SetEnemyPhase()
     {
-        GameObject.FindGameObjectWithTag("BossHealthBar")?.SetActive(false);
+        bossHealthBar.SetActive(false);
         FindObjectOfType<EnemySpawner>()?.StartSpawning();
     }
 
     void SetBossPhase()
     {
-        FindObjectOfType<EnemySpawner>()?.StopSpawning();
+        EnemyManager enemyManager = FindObjectOfType<EnemyManager>();
         Enemy[] enemies = FindObjectsOfType<Enemy>();
+
+        FindObjectOfType<EnemySpawner>()?.StopSpawning();
         foreach (Enemy enemy in enemies)
         {
-            enemy.Die();
+            enemyManager.Remove(enemy);
+            Destroy(enemy.gameObject);
         }
+        bossHealthBar.SetActive(true);
+        Instantiate(bossPrefab);
+        isBossAlive = true;
+    }
+
+    void SetBossDeath()
+    {
+        isBossAlive = false;
+        Destroy(FindObjectOfType<Player>().gameObject);
     }
 }

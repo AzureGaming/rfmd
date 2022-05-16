@@ -16,7 +16,7 @@ public class ResultsScreen : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
         SetEnemiesKilled();
         SetCurrencyCollected();
@@ -24,7 +24,12 @@ public class ResultsScreen : MonoBehaviour
 
     public void Continue()
     {
-        SceneManager.LoadScene("Shop");
+        SceneManager.LoadScene("Sanctuary");
+    }
+
+    public void Retry()
+    {
+        SceneManager.LoadScene("Game");
     }
 
     void SetEnemiesKilled()

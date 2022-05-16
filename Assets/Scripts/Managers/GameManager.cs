@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     const int COMBO_DAMAGE = 20;
     const int WEAPON_DAMAGE_MULTIPLER = 10;
-    const int PLAYER_BASE_DAMAGE = 25;
+    const int PLAYER_BASE_DAMAGE = 999;
     const int WEAPON_LEVEL_UP_THRESHOLD = 25;
     const int SCORE_INCREMENT = 1;
 
@@ -114,8 +114,8 @@ public class GameManager : MonoBehaviour
 
     void UpdateTime()
     {
-        minutes = (int)Time.time / 60;
-        seconds = (int)Time.time % 60;
+        minutes = (int)Time.timeSinceLevelLoad / 60;
+        seconds = (int)Time.timeSinceLevelLoad % 60;
 
         timeDisplay.SetText(minutes, seconds);
     }
@@ -191,6 +191,9 @@ public class GameManager : MonoBehaviour
 
     void HandleBossKilled()
     {
+        enemiesKilled++;
+        SetEnemiesKilled(enemiesKilled);
+        runCurrency += 50;
         resultsScreen.SetActive(true);
         StopCoroutine(scoreRoutine);
     }
