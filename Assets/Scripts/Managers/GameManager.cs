@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public static DamagePlayer OnDamagePlayer;
     public delegate void DamageBoss(int damage);
     public static DamageBoss OnDamageBoss;
+    public delegate void CompleteRun(int currencyThisRun);
+    public static CompleteRun OnCompleteRun;
 
     const int COMBO_DAMAGE = 20;
     const int WEAPON_DAMAGE_MULTIPLER = 10;
@@ -191,11 +193,12 @@ public class GameManager : MonoBehaviour
 
     void HandleBossKilled()
     {
+        StopCoroutine(scoreRoutine);
         enemiesKilled++;
         SetEnemiesKilled(enemiesKilled);
         runCurrency += 50;
+        OnCompleteRun?.Invoke(runCurrency);
         resultsScreen.SetActive(true);
-        StopCoroutine(scoreRoutine);
     }
 
     void SetWeaponLevel(int value)

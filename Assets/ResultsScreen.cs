@@ -8,6 +8,7 @@ public class ResultsScreen : MonoBehaviour
 {
     [SerializeField] TMP_Text enemiesText;
     [SerializeField] TMP_Text currencyText;
+    [SerializeField] TMP_Text totalCurrencyText;
 
     GameManager gameManager;
 
@@ -20,6 +21,7 @@ public class ResultsScreen : MonoBehaviour
     {
         SetEnemiesKilled();
         SetCurrencyCollected();
+        SetTotalCurrencyCollected();
     }
 
     public void Continue()
@@ -40,5 +42,11 @@ public class ResultsScreen : MonoBehaviour
     void SetCurrencyCollected()
     {
         currencyText.text = $"{gameManager.runCurrency}E";
+    }
+
+    void SetTotalCurrencyCollected()
+    {
+        PlayerStatsTracker tracker = FindObjectOfType<PlayerStatsTracker>();
+        totalCurrencyText.text = $"(T:{tracker.GetTotalCurrency()}E)";
     }
 }
