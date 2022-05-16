@@ -199,6 +199,7 @@ public class GameManager : MonoBehaviour
         runCurrency += 50;
         OnCompleteRun?.Invoke(runCurrency);
         resultsScreen.SetActive(true);
+        mainScreen.SetActive(false);
     }
 
     void SetWeaponLevel(int value)

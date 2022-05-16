@@ -9,6 +9,7 @@ public class ResultsScreen : MonoBehaviour
     [SerializeField] TMP_Text enemiesText;
     [SerializeField] TMP_Text currencyText;
     [SerializeField] TMP_Text totalCurrencyText;
+    [SerializeField] TMP_Text timeElapsedText;
 
     GameManager gameManager;
 
@@ -22,6 +23,7 @@ public class ResultsScreen : MonoBehaviour
         SetEnemiesKilled();
         SetCurrencyCollected();
         SetTotalCurrencyCollected();
+        SetTimeElapsed();
     }
 
     public void Continue()
@@ -48,5 +50,10 @@ public class ResultsScreen : MonoBehaviour
     {
         PlayerStatsTracker tracker = FindObjectOfType<PlayerStatsTracker>();
         totalCurrencyText.text = $"(T:{tracker.GetTotalCurrency()}E)";
+    }
+
+    void SetTimeElapsed()
+    {
+        timeElapsedText.text = $"TIME ELAPSED: {gameManager.minutes}:{gameManager.seconds}";
     }
 }
