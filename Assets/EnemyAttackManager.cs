@@ -10,17 +10,17 @@ public class EnemyAttackManager : MonoBehaviour
     Dictionary<Enemy, float> cooldownMap;
     List<Enemy> enemyList;
 
-    const float PLAYER_REACTION_LEVEL_0 = 1.5f;
-    const float PLAYER_REACTION_LEVEL_1 = 1.25f;
-    const float PLAYER_REACTION_LEVEL_2 = 1f;
+    const float PLAYER_REACTION_LEVEL_1 = 1.5f;
+    const float PLAYER_REACTION_LEVEL_2 = 1.25f;
+    const float PLAYER_REACTION_LEVEL_3 = 1f;
 
-    const float ATTACK_DELAY_MAX_LEVEL_0 = 3.5f;
-    const float ATTACK_DELAY_MIN_LEVEL_0 = 3f;
-    const float ATTACK_DELAY_MAX_LEVEL_1 = 3f;
-    const float ATTACK_DELAY_MIN_LEVEL_1 = 2f;
-    const float ATTACK_DELAY_LEVEL_2 = 2f;
-    const float ATTACK_DELAY_LEVEL_3 = 1f;
-    const float ATTACK_DELAY_LEVEL_4 = 0.5f;
+    const float ATTACK_DELAY_MAX_LEVEL_1 = 3.5f;
+    const float ATTACK_DELAY_MIN_LEVEL_1 = 3f;
+    const float ATTACK_DELAY_MAX_LEVEL_2 = 3f;
+    const float ATTACK_DELAY_MIN_LEVEL_2 = 2f;
+    const float ATTACK_DELAY_LEVEL_3 = 2f;
+    const float ATTACK_DELAY_LEVEL_4 = 1f;
+    const float ATTACK_DELAY_LEVEL_5 = 0.5f;
 
     private void OnEnable()
     {
@@ -165,17 +165,17 @@ public class EnemyAttackManager : MonoBehaviour
     float GetReactionTime()
     {
         int level = gameManager.level;
-        if (level == 0)
-        {
-            return PLAYER_REACTION_LEVEL_0;
-        }
         if (level == 1)
         {
             return PLAYER_REACTION_LEVEL_1;
         }
+        if (level == 2)
+        {
+            return PLAYER_REACTION_LEVEL_2;
+        }
         //if (level == 2)
         //{
-        return PLAYER_REACTION_LEVEL_2;
+        return PLAYER_REACTION_LEVEL_3;
         //}
     }
 

@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     const int PLAYER_BASE_DAMAGE = 999;
     const int WEAPON_LEVEL_UP_THRESHOLD = 25;
     const int SCORE_INCREMENT = 1;
+    const int MAX_LIVES = 5;
 
     const int LEVEL1_SCORE = 200;
     const int LEVEL2_SCORE = 400;
@@ -28,7 +29,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject loseScreen;
     [SerializeField] GameObject resultsScreen;
-    [SerializeField] GameObject mainScreen;
+    [SerializeField] GameObject gameScreen;
+    [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject levelUpText;
     [SerializeField] Transform playerBossPosition;
 
@@ -75,23 +77,21 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         audioManager = FindObjectOfType<AudioManager>();
-        enemiesKilledDisplay = FindObjectOfType<EnemiesKilled>();
         weaponLevelDisplay = FindObjectOfType<WeaponLevel>();
         scoreDisplay = FindObjectOfType<Score>();
-        timeDisplay = FindObjectOfType<TimeElapsed>();
-        SetLevel(0); // enemy needs this before running start
+        SetLevel(0);
     }
 
     private void Start()
     {
         SetGameObjectActive(loseScreen, false);
         SetGameObjectActive(resultsScreen, false);
-        SetGameObjectActive(mainScreen, true);
+        SetGameObjectActive(gameScreen, false);
+        SetGameObjectActive(mainMenu, true);
 
         SetScore(0);
         SetEnemiesKilled(enemiesKilled);
-        FindObjectOfType<Lives>()?.Init(lives);
-
+        
         scoreRoutine = StartCoroutine(ScoreRoutine());
         audioManager?.Play("Background_Music");
     }
@@ -104,6 +104,20 @@ public class GameManager : MonoBehaviour
         }
         ShowCooldownText();
         UpdateTime();
+    }
+
+    public void StartRun()
+    {
+        SetGameObjectActive(loseScreen, false);
+        SetGameObjectActive(resultsScreen, false);
+        SetGameObjectActive(gameScreen, true);
+        SetGameObjectActive(mainMenu, false);
+        SetLevel(1);
+        FindObjectOfType<Lives>()?.Init(MAX_LIVES);
+        FindObjectOfType<PhaseManager>().InitPhases();
+
+        timeDisplay = FindObjectOfType<TimeElapsed>();
+        enemiesKilledDisplay = FindObjectOfType<EnemiesKilled>();
     }
 
     void SetGameObjectActive(GameObject obj, bool val)
@@ -199,13 +213,13 @@ public class GameManager : MonoBehaviour
         runCurrency += 50;
         OnCompleteRun?.Invoke(runCurrency);
         resultsScreen.SetActive(true);
-        mainScreen.SetActive(false);
+        gameScreen.SetActive(false);
     }
 
     void SetWeaponLevel(int value)
     {
         weaponLevel = value;
-        weaponLevelDisplay.SetText(weaponLevel);
+        //weaponLevelDisplay.SetText(weaponLevel);
     }
 
     void SetScore(int val)

@@ -17,8 +17,8 @@ public class EnemySpawner : MonoBehaviour
     List<GameObject> enemyRefs;
     GameObject enemyToSpawn;
 
-    const float DELAY_LEVEL_0 = 3f;
     const float DELAY_LEVEL_1 = 3f;
+    const float DELAY_LEVEL_2 = 3f;
     //const float DELAY_MIN_LEVEL_0 = 3f;
     //const float DELAY_MAX_LEVEL_0 = 5f;
     //const float DELAY_MIN_LEVEL_1 = 4f;
@@ -59,13 +59,13 @@ public class EnemySpawner : MonoBehaviour
     {
         int level = gameManager.level;
 
-        if (level == 0 || level == 1)
+        if (level == 1)
         {
-            yield return new WaitForSeconds(DELAY_LEVEL_0);
+            yield return new WaitForSeconds(DELAY_LEVEL_1);
         }
         else
         {
-            yield return new WaitForSeconds(DELAY_LEVEL_1);
+            yield return new WaitForSeconds(DELAY_LEVEL_2);
         }
     }
 

@@ -11,18 +11,23 @@ public class BackgroundSpeed : MonoBehaviour
     const string FRONT_ROCKS_TAG = "BG_Front_Rocks";
 
 
-    const float FRONT_ROCKS_SPEED_LEVEL_0 = 1f;
-    const float BACK_ROCKS_SPEED_LEVEL_0 = 1f;
-    const float MOUNTAINS_SPEED_LEVEL_0 = 0.3f;
-    const float BACKGROUND_SPEED_LEVEL_0 = 0.1f;
-    const float GROUND_SPEED_LEVEL_0 = 1.75f;
+    const float FRONT_ROCKS_SPEED_LEVEL_0 = 0f;
+    const float BACK_ROCKS_SPEED_LEVEL_0 = 0f;
+    const float MOUNTAINS_SPEED_LEVEL_0 = 0f;
+    const float BACKGROUND_SPEED_LEVEL_0 = 0f;
+    const float GROUND_SPEED_LEVEL_0 = 0f;
 
-    const float FRONT_ROCKS_SPEED_LEVEL_1 = 1.5f;
-    const float BACK_ROCKS_SPEED_LEVEL_1 = 1.5f;
-    const float MOUNTAINS_SPEED_LEVEL_1 = 0.4f;
+    const float FRONT_ROCKS_SPEED_LEVEL_1 = 1f;
+    const float BACK_ROCKS_SPEED_LEVEL_1 = 1f;
+    const float MOUNTAINS_SPEED_LEVEL_1 = 0.3f;
     const float BACKGROUND_SPEED_LEVEL_1 = 0.1f;
-    const float GROUND_SPEED_LEVEL_1 = 3f;
+    const float GROUND_SPEED_LEVEL_1 = 1.75f;
 
+    const float FRONT_ROCKS_SPEED_LEVEL_2 = 1.5f;
+    const float BACK_ROCKS_SPEED_LEVEL_2 = 1.5f;
+    const float MOUNTAINS_SPEED_LEVEL_2 = 0.4f;
+    const float BACKGROUND_SPEED_LEVEL_2 = 0.1f;
+    const float GROUND_SPEED_LEVEL_2 = 3f;
 
     private void OnEnable()
     {

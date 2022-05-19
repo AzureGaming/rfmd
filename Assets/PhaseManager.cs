@@ -5,6 +5,8 @@ using UnityEngine;
 public class PhaseManager : MonoBehaviour
 {
     [SerializeField] GameObject bossPrefab;
+    [SerializeField] GameObject playerPrefab;
+    [SerializeField] Transform playerPos;
     [SerializeField] GameObject bossHealthBar;
 
     GameManager gameManager;
@@ -26,19 +28,29 @@ public class PhaseManager : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
     }
 
-    private void Start()
-    {
-        SetEnemyPhase();
-    }
-
     private void Update()
     {
         CheckPhase(gameManager.minutes, gameManager.seconds);
     }
 
+    public void InitPhases()
+    {
+        if (FindObjectOfType<Player>() == null)
+        {
+            Instantiate(playerPrefab, playerPos, true);
+        }
+        SetEnemyPhase();
+    }
+
+    void SetEnemyPhase()
+    {
+        bossHealthBar.SetActive(false);
+        FindObjectOfType<EnemySpawner>()?.StartSpawning();
+    }
+
     void CheckPhase(int minutes, int seconds)
     {
-        if (minutes == 0 && seconds == 3 && !bossPhased)
+        if (minutes == 1 && seconds == 0 && !bossPhased)
         {
             bossPhased = true;
             SetBossPhase();
@@ -47,12 +59,6 @@ public class PhaseManager : MonoBehaviour
         {
             bossPhased = false;
         }
-    }
-
-    void SetEnemyPhase()
-    {
-        bossHealthBar.SetActive(false);
-        FindObjectOfType<EnemySpawner>()?.StartSpawning();
     }
 
     void SetBossPhase()

@@ -1,18 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] TMP_Text totalCurrencyText;
     public Animator enemyAnimator;
     public Animator playerAnimator;
     public Image overlay;
 
+    private void OnEnable()
+    {
+        SetTotalCurrencyText();
+    }
+
+    void SetTotalCurrencyText()
+    {
+        totalCurrencyText.text = $"Currency: {FindObjectOfType<PlayerStatsTracker>().GetTotalCurrency()}E";
+    }
+
     public void Play()
     {
-        StartCoroutine(PlayRoutine());
+        FindObjectOfType<GameManager>()?.StartRun();
     }
 
     public void Exit()
@@ -23,14 +35,6 @@ public class MainMenu : MonoBehaviour
     public void DeleteAchievementProgress()
     {
         FindObjectOfType<PlayerStatsTracker>().DeleteAllPrefs();
-    }
-
-    IEnumerator PlayRoutine()
-    {
-        enemyAnimator.SetTrigger("Awake");
-        playerAnimator.SetTrigger("Awake");
-        yield return StartCoroutine(FadeOut());
-        SceneManager.LoadScene("Game");
     }
 
     IEnumerator FadeOut()
