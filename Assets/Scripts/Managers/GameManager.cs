@@ -84,16 +84,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        SetGameObjectActive(loseScreen, false);
-        SetGameObjectActive(resultsScreen, false);
-        SetGameObjectActive(gameScreen, false);
-        SetGameObjectActive(mainMenu, true);
-
-        SetScore(0);
-        SetEnemiesKilled(enemiesKilled);
-        
-        scoreRoutine = StartCoroutine(ScoreRoutine());
-        audioManager?.Play("Background_Music");
+        //SetGameObjectActive(loseScreen, false);
+        //SetGameObjectActive(resultsScreen, false);
+        //SetGameObjectActive(gameScreen, false);
+        //SetGameObjectActive(mainMenu, true);
     }
 
     private void Update()
@@ -110,14 +104,27 @@ public class GameManager : MonoBehaviour
     {
         SetGameObjectActive(loseScreen, false);
         SetGameObjectActive(resultsScreen, false);
-        SetGameObjectActive(gameScreen, true);
+        SetGameObjectActive(gameScreen, false);
         SetGameObjectActive(mainMenu, false);
+        StartCoroutine(IntroRoutine());
+    }
+
+    IEnumerator IntroRoutine()
+    {
+        yield return StartCoroutine(FindObjectOfType<RunSetup>().IntroAnimation());
+
+        SetGameObjectActive(gameScreen, true);
+        timeDisplay = FindObjectOfType<TimeElapsed>();
+        enemiesKilledDisplay = FindObjectOfType<EnemiesKilled>();
+
         SetLevel(1);
+        SetScore(0);
+        SetEnemiesKilled(enemiesKilled);
         FindObjectOfType<Lives>()?.Init(MAX_LIVES);
         FindObjectOfType<PhaseManager>().InitPhases();
 
-        timeDisplay = FindObjectOfType<TimeElapsed>();
-        enemiesKilledDisplay = FindObjectOfType<EnemiesKilled>();
+        scoreRoutine = StartCoroutine(ScoreRoutine());
+        audioManager?.Play("Background_Music");
     }
 
     void SetGameObjectActive(GameObject obj, bool val)

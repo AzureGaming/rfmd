@@ -17,6 +17,7 @@ TagManager:
   - MaskTarget
   - ImpTarget
   - BossHealthBar
+  - PlayerPosition
   layers:
   - Default
   - TransparentFX
