@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] TMP_Text totalCurrencyText;
+    [SerializeField] GameObject shopScreen;
     Animator animator;
 
     private void Awake()
@@ -33,5 +34,11 @@ public class MainMenu : MonoBehaviour
     public void StartRun()
     {
         FindObjectOfType<GameManager>()?.StartRun();
+    }
+
+    public void OpenSanctuary()
+    {
+        shopScreen.SetActive(true);
+        gameObject.SetActive(false);
     }
 }
