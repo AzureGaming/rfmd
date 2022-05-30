@@ -18,7 +18,7 @@ public class PlayerStatsTracker : MonoBehaviour
         Player.OnDodged += UpdateSuccesfulDodges;
         GameManager.OnDamageEnemy += UpdateDamageDone;
         Enemy.OnDeath += UpdateEnemiesKilled;
-        GameManager.OnCompleteRun += UpdateTotalCurrency;
+        GameManager.OnCompleteRun += AddTotalCurrency;
     }
 
     private void OnDisable()
@@ -27,7 +27,7 @@ public class PlayerStatsTracker : MonoBehaviour
         Player.OnDodged -= UpdateSuccesfulDodges;
         GameManager.OnDamageEnemy -= UpdateDamageDone;
         Enemy.OnDeath -= UpdateEnemiesKilled;
-        GameManager.OnCompleteRun -= UpdateTotalCurrency;
+        GameManager.OnCompleteRun -= AddTotalCurrency;
     }
 
     private void Start()
@@ -51,6 +51,18 @@ public class PlayerStatsTracker : MonoBehaviour
     public int GetTotalCurrency()
     {
         return PlayerPrefs.GetInt(KEY_CURRENCY);
+    }
+
+    public void AddTotalCurrency(int val)
+    {
+        loaded.currency += val;
+        SaveToPrefs();
+    }
+
+    public void SubtractTotalCurrency(int val)
+    {
+        loaded.currency -= val;
+        SaveToPrefs();
     }
 
     void LoadFromPrefs()
@@ -90,12 +102,6 @@ public class PlayerStatsTracker : MonoBehaviour
     void UpdateEnemiesKilled(Enemy _)
     {
         loaded.enemiesKilled += 1;
-        SaveToPrefs();
-    }
-
-    void UpdateTotalCurrency(int val)
-    {
-        loaded.currency += val;
         SaveToPrefs();
     }
 

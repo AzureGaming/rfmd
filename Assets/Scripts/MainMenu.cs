@@ -23,7 +23,7 @@ public class MainMenu : MonoBehaviour
 
     void SetTotalCurrencyText()
     {
-        totalCurrencyText.text = $"Currency: {FindObjectOfType<PlayerStatsTracker>().GetTotalCurrency()}E";
+        totalCurrencyText.text = $"{FindObjectOfType<PlayerStatsTracker>().GetTotalCurrency()}";
     }
 
     public void Play()

@@ -18,6 +18,7 @@ TagManager:
   - ImpTarget
   - BossHealthBar
   - PlayerPosition
+  - ShopContainer
   layers:
   - Default
   - TransparentFX

@@ -9,6 +9,13 @@ public class SanctuaryScreen : MonoBehaviour
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject rootMenu;
     [SerializeField] TMP_Text headerText;
+    [SerializeField] TMP_Text totalCurrency;
+    PlayerStatsTracker stats;
+
+    private void Awake()
+    {
+        stats = FindObjectOfType<PlayerStatsTracker>();
+    }
 
     private void OnEnable()
     {
@@ -17,10 +24,22 @@ public class SanctuaryScreen : MonoBehaviour
         shopMenu.SetActive(false);
     }
 
+    private void Update()
+    {
+        totalCurrency.text = stats.GetTotalCurrency().ToString();
+    }
+
     public void GoBack()
     {
-        gameObject.SetActive(false);
-        mainMenu.SetActive(true);
+        if (shopMenu.activeSelf)
+        {
+            rootMenu.SetActive(true);
+            shopMenu.SetActive(false);
+        } else
+        {
+            gameObject.SetActive(false);
+            mainMenu.SetActive(true);
+        }
     }
 
     public void OpenShopMenu()
