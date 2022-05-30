@@ -16,4 +16,4 @@ MonoBehaviour:
   description: 100 --> 200
   price: 100
   icon: {fileID: 21300000, guid: cc9c95d791bf5d84c82edeacb5c03a5d, type: 3}
-  isOwned: 1
+  isOwned: 0
