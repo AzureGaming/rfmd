@@ -14,7 +14,7 @@ public class HotSkull : Enemy
     const float TELEGRAPH_ANIMATION_SPEED = 0.1f;
     const float ATTACK_FRAMES = 8.00f;
     const float ATTACK_ANIMATION_SPEED = 0.2f;
-    const AttackType ATTACK_TYPE = AttackType.High;
+    const AttackType ATTACK_TYPE = AttackType.Low;
 
     private void OnEnable()
     {
