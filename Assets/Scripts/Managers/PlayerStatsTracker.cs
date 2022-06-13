@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -78,7 +79,6 @@ public class PlayerStatsTracker : MonoBehaviour
         loaded = new PlayerData(jumps, successfulDodges, damageDone, enemiesKilled, currency);
 
         Debug.Log("Init player data..");
-        LogLoadedPrefs();
     }
 
     void UpdateJumps()
@@ -114,8 +114,6 @@ public class PlayerStatsTracker : MonoBehaviour
         PlayerPrefs.SetInt(KEY_ENEMIES_KILLED, loaded.enemiesKilled);
         PlayerPrefs.SetInt(KEY_CURRENCY, loaded.currency);
         ///////////////////////////////////
-
-        LogLoadedPrefs();
     }
 
     void LogLoadedPrefs()

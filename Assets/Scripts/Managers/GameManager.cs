@@ -15,10 +15,7 @@ public class GameManager : MonoBehaviour
     public delegate void CompleteRun(int currencyThisRun);
     public static CompleteRun OnCompleteRun;
 
-    const int COMBO_DAMAGE = 20;
-    const int WEAPON_DAMAGE_MULTIPLER = 10;
-    const int PLAYER_BASE_DAMAGE = 999;
-    const int WEAPON_LEVEL_UP_THRESHOLD = 25;
+    int PLAYER_BASE_DAMAGE = 25;
     const int SCORE_INCREMENT = 1;
     const int MAX_LIVES = 5;
 
@@ -47,14 +44,13 @@ public class GameManager : MonoBehaviour
     public int runCurrency { get; private set; } = 0;
 
     int weaponLevel = 1;
-    int weaponExperience = 0;
 
     Coroutine scoreRoutine;
     AudioManager audioManager;
     EnemiesKilled enemiesKilledDisplay;
-    WeaponLevel weaponLevelDisplay;
     Score scoreDisplay;
     TimeElapsed timeDisplay;
+    PlayerStatsTracker stats;
 
     private void OnEnable()
     {
@@ -77,8 +73,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         audioManager = FindObjectOfType<AudioManager>();
-        weaponLevelDisplay = FindObjectOfType<WeaponLevel>();
         scoreDisplay = FindObjectOfType<Score>();
+        stats = FindObjectOfType<PlayerStatsTracker>();
         SetLevel(0);
     }
 
@@ -107,6 +103,11 @@ public class GameManager : MonoBehaviour
         SetGameObjectActive(gameScreen, false);
         SetGameObjectActive(mainMenu, false);
         StartCoroutine(IntroRoutine());
+    }
+
+    public void UpgradePlayerDamage()
+    {
+        PLAYER_BASE_DAMAGE = 50;
     }
 
     IEnumerator IntroRoutine()
@@ -180,6 +181,7 @@ public class GameManager : MonoBehaviour
     {
         SetScore(score + dodgePoints);
         int damage = GetDamage();
+        Debug.Log("damage" + damage);
         enemyRef.TakeDamage(damage);
         OnDamageEnemy?.Invoke(damage);
         SetWeaponLevel(weaponLevel + 1);
@@ -207,7 +209,7 @@ public class GameManager : MonoBehaviour
 
     void HandleEnemyKilled(Enemy _)
     {
-        runCurrency += 5;
+        stats.AddTotalCurrency(5);
         enemiesKilled++;
         SetEnemiesKilled(enemiesKilled);
     }
@@ -217,8 +219,7 @@ public class GameManager : MonoBehaviour
         StopCoroutine(scoreRoutine);
         enemiesKilled++;
         SetEnemiesKilled(enemiesKilled);
-        runCurrency += 50;
-        OnCompleteRun?.Invoke(runCurrency);
+        stats.AddTotalCurrency(50);
         resultsScreen.SetActive(true);
         gameScreen.SetActive(false);
     }

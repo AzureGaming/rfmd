@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Shotgun_Damage_1
   m_EditorClassIdentifier: 
   label: Shotgun Dmg Upgrade
-  description: 100 --> 200
+  description: 25 --> 50
   price: 100
   icon: {fileID: 21300000, guid: cc9c95d791bf5d84c82edeacb5c03a5d, type: 3}
-  isOwned: 0
+  isOwned: 1

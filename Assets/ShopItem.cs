@@ -46,5 +46,10 @@ public class ShopItem : MonoBehaviour
         isOwned = true;
         stats.SubtractTotalCurrency(dataRef.price);
         dataRef.isOwned = isOwned;
+        UpgradeManager mnger = FindObjectOfType<UpgradeManager>();
+        if (mnger)
+        {
+            mnger.UpdateState();
+        }
     }
 }
