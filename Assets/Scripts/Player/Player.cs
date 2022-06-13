@@ -33,11 +33,15 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         Enemy.OnImpact += HandleAttacked;
+        TouchManager.OnSwipeUp += HandleJump;
+        TouchManager.OnSwipeDown += HandleSlide;
     }
 
     private void OnDisable()
     {
         Enemy.OnImpact -= HandleAttacked;
+        TouchManager.OnSwipeUp -= HandleJump;
+        TouchManager.OnSwipeDown -= HandleSlide;
     }
 
     private void Awake()
@@ -55,17 +59,13 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (IsActionValid())
+        if (Input.GetKeyDown(KeyCode.W))
         {
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                jumpRoutine = StartCoroutine(Jump());
-            }
-
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                slideRoutine = StartCoroutine(Slide());
-            }
+            HandleJump();
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            HandleSlide();
         }
 
         PlayAnimations();
@@ -74,6 +74,23 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         IsGrounded();
+    }
+
+    void HandleJump()
+    {
+        Debug.Log("JUMP{");
+        if (IsActionValid())
+        {
+            jumpRoutine = StartCoroutine(Jump());
+        }
+    }
+
+    void HandleSlide()
+    {
+        if (IsActionValid())
+        {
+            slideRoutine = StartCoroutine(Slide());
+        }
     }
 
     void HandleAttacked(Enemy.AttackType attackType, Enemy enemyRef)
@@ -95,7 +112,8 @@ public class Player : MonoBehaviour
             if (attackType == Enemy.AttackType.High)
             {
                 animation.PlaySlideAttack();
-            } else
+            }
+            else
             {
                 animation.PlayJumpAttack();
             }
